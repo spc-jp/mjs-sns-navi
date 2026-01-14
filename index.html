@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MJS 飲食店SNS投稿ナビ</title>
+    
+    <!-- Fonts: Noto Sans JP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons: Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* Color Palette - Luxury Update */
+            --primary: #A62C2B;
+            --primary-dark: #7a1f1e;
+            --primary-gradient: linear-gradient(135deg, #A62C2B 0%, #631110 100%);
+            --gold: #D4AF37;
+            --gold-light: #F3E5AB;
+            --gold-gradient: linear-gradient(135deg, #D4AF37 0%, #AA8A26 100%);
+            
+            /* Base Colors */
+            --dark: #231815;
+            --base: #ECECEC;
+            --white: #ffffff;
+            --gray-light: #f5f5f5;
+            --gray-text: #666666;
+            
+            /* Theme Variables (Light Default) */
+            --bg-body: #ECECEC;
+            --bg-card: #ffffff;
+            --text-main: #231815;
+            --text-sub: #666666;
+            --border-color: #e0e0e0;
+            --input-bg: #f9f9f9;
+            --glass-bg: rgba(255, 255, 255, 0.90);
+            --modal-bg: #ffffff;
+            --shadow-soft: 0 10px 40px -10px rgba(35, 24, 21, 0.15);
+            --shadow-sharp: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #120c0b;
+            --bg-card: #231815;
+            --text-main: #ECECEC;
+            --text-sub: #aaaaaa;
+            --border-color: #3e2b26;
+            --input-bg: #2d201d;
+            --glass-bg: rgba(35, 24, 21, 0.95);
+            --modal-bg: #231815;
+            --shadow-soft: 0 10px 40px -10px rgba(0, 0, 0, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            padding-bottom: 80px;
+            transition: background-color 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 0.4s;
+            overflow-x: hidden;
+            line-height: 1.6;
+            /* 背景にうっすらとノイズやパターンを入れて高級感を出す（CSSのみで表現） */
+            background-image: radial-gradient(circle at 50% 0%, rgba(166, 44, 43, 0.03) 0%, transparent 70%);
+        }
+
+        /* --- UI Utilities --- */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 700;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 24px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* --- Header --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            z-index: 102;
+        }
+        
+        .header-logo-img {
+            height: 52px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+            mix-blend-mode: multiply; /* 白背景透過 */
+        }
+        [data-theme="dark"] .header-logo-img {
+            mix-blend-mode: normal; /* ダークモード時は通常表示（ロゴ次第で調整） */
+            filter: brightness(0.9);
+        }
+
+        .app-brand {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
+            white-space: nowrap;
+            z-index: 103; /* クリックできるよう前面へ */
+            cursor: pointer; /* クリック可を示すカーソル */
+            letter-spacing: 0.05em;
+        }
+
+        .header-actions button {
+            background: transparent;
+            color: var(--text-main);
+            font-size: 1.3rem;
+            padding: 8px;
+            color: var(--primary); /* 設定アイコンもブランドカラーに */
+        }
+
+        .header-spacer {
+            height: 90px;
+        }
+
+        /* --- Tab Navigation (Floating Style) --- */
+        .tabs {
+            display: flex;
+            background: var(--bg-card);
+            padding: 6px;
+            border-radius: 50px; /* 丸みを強く */
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            background: transparent;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(166, 44, 43, 0.4);
+        }
+
+        /* --- Inputs --- */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            margin-bottom: 10px;
+            padding-left: 4px;
+        }
+        .form-label i { color: var(--gold); } /* アイコンアクセント */
+
+        .input-control {
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-main);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+            appearance: none;
+        }
+
+        .input-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--bg-card);
+            box-shadow: 0 0 0 3px rgba(166, 44, 43, 0.1);
+        }
+
+        select.input-control {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A62C2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+
+        /* --- Generate Button --- */
+        .generate-btn {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.1rem;
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 10px 30px rgba(166, 44, 43, 0.3);
+            margin-top: 10px;
+            letter-spacing: 1px;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .generate-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-20deg) translateX(-150%);
+            transition: transform 0.5s;
+        }
+
+        .generate-btn:hover::after {
+            transform: skewX(-20deg) translateX(150%);
+        }
+
+        /* --- Output Area --- */
+        #output-area {
+            display: none;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .result-text {
+            white-space: pre-wrap;
+            font-size: 1rem;
+            color: var(--text-main);
+            background: var(--input-bg);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            min-height: 200px;
+            line-height: 1.7;
+        }
+
+        .photo-suggestions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .photo-chip {
+            background: var(--bg-card);
+            color: var(--text-main);
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+            box-shadow: var(--shadow-sharp);
+        }
+
+        .photo-chip-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .photo-chip i {
+            font-size: 1.2rem;
+            min-width: 24px;
+            text-align: center;
+            color: var(--gold); /* アイコンをゴールドに */
+        }
+
+        .photo-chip-desc {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            padding-left: 34px;
+            line-height: 1.6;
+        }
+        
+        /* 箇条書き用スタイル追加 */
+        .photo-chip-desc ul {
+            margin: 8px 0;
+            padding-left: 18px;
+            list-style-type: disc; /* 黒丸 */
+        }
+        .photo-chip-desc li {
+            margin-bottom: 4px;
+        }
+        .photo-chip-point {
+            background: rgba(166, 44, 43, 0.08);
+            color: var(--primary);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .action-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 16px;
+            font-size: 1rem;
+            background: var(--white);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+        }
+
+        .action-btn.primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(166, 44, 43, 0.2);
+        }
+
+        /* --- History --- */
+        .history-section {
+            margin-top: 40px;
+            padding: 0 10px;
+        }
+        
+        .history-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .history-list {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding: 4px 4px 20px 4px;
+        }
+
+        .history-card {
+            min-width: 150px;
+            max-width: 150px;
+            background: var(--bg-card);
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 0.75rem;
+            box-shadow: var(--shadow-soft);
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 120px;
+            transition: transform 0.2s;
+        }
+        .history-card:active { transform: scale(0.95); }
+
+        .history-content {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            color: var(--text-sub);
+            line-height: 1.4;
+        }
+
+        .history-date {
+            margin-top: 6px;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.7rem;
+        }
+
+        /* --- Modal (Settings) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 200;
+            display: flex;
+            align-items: flex-end;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            width: 100%;
+            background: var(--modal-bg);
+            border-radius: 24px 24px 0 0;
+            padding: 0; /* Padding handled by children for full width sections */
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-overlay.open .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-card);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .close-btn {
+            background: var(--input-bg);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* Setting Sections */
+        .setting-section {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .setting-section-title {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: 0.05em;
+        }
+
+        /* MJS Brand Section */
+        .mjs-brand-section {
+            background: linear-gradient(135deg, #231815 0%, #3a2e2b 100%);
+            color: white;
+            padding: 30px 24px;
+            text-align: center;
+        }
+
+        .mjs-brand-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--gold);
+        }
+
+        .mjs-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .mjs-link-card {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 16px 10px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .mjs-link-card:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        .mjs-link-card i {
+            font-size: 1.4rem;
+            color: var(--gold);
+        }
+        .mjs-link-card.full-width {
+            grid-column: span 2;
+            flex-direction: row;
+            justify-content: center;
+            font-weight: 700;
+            background: var(--gold-gradient);
+            color: #231815;
+            border: none;
+        }
+        .mjs-link-card.full-width i { color: #231815; }
+
+        /* --- Toast --- */
+        .toast {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(35, 24, 21, 0.95);
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            z-index: 300;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Floating Action Button (Help) */
+        .help-fab {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 48px;
+            height: 48px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-sub);
+            box-shadow: var(--shadow-soft);
+            z-index: 90;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .help-fab:active { transform: scale(0.9); }
+
+        /* Animations */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 28px;
+        }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--input-bg);
+            transition: .4s;
+            border-radius: 34px;
+            border: 1px solid var(--border-color);
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 3px;
+            background-color: var(--text-sub);
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        input:checked + .slider {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        input:checked + .slider:before {
+            transform: translateX(24px);
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="glass">
+        <!-- 左端：ロゴ画像 -->
+        <div class="header-left">
+            <img src="rogo.jpg.jpg" alt="Logo" class="header-logo-img" onerror="this.style.display='none'">
+        </div>
+
+        <!-- 中央：アプリアイコンとタイトル（クリックでリロード） -->
+        <div class="app-brand" onclick="location.reload()">
+            <i class="fa-solid fa-martini-glass-citrus"></i>
+            <span>MJS Post Navi</span>
+        </div>
+        
+        <!-- 右端：設定ボタン -->
+        <div class="header-actions">
+            <button class="btn" onclick="openSettings()"><i class="fa-solid fa-gear"></i></button>
+        </div>
+    </header>
+    <div class="header-spacer"></div>
+
+    <!-- Main Content -->
+    <main class="container">
+        
+        <!-- Tabs -->
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="switchTab('month')">月別</button>
+            <button class="tab-btn" onclick="switchTab('event')">行事</button>
+            <button class="tab-btn" onclick="switchTab('weather')">天候</button>
+        </nav>
+
+        <!-- Input Area -->
+        <section id="input-area" class="card">
+            
+            <!-- Dynamic Tab Content -->
+            <div id="tab-month" class="form-group tab-content">
+                <label class="form-label"><i class="fa-regular fa-calendar"></i> 対象月</label>
+                <select id="input-month" class="input-control">
+                    <option value="" disabled selected>選択してください</option>
+                    <script>
+                        for(let i=1; i<=12; i++) document.write(`<option value="${i}">${i}月</option>`);
+                    </script>
+                </select>
+            </div>
+
+            <div id="tab-event" class="form-group tab-content" style="display:none;">
+                <label class="form-label"><i class="fa-solid fa-champagne-glasses"></i> 行事・イベント</label>
+                <select id="input-event" class="input-control" onchange="checkCustomEvent(this)">
+                    <option value="" disabled selected>選択してください</option>
+                    <option value="ダーツフェア" style="color:#A62C2B; font-weight:bold;">★ダーツフェア</option>
+                    <option value="祝日">祝日・連休</option>
+                    <option value="誕生日">誕生日・記念日</option>
+                    <option value="歓迎会">歓迎会</option>
+                    <option value="送別会">送別会</option>
+                    <option value="忘年会">忘年会</option>
+                    <option value="新年会">新年会</option>
+                    <option value="custom">自由入力...</option>
+                </select>
+                <input type="text" id="input-event-custom" class="input-control" placeholder="例：周年イベント" style="display:none; margin-top:10px;">
+            </div>
+
+            <div id="tab-weather" class="form-group tab-content" style="display:none;">
+                <label class="form-label"><i class="fa-solid fa-cloud-sun"></i> 今日の天気</label>
+                <select id="input-weather" class="input-control">
+                    <option value="" disabled selected>選択してください</option>
+                    <option value="晴れ">晴れ</option>
+                    <option value="雨">雨</option>
+                    <option value="暑い">暑い</option>
+                    <option value="寒い">寒い</option>
+                    <option value="強風">風が強い</option>
+                </select>
+            </div>
+
+            <!-- Common Inputs -->
+            <div class="form-group">
+                <label class="form-label"><i class="fa-solid fa-store"></i> 店舗タイプ</label>
+                <select id="input-store-type" class="input-control">
+                    <option value="bar">バー</option>
+                    <option value="izakaya">居酒屋</option>
+                    <option value="dining">ダイニングバー</option>
+                    <option value="cafe">カフェバー</option>
+                    <option value="other">その他</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"><i class="fa-solid fa-share-nodes"></i> 投稿先</label>
+                <select id="input-platform" class="input-control">
+                    <option value="instagram">Instagram</option>
+                    <option value="facebook">Facebook</option>
+                    <option value="line">LINE公式アカウント</option>
+                    <option value="gmap">Googleマップ</option>
+                </select>
+            </div>
+
+            <div style="display:flex; gap:12px;">
+                <div class="form-group" style="flex:1;">
+                    <label class="form-label">トーン</label>
+                    <select id="input-tone" class="input-control">
+                        <option value="lively">にぎやか</option>
+                        <option value="gentle">やさしい</option>
+                        <option value="adult">大人</option>
+                        <option value="frank">フランク</option>
+                    </select>
+                </div>
+                <div class="form-group" style="flex:1;">
+                    <label class="form-label">絵文字</label>
+                    <select id="input-emoji" class="input-control">
+                        <option value="high">多め</option>
+                        <option value="medium" selected>ほどほど</option>
+                        <option value="low">少なめ</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"><i class="fa-solid fa-bullseye" style="color:var(--primary);"></i> ダーツの出し方</label>
+                <select id="input-darts" class="input-control">
+                    <option value="front">前面に出す（勝負・盛り上がり）</option>
+                    <option value="subtle" selected>さりげなく（会話のきっかけ）</option>
+                    <option value="none">今日は出さない</option>
+                </select>
+            </div>
+
+            <button class="btn generate-btn" onclick="generatePost()">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> 投稿をつくる
+            </button>
+        </section>
+
+        <!-- Output Area -->
+        <section id="output-area" class="card">
+            <h3 style="margin-top:0; font-size:1.1rem; color:var(--primary); border-bottom:1px solid var(--border-color); padding-bottom:12px; margin-bottom:16px;">
+                <i class="fa-solid fa-pen-nib"></i> 生成された投稿
+            </h3>
+            
+            <div id="output-text" class="result-text" contenteditable="true"></div>
+
+            <div class="form-label" style="margin-top:24px;">プロ級撮影テクニック <span style="font-weight:normal; font-size:0.75rem; color:var(--primary); border:1px solid var(--primary); padding:2px 6px; border-radius:4px; margin-left:8px;">PREMIUM</span></div>
+            <div class="photo-suggestions" id="output-photos">
+                <!-- JS inserted -->
+            </div>
+
+            <div class="action-row">
+                <button class="btn action-btn primary" onclick="copyToClipboard()">
+                    <i class="fa-regular fa-copy"></i> 投稿文をすべてコピー
+                </button>
+            </div>
+        </section>
+
+        <!-- History Area -->
+        <section class="history-section">
+            <div class="history-title">
+                <span>最近作った投稿</span>
+                <span onclick="clearData()" style="font-size:0.75rem; color:var(--primary); cursor:pointer;">履歴クリア</span>
+            </div>
+            <div class="history-list" id="history-list">
+                <div style="padding:10px; color:var(--text-sub); font-size:0.8rem;">履歴はありません</div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Help FAB -->
+    <button class="help-fab" onclick="showToast('右上の歯車から設定を行えます')">?</button>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title"><i class="fa-solid fa-gear"></i> 設定</div>
+                <button class="close-btn" onclick="closeSettings()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div style="overflow-y: auto; flex:1;">
+                
+                <!-- Section 1: App Settings (店舗情報セクションを削除) -->
+                <div class="setting-section">
+                    <div class="setting-section-title">アプリ設定</div>
+                    <div class="form-group" style="display:flex; justify-content:space-between; align-items:center;">
+                        <label>ダークモード</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="setting-theme" onchange="toggleTheme()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Section 2: MJS Link Settings (User Editable) -->
+                <div class="setting-section">
+                    <div class="setting-section-title">MJSリンク設定（下部表示用）</div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" style="font-size:0.8rem;">MJSサイト URL</label>
+                        <input type="url" id="setting-mjs-site" class="input-control" placeholder="https://..." style="padding:10px;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="font-size:0.8rem;">導入事例URL</label>
+                        <input type="url" id="setting-mjs-case" class="input-control" placeholder="https://..." style="padding:10px;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="font-size:0.8rem;">MJS公式LINE URL</label>
+                        <input type="url" id="setting-mjs-line" class="input-control" placeholder="https://..." style="padding:10px;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="font-size:0.8rem;">Googleマップ共有URL</label>
+                        <input type="url" id="setting-mjs-map" class="input-control" placeholder="https://..." style="padding:10px;">
+                    </div>
+                    
+                    <button class="btn" style="width:100%; border:1px solid var(--border-color); color:var(--text-sub);" onclick="fillDemoData(); closeSettings();">
+                        デモデータを入力する
+                    </button>
+                </div>
+
+                <div style="padding:24px;">
+                    <button class="btn generate-btn" onclick="saveSettings(); closeSettings(); showToast('設定を保存しました');">保存する</button>
+                </div>
+
+                <!-- Section 3: MJS Brand Portal (Footer of Modal) -->
+                <div class="mjs-brand-section">
+                    <div class="mjs-brand-title">MJS Darts System</div>
+                    <p style="font-size:0.8rem; margin-bottom:16px; opacity:0.8;">
+                        集客と収益の両立を、ダーツマシンで。<br>
+                        オーナー様のビジネスを加速させます。
+                    </p>
+                    <div class="mjs-links">
+                        <a href="#" class="mjs-link-card" id="link-mjs-site" target="_blank">
+                            <i class="fa-solid fa-globe"></i>
+                            <span>MJSサイト</span>
+                        </a>
+                        <a href="#" class="mjs-link-card" id="link-mjs-case" target="_blank">
+                            <i class="fa-solid fa-book-open-reader"></i>
+                            <span>導入事例を見る</span>
+                            <span style="font-size:0.6rem; opacity:0.7;">(見てほしいサイト)</span>
+                        </a>
+                        <a href="#" class="mjs-link-card" id="link-mjs-line" target="_blank">
+                            <i class="fa-brands fa-line"></i>
+                            <span>公式LINE登録</span>
+                        </a>
+                        <a href="#" class="mjs-link-card" id="link-mjs-map" target="_blank">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                            <span>Google共有</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check" style="color:var(--gold);"></i> <span id="toast-msg">Copied!</span>
+    </div>
+
+    <!-- Logic -->
+    <script>
+        // State
+        let currentTab = 'month';
+        let historyData = [];
+
+        // Data Dictionaries
+        const phraseBook = {
+            weather: {
+                '晴れ': ['気持ちのいい晴れ模様ですね！☀', '今日は絶好の飲み日和。', '星が綺麗な夜になりそうです。'],
+                '雨': ['あいにくの雨ですが、店内は快適です。☔', '雨音を聞きながらしっぽりと。', '足元の悪い中ですが、雨宿りにどうぞ。'],
+                '暑い': ['今日も暑いですね！キンキンに冷えてます。🍺', '熱帯夜には冷たい一杯を。', '暑さを吹き飛ばす一杯、用意してます。'],
+                '寒い': ['冷え込む夜は、暖かくしてお待ちしてます☃️', '寒さで肩が縮こまっていませんか？', '心も体も温まる場所、ここにあります。'],
+                '強風': ['風が強いので、気をつけてお越しくださいね。', '外は強風ですが、中は穏やかな時間流れてます。']
+            },
+            vibe: {
+                lively: ['今夜はパッと盛り上がりましょう！', 'ワイワイ楽しむなら当店へ！', 'エナジーチャージできる空間です。'],
+                gentle: ['ほっと一息、つきませんか？', '疲れを癒やす優しい時間。', 'あなたの居場所をご用意しています。'],
+                adult:  ['大人の隠れ家で、上質な時間を。', 'グラスを傾ける、贅沢なひととき。', '静かに流れる夜を楽しむなら。'],
+                frank:  ['気軽に一杯、寄ってって！', 'スタッフ一同、元気にお待ちしてます！', 'サクッと飲みたい時にもおすすめ。']
+            },
+            darts: {
+                front: {
+                    lively: '🎯 今日はダーツでガッツリ勝負！負けた人が一杯おごり？盛り上がること間違いなし！',
+                    gentle: '🎯 ダーツで軽く体を動かして、リフレッシュしませんか？初心者の方も大歓迎です。',
+                    adult:  '🎯 グラス片手にダーツを一投。大人の遊び心が、夜を彩ります。',
+                    frank:  '🎯 ダーツあるよ！みんなでワイワイ投げようぜ！'
+                },
+                subtle: {
+                    lively: '会話が弾んだら、ちょっとダーツもいいかも。',
+                    gentle: 'お話の合間に、1ゲームだけ投げるのも粋な時間。',
+                    adult:  '背景にダーツの音。それもまた、バーのBGM。',
+                    frank:  'ダーツもあるから、気が向いたら投げてみてね。'
+                }
+            }
+        };
+
+        const hashtags = {
+            bar: '#バー #Bar #カクテル',
+            izakaya: '#居酒屋 #飲み会 #おつまみ',
+            dining: '#ダイニングバー #ディナー #女子会',
+            cafe: '#カフェバー #夜カフェ #二次会',
+            other: '#飲食店 #グルメ #夜ご飯'
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSettings();
+            loadHistory();
+            
+            // Set default month
+            const today = new Date();
+            document.getElementById('input-month').value = today.getMonth() + 1;
+        });
+
+        // Tab Switching
+        function switchTab(tabName) {
+            currentTab = tabName;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
+            document.getElementById(`tab-${tabName}`).style.display = 'block';
+        }
+
+        // Custom Event Toggle
+        function checkCustomEvent(select) {
+            const customInput = document.getElementById('input-event-custom');
+            customInput.style.display = select.value === 'custom' ? 'block' : 'none';
+        }
+
+        // --- Core Logic: Generate Post ---
+        function generatePost() {
+            // Get Values
+            const storeType = document.getElementById('input-store-type').value;
+            const platform = document.getElementById('input-platform').value;
+            const tone = document.getElementById('input-tone').value;
+            const emojiDensity = document.getElementById('input-emoji').value;
+            const dartsMode = document.getElementById('input-darts').value;
+            
+            // Validate specific tab inputs
+            let contextText = "";
+            let contextType = ""; // for storing context
+            
+            if (currentTab === 'month') {
+                const month = document.getElementById('input-month').value;
+                if (!month) return showError('月を選択してください');
+                contextText = `${month}月ですね。季節の変わり目、いかがお過ごしですか？`;
+                contextType = `${month}月の投稿`;
+            } else if (currentTab === 'event') {
+                let evt = document.getElementById('input-event').value;
+                if (evt === 'custom') evt = document.getElementById('input-event-custom').value;
+                if (!evt) return showError('行事を入力してください');
+                
+                if (evt === 'ダーツフェア') {
+                    contextText = `🎯 ダーツフェア開催中！\n今なら特別な体験が待っています。\n初心者の方も、腕に自信がある方も大歓迎！`;
+                    contextType = 'ダーツフェア';
+                } else {
+                    contextText = `${evt}のシーズン到来！予定はもう決まりましたか？`;
+                    contextType = evt;
+                }
+            } else if (currentTab === 'weather') {
+                const weather = document.getElementById('input-weather').value;
+                if (!weather) return showError('天気を選択してください');
+                contextText = getRandom(phraseBook.weather[weather]) || '今日もお疲れ様です。';
+                contextType = weather;
+            }
+
+            // Build Parts
+            const vibeText = getRandom(phraseBook.vibe[tone]);
+            
+            let dartsText = "";
+            if (dartsMode !== 'none') {
+                dartsText = phraseBook.darts[dartsMode][tone] || "";
+            }
+            
+            // Darts Fair Special Override
+            if (contextType === 'ダーツフェア') {
+                dartsText = "投げ放題プランや、ハイスコアチャレンジも実施中！みんなで盛り上がりましょう！";
+            }
+
+            // Assemble Text
+            let fullText = "";
+            
+            // Adjust format by platform
+            if (platform === 'instagram') {
+                fullText = `${contextText}\n\n${vibeText}\n\n${dartsText ? dartsText + '\n\n' : ''}おいしいお酒と空間をご用意して、\nお待ちしております✨\n\n`;
+            } else if (platform === 'line') {
+                fullText = `${contextText}\n${vibeText}\n${dartsText}\n\nお待ちしてます！`;
+            } else if (platform === 'gmap') {
+                fullText = `${contextText} ${vibeText}\n\n${dartsText ? dartsText + '\n' : ''}近くにお越しの際はぜひお立ち寄りください。`;
+            } else {
+                // Facebook/Default
+                fullText = `${contextText}\n${vibeText}\n\n${dartsText ? dartsText + '\n' : ''}皆様のご来店をお待ちしております。`;
+            }
+
+            // Removed: Settings URLs application logic
+
+            // Apply Emoji Density
+            fullText = applyEmoji(fullText, emojiDensity, tone);
+
+            // Generate Hashtags
+            let tags = hashtags[storeType] || '#飲食店';
+            if (dartsMode !== 'none' || contextType === 'ダーツフェア') tags += ' #ダーツ #Darts #ダーツバー';
+            if (currentTab === 'month') tags += ` #${document.getElementById('input-month').value}月`;
+            if (tone === 'adult') tags += ' #隠れ家 #デート';
+            if (tone === 'lively') tags += ' #二次会 #パーティ';
+
+            // Add tags to full text
+            fullText += `\n\n${tags}`;
+
+            // --- MJS Promotion Logic (Based on Settings) ---
+            // 設定値の取得（MJSリンク）
+            const mjsSite = document.getElementById('setting-mjs-site').value;
+            const mjsLine = document.getElementById('setting-mjs-line').value;
+            
+            // URLが設定されている場合のみ追加（デモデータ入力時など）
+            if (mjsSite || mjsLine) {
+                fullText += `\n\n----------------\n🎯 ダーツマシン導入について`;
+                
+                if (platform === 'instagram') {
+                    // Instagram: リンク無効なので誘導文言に置換
+                    fullText += `\n\n気になった方はプロフィールのリンク、\nまたはWEBで「MJS ダーツ」と検索してください🔍`;
+                } else {
+                    // Facebook, LINE, Google Map: リンク有効なのでURLを表示
+                    if (mjsSite) fullText += `\n🌐 MJS公式サイト\n${mjsSite}`;
+                    if (mjsLine) fullText += `\n\n💬 公式LINE\n${mjsLine}`;
+                }
+            }
+
+            // Photo Suggestions (Premium Tips - Enhanced)
+            const photoIdeas = [];
+
+            // Tip 1: The "Inverse Smartphone" (Universal)
+            photoIdeas.push({
+                icon: 'fa-mobile-screen-button',
+                title: '裏技：「逆さスマホ」で迫力を出す',
+                desc: `
+                    <ul>
+                        <li>スマホを逆さまに持ち替える</li>
+                        <li>カメラレンズをテーブル面スレスレに配置</li>
+                        <li>少し上向き（アオリ）でシャッターを切る</li>
+                    </ul>
+                    <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> 天井が高く映り、ドリンクや料理が塔のように立派に見えます！</div>`
+            });
+
+            // Tip 2: Zoom 2x (Distortion fix)
+            photoIdeas.push({
+                icon: 'fa-magnifying-glass-plus',
+                title: '基本：「2倍ズーム」で形を整える',
+                desc: `
+                    <ul>
+                        <li>スマホの標準（1x）ではなく「2x」か「3x」にする</li>
+                        <li>その分、被写体から少し離れて撮影する</li>
+                    </ul>
+                    <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> グラスや皿の歪みがなくなり、プロが一眼レフで撮ったような端正な形になります。</div>`
+            });
+
+            // Tip 3: Context specific
+            if (dartsMode !== 'none' || contextType === 'ダーツフェア') {
+                photoIdeas.push({
+                    icon: 'fa-bullseye',
+                    title: '構図：「前ボケ」で賑わいを演出',
+                    desc: `
+                        <ul>
+                            <li>手前に「誰かの肩」や「グラス」を少し見切れさせる</li>
+                            <li>奥のダーツ盤にピントを固定（画面長押し）する</li>
+                            <li>あえて手前をボカして撮影</li>
+                        </ul>
+                        <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> 「盗み撮り」のような自然なアングルになり、その場の臨場感が伝わります。</div>`
+                });
+            } else {
+                photoIdeas.push({
+                    icon: 'fa-utensils',
+                    title: '照明：「斜め逆光」でシズル感を',
+                    desc: `
+                        <ul>
+                            <li>店内の照明が、料理の「斜め後ろ」に来る席を選ぶ</li>
+                            <li>または、友人のスマホライトを斜め後ろから当ててもらう</li>
+                            <li>露出（明るさ）を少し下げて撮影</li>
+                        </ul>
+                        <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> 表面のテカリや湯気が強調され、圧倒的に美味しそうに撮れます。</div>`
+                });
+            }
+
+            // Tip 4: Human Touch
+            photoIdeas.push({
+                icon: 'fa-hand-holding-heart',
+                title: '演出：「手」を添えて体験を売る',
+                desc: `
+                    <ul>
+                        <li>グラスを持つ手、メニューを指差す指先を入れる</li>
+                        <li>乾杯の瞬間を連写モードで撮る</li>
+                    </ul>
+                    <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> 「商品」単体ではなく「楽しい体験」として伝わり、見た人の来店意欲を刺激します。</div>`
+            });
+
+            // Render
+            const outputArea = document.getElementById('output-area');
+            document.getElementById('output-text').innerText = fullText;
+            
+            const photoContainer = document.getElementById('output-photos');
+            photoContainer.innerHTML = photoIdeas.map(idea => `
+                <div class="photo-chip">
+                    <div class="photo-chip-header">
+                        <i class="fa-solid ${idea.icon}"></i>
+                        <span>${idea.title}</span>
+                    </div>
+                    <div class="photo-chip-desc">${idea.desc}</div>
+                </div>
+            `).join('');
+
+            outputArea.style.display = 'block';
+            outputArea.scrollIntoView({behavior: 'smooth', block: 'start'});
+
+            // Save History
+            saveHistoryToStorage({
+                type: contextType,
+                text: fullText,
+                date: new Date().toLocaleString('ja-JP', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'})
+            });
+        }
+
+        // --- Helper Functions ---
+        
+        function getRandom(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function applyEmoji(text, density, tone) {
+            if (density === 'low') return text; // Minimal emojis already in text
+            
+            const emojis = ['✨', '🍸', '🍻', '🍽', '🌙', '🎵', '🙌'];
+            if (tone === 'adult') {
+                 // Adult tone: fewer, classy emojis
+                 if (density === 'high') text = text.replace(/\n/g, ' ✨\n');
+            } else {
+                // Lively/Gentle
+                if (density === 'high') {
+                    text = text.replace(/。/g, '！✨');
+                    text = text.replace(/\n/g, ' 😊\n');
+                } else {
+                    // Medium
+                    text += ' 🥂';
+                }
+            }
+            return text;
+        }
+
+        // --- Clipboard ---
+        function copyToClipboard() {
+            let text = document.getElementById('output-text').innerText;
+
+            // Use document.execCommand('copy') for better compatibility in iframes
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed'; // Avoid scrolling to bottom
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand('copy');
+                showToast('コピーしました！');
+            } catch (err) {
+                console.error('Copy failed', err);
+                showToast('コピーに失敗しました');
+            }
+            document.body.removeChild(ta);
+        }
+
+        // --- UI Interactions ---
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        function showError(msg) {
+            showToast('⚠️ ' + msg);
+        }
+
+        function openSettings() {
+            document.getElementById('settings-modal').classList.add('open');
+        }
+
+        function closeSettings() {
+            document.getElementById('settings-modal').classList.remove('open');
+        }
+
+        function toggleTheme() {
+            const isDark = document.getElementById('setting-theme').checked;
+            document.body.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        }
+
+        // --- Storage & History ---
+        function saveSettings() {
+            // 店舗情報削除により、アプリ設定とMJSリンク設定のみ保存
+            const settings = {
+                theme: document.getElementById('setting-theme').checked,
+                // MJSリンク設定
+                mjsSite: document.getElementById('setting-mjs-site').value,
+                mjsCase: document.getElementById('setting-mjs-case').value,
+                mjsLine: document.getElementById('setting-mjs-line').value,
+                mjsMap:  document.getElementById('setting-mjs-map').value
+            };
+            localStorage.setItem('mjs_settings', JSON.stringify(settings));
+            
+            // 即時反映（下部リンクボタン）
+            updateMjsLinks(settings);
+        }
+
+        function loadSettings() {
+            const saved = localStorage.getItem('mjs_settings');
+            if (saved) {
+                const s = JSON.parse(saved);
+                document.getElementById('setting-theme').checked = s.theme;
+                
+                // MJSリンク設定の読み込み
+                document.getElementById('setting-mjs-site').value = s.mjsSite || '';
+                document.getElementById('setting-mjs-case').value = s.mjsCase || '';
+                document.getElementById('setting-mjs-line').value = s.mjsLine || '';
+                document.getElementById('setting-mjs-map').value = s.mjsMap || '';
+
+                if (s.theme) document.body.setAttribute('data-theme', 'dark');
+                
+                // 下部リンクの更新
+                updateMjsLinks(s);
+            }
+        }
+
+        function updateMjsLinks(settings) {
+            // 設定があればhrefを更新、なければ#のまま（または非活性にする等の処理も可）
+            const setLink = (id, url) => {
+                const el = document.getElementById(id);
+                if(url) {
+                    el.href = url;
+                    el.style.opacity = '1';
+                    el.style.pointerEvents = 'auto';
+                } else {
+                    el.href = '#';
+                    el.style.opacity = '0.5';
+                    el.style.pointerEvents = 'none'; // URL未設定時はクリック無効化など
+                }
+            };
+            
+            setLink('link-mjs-site', settings.mjsSite);
+            setLink('link-mjs-case', settings.mjsCase);
+            setLink('link-mjs-line', settings.mjsLine);
+            setLink('link-mjs-map', settings.mjsMap);
+        }
+
+        function saveHistoryToStorage(item) {
+            historyData.unshift(item);
+            if (historyData.length > 3) historyData.pop();
+            localStorage.setItem('mjs_history', JSON.stringify(historyData));
+            loadHistory(); // Re-render
+        }
+
+        function loadHistory() {
+            const saved = localStorage.getItem('mjs_history');
+            const list = document.getElementById('history-list');
+            list.innerHTML = '';
+
+            if (saved) {
+                historyData = JSON.parse(saved);
+                if (historyData.length === 0) {
+                    list.innerHTML = '<div style="padding:10px; color:var(--text-sub); font-size:0.8rem;">履歴はありません</div>';
+                    return;
+                }
+                
+                historyData.forEach(h => {
+                    const card = document.createElement('div');
+                    card.className = 'history-card';
+                    card.onclick = () => {
+                        document.getElementById('output-text').innerText = h.text;
+                        document.getElementById('output-area').style.display = 'block';
+                        document.getElementById('output-area').scrollIntoView({behavior:'smooth'});
+                    };
+                    card.innerHTML = `
+                        <div class="history-content">${h.text}</div>
+                        <div class="history-date">${h.type} • ${h.date}</div>
+                    `;
+                    list.appendChild(card);
+                });
+            } else {
+                 list.innerHTML = '<div style="padding:10px; color:var(--text-sub); font-size:0.8rem;">履歴はありません</div>';
+            }
+        }
+
+        // --- Demo Data ---
+        function fillDemoData() {
+            // 店舗情報のデモ削除
+            // 投稿生成用デモデータ
+            document.getElementById('input-store-type').value = 'bar';
+            document.getElementById('input-platform').value = 'instagram';
+            document.getElementById('input-tone').value = 'adult';
+            document.getElementById('input-emoji').value = 'medium';
+            document.getElementById('input-darts').value = 'subtle';
+            
+            if (currentTab === 'month') document.getElementById('input-month').value = '12';
+            if (currentTab === 'event') {
+                document.getElementById('input-event').value = 'custom';
+                checkCustomEvent(document.getElementById('input-event'));
+                document.getElementById('input-event-custom').value = '3周年記念';
+            }
+            if (currentTab === 'weather') document.getElementById('input-weather').value = '雨';
+
+            // MJSリンクのデモデータ入力（お客様が動作確認しやすいように）
+            document.getElementById('setting-mjs-site').value = 'https://www.mjs-darts.com/';
+            document.getElementById('setting-mjs-case').value = 'https://www.mjs-darts.com/case/';
+            document.getElementById('setting-mjs-line').value = 'https://line.me/R/ti/p/@mjs';
+            document.getElementById('setting-mjs-map').value = 'https://maps.app.goo.gl/dummy';
+
+            showToast('デモデータを入力しました');
+        }
+
+        function clearData() {
+            localStorage.removeItem('mjs_history');
+            localStorage.removeItem('mjs_settings');
+            historyData = [];
+            loadHistory();
+            location.reload();
+        }
+
+    </script>
+</body>
+</html>

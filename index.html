@@ -152,6 +152,7 @@
         .header-actions {
             display: flex;
             align-items: center;
+            gap: 8px; /* アイコン間の余白 */
             z-index: 102;
             margin-left: auto; /* 変更点：強制的に右端へ寄せる */
         }
@@ -489,7 +490,7 @@
             font-size: 0.7rem;
         }
 
-        /* --- Modal (Settings) --- */
+        /* --- Modal (Settings & Howto) --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -721,6 +722,8 @@
         
         <!-- 右端：設定ボタン -->
         <div class="header-actions">
+            <!-- 使い方ボタン追加 -->
+            <button class="btn" onclick="openHowto()"><i class="fa-solid fa-circle-question"></i></button>
             <button class="btn" onclick="openSettings()"><i class="fa-solid fa-gear"></i></button>
         </div>
     </header>
@@ -890,6 +893,40 @@
 
     <!-- Help FAB -->
     <button class="help-fab" onclick="showToast('右上の歯車から設定を行えます')">?</button>
+
+    <!-- Howto Modal (New) -->
+    <div id="howto-modal" class="modal-overlay" onclick="if(event.target === this) closeHowto()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title"><i class="fa-solid fa-book-open"></i> 使い方ガイド</div>
+                <button class="close-btn" onclick="closeHowto()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div style="padding: 24px; overflow-y: auto;">
+                <div class="setting-section-title">このアプリの目的</div>
+                <ul style="padding-left: 20px; color: var(--text-main); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.8;">
+                    <li>SNS投稿で「何を書こう…」と迷う時間を減らすためのナビです</li>
+                    <li>月・行事・天候から、今日に合う投稿をすぐ作れます</li>
+                    <li>売り込みすぎない、自然なダーツ投稿をサポートします</li>
+                </ul>
+
+                <div class="setting-section-title">投稿までの流れ</div>
+                <ol style="padding-left: 20px; color: var(--text-main); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.8;">
+                    <li>月別・行事・天候から、今日の切り口を選ぶ</li>
+                    <li>お店の雰囲気や投稿先を選ぶ</li>
+                    <li>ダーツの出し方を決めて「投稿をつくる」を押す</li>
+                </ol>
+
+                <div style="font-size: 0.8rem; color: var(--text-sub); background: var(--input-bg); padding: 12px; border-radius: 8px;">
+                    <div>※ 文章は生成後に自由に書き換えできます</div>
+                    <div style="margin-top: 4px;">※ 写真・動画の撮り方ヒントも下に表示されます</div>
+                </div>
+                
+                <div style="margin-top: 24px;">
+                    <button class="btn generate-btn" onclick="closeHowto()">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Settings Modal -->
     <div id="settings-modal" class="modal-overlay">
@@ -1360,6 +1397,15 @@
 
         function closeSettings() {
             document.getElementById('settings-modal').classList.remove('open');
+        }
+
+        // New Howto functions
+        function openHowto() {
+            document.getElementById('howto-modal').classList.add('open');
+        }
+
+        function closeHowto() {
+            document.getElementById('howto-modal').classList.remove('open');
         }
 
         function toggleTheme() {

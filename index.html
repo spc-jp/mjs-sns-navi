@@ -133,19 +133,19 @@
         }
 
         .app-brand {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
+            /* position: absolute; 削除：左寄せにするため絶対配置を解除 */
+            /* left: 50%; */
+            /* top: 50%; */
+            /* transform: translate(-50%, -50%); */
             display: flex;
             align-items: center;
             gap: 10px;
             font-weight: 700;
-            font-size: 1.6rem; /* 1.1rem -> 1.6rem に拡大 */
+            font-size: 1.4rem; /* 変更：スマホで幅を取りすぎないよう少し調整 */
             color: var(--primary);
             white-space: nowrap;
-            z-index: 103; /* クリックできるよう前面へ */
-            cursor: pointer; /* クリック可を示すカーソル */
+            z-index: 103;
+            cursor: pointer;
             letter-spacing: 0.05em;
         }
 
@@ -154,7 +154,7 @@
             align-items: center;
             gap: 8px; /* アイコン間の余白 */
             z-index: 102;
-            margin-left: auto; /* 変更点：強制的に右端へ寄せる */
+            margin-left: auto; /* 右端へ寄せる */
         }
 
         .header-actions button {

@@ -18,7 +18,11 @@
             /* Color Palette - Luxury Update */
             --primary: #A62C2B;
             --primary-dark: #7a1f1e;
-            --primary-gradient: linear-gradient(135deg, #A62C2B 0%, #631110 100%);
+            /* よりリッチな深みのあるグラデーション */
+            --primary-gradient: linear-gradient(135deg, #A62C2B 0%, #8E201F 100%);
+            /* ロゴ用スペシャルグラデーション（赤→金） */
+            --brand-gradient: linear-gradient(135deg, #A62C2B 10%, #D4AF37 90%);
+            
             --gold: #D4AF37;
             --gold-light: #F3E5AB;
             --gold-gradient: linear-gradient(135deg, #D4AF37 0%, #AA8A26 100%);
@@ -31,13 +35,13 @@
             --gray-text: #666666;
             
             /* Theme Variables (Light Default) */
-            --bg-body: #ECECEC;
+            --bg-body: #F2F2F2; /* 少し明るくしてグラデーションを映えさせる */
             --bg-card: #ffffff;
             --text-main: #231815;
             --text-sub: #666666;
             --border-color: #e0e0e0;
             --input-bg: #f9f9f9;
-            --glass-bg: rgba(255, 255, 255, 0.90);
+            --glass-bg: rgba(255, 255, 255, 0.85);
             --modal-bg: #ffffff;
             --shadow-soft: 0 10px 40px -10px rgba(35, 24, 21, 0.15);
             --shadow-sharp: 0 2px 8px rgba(0,0,0,0.08);
@@ -50,9 +54,10 @@
             --text-sub: #aaaaaa;
             --border-color: #3e2b26;
             --input-bg: #2d201d;
-            --glass-bg: rgba(35, 24, 21, 0.95);
+            --glass-bg: rgba(35, 24, 21, 0.85);
             --modal-bg: #231815;
             --shadow-soft: 0 10px 40px -10px rgba(0, 0, 0, 0.6);
+            --brand-gradient: linear-gradient(135deg, #D64D4C 10%, #F3E5AB 90%); /* ダークモード用ロゴ */
         }
 
         * {
@@ -70,8 +75,12 @@
             transition: background-color 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 0.4s;
             overflow-x: hidden;
             line-height: 1.6;
-            /* 背景にうっすらとノイズやパターンを入れて高級感を出す（CSSのみで表現） */
-            background-image: radial-gradient(circle at 50% 0%, rgba(166, 44, 43, 0.03) 0%, transparent 70%);
+            
+            /* 背景グラデーション：上部から淡い光が差し込むような演出 */
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(166, 44, 43, 0.08) 0%, transparent 60%),
+                linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 100%);
+            background-attachment: fixed; /* スクロールしても背景固定 */
         }
 
         /* --- UI Utilities --- */
@@ -79,13 +88,31 @@
             background: var(--glass-bg);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03); /* ガラス感を強調する影 */
         }
 
         .container {
             padding: 20px;
-            max-width: 600px;
+            max-width: 1100px;
             margin: 0 auto;
+        }
+
+        /* 2カラムレイアウト用グリッド（PC/タブレット用） */
+        .main-grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        @media (min-width: 900px) {
+            .main-grid {
+                grid-template-columns: 1fr 1fr;
+                align-items: start;
+            }
+            .sticky-column {
+                position: sticky;
+                top: 90px;
+            }
         }
 
         .btn {
@@ -123,7 +150,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 70px;
+            height: 80px; /* 変更：70px -> 80px に拡大 */
             z-index: 100;
             display: flex;
             align-items: center;
@@ -132,41 +159,83 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.03);
         }
 
-        .app-brand {
-            /* position: absolute; 削除：左寄せにするため絶対配置を解除 */
-            /* left: 50%; */
-            /* top: 50%; */
-            /* transform: translate(-50%, -50%); */
+        /* 左端のロゴ画像エリア */
+        .header-logo-area {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            font-size: 1.4rem; /* 変更：スマホで幅を取りすぎないよう少し調整 */
-            color: var(--primary);
+            z-index: 102; /* タイトルより手前に */
+        }
+
+        .header-logo-img {
+            height: 60px; /* 変更：48px -> 60px に拡大 */
+            width: auto;
+            object-fit: contain;
+            display: block;
+            
+            /* 背景透過処理 */
+            mix-blend-mode: multiply;
+            filter: contrast(1.05) brightness(1.02);
+        }
+        [data-theme="dark"] .header-logo-img {
+            mix-blend-mode: normal;
+            filter: brightness(0.9);
+            border-radius: 4px;
+            background: rgba(255,255,255,0.9); /* ダークモード時は白背景を敷いて視認性確保 */
+            padding: 2px;
+        }
+
+        /* 中央のアプリタイトル */
+        .app-brand {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 1.4rem; /* サイズ調整 */
+            
+            /* グラデーションテキスト */
+            background: var(--brand-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            
             white-space: nowrap;
-            z-index: 103;
+            z-index: 101;
             cursor: pointer;
             letter-spacing: 0.05em;
+        }
+        
+        .app-brand span {
+            background: inherit;
+            -webkit-background-clip: text;
+            background-clip: text;
         }
 
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 8px; /* アイコン間の余白 */
+            gap: 8px;
             z-index: 102;
-            margin-left: auto; /* 右端へ寄せる */
+            margin-left: auto;
         }
 
         .header-actions button {
             background: transparent;
-            color: var(--text-main);
+            color: var(--text-sub); /* 少し落ち着いた色に */
             font-size: 1.3rem;
             padding: 8px;
-            color: var(--primary); /* 設定アイコンもブランドカラーに */
+            transition: color 0.2s;
+        }
+        .header-actions button:hover {
+            color: var(--primary); /* ホバー時に色付く */
         }
 
         .header-spacer {
-            height: 90px;
+            height: 100px; /* 変更：ヘッダー拡大に合わせて 90px -> 100px */
         }
 
         /* --- Tab Navigation (Floating Style) --- */
@@ -174,7 +243,7 @@
             display: flex;
             background: var(--bg-card);
             padding: 6px;
-            border-radius: 50px; /* 丸みを強く */
+            border-radius: 50px;
             margin-bottom: 24px;
             box-shadow: var(--shadow-soft);
             position: relative;
@@ -195,12 +264,13 @@
         }
 
         .tab-btn.active {
-            background: var(--primary);
+            /* グラデーション背景に変更 */
+            background: var(--primary-gradient);
             color: var(--white);
             box-shadow: 0 4px 15px rgba(166, 44, 43, 0.4);
         }
 
-        /* Sub Tabs for Tips (New) */
+        /* Sub Tabs for Tips */
         .sub-tabs {
             display: flex;
             background: var(--input-bg);
@@ -223,7 +293,10 @@
         }
         .sub-tab-btn.active {
             background: var(--white);
-            color: var(--primary);
+            /* テキストにグラデーション */
+            background-image: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
@@ -242,7 +315,7 @@
             margin-bottom: 10px;
             padding-left: 4px;
         }
-        .form-label i { color: var(--gold); } /* アイコンアクセント */
+        .form-label i { color: var(--gold); }
 
         .input-control {
             width: 100%;
@@ -264,6 +337,63 @@
             box-shadow: 0 0 0 3px rgba(166, 44, 43, 0.1);
         }
 
+        /* Platform Selector Icons */
+        .platform-selector {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+        
+        .platform-btn {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 4px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-sub);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .platform-btn i {
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+            transition: color 0.2s;
+        }
+        
+        /* 変更：Xアイコン用（テキストで表現）のスタイル */
+        .x-symbol {
+            font-size: 1.8rem; /* 他のアイコンより少し大きく */
+            font-weight: 900;  /* 極太にして存在感を出す */
+            font-family: "Arial", sans-serif;
+            line-height: 1;
+            margin-bottom: 2px;
+            display: inline-block;
+        }
+
+        .platform-btn span {
+            font-size: 0.65rem;
+            font-weight: 700;
+            z-index: 1; /* アイコンより手前に */
+        }
+
+        .platform-btn:hover {
+            background: var(--bg-card);
+            border-color: var(--primary);
+        }
+
+        .platform-btn.active {
+            background: var(--white);
+            border-color: var(--primary);
+            color: var(--primary);
+            box-shadow: 0 4px 12px rgba(166, 44, 43, 0.15);
+            transform: translateY(-2px);
+        }
+
         select.input-control {
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A62C2B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
             background-repeat: no-repeat;
@@ -276,6 +406,7 @@
             width: 100%;
             padding: 20px;
             font-size: 1.1rem;
+            /* グラデーション背景 */
             background: var(--primary-gradient);
             color: white;
             box-shadow: 0 10px 30px rgba(166, 44, 43, 0.3);
@@ -284,13 +415,19 @@
             border-radius: 16px;
             position: relative;
             overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .generate-btn:hover {
+            box-shadow: 0 15px 40px rgba(166, 44, 43, 0.4);
+            transform: translateY(-2px);
         }
         
         .generate-btn::after {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
             transform: skewX(-20deg) translateX(-150%);
             transition: transform 0.5s;
         }
@@ -301,8 +438,32 @@
 
         /* --- Output Area --- */
         #output-area {
-            display: none;
             animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .preview-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--text-sub);
+            opacity: 0.6;
+            min-height: 300px;
+        }
+        .preview-placeholder i {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: #d1d1d1;
+            /* アイコンにも微細なグラデーション */
+            background: linear-gradient(to bottom, #d1d1d1, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .generated-content {
+            display: none;
         }
 
         .result-text {
@@ -310,22 +471,21 @@
             font-size: 1rem;
             color: var(--text-main);
             background: var(--input-bg);
-            padding: 20px;
-            border-radius: 16px 16px 0 0; /* 下の角丸をなくしてボタンと一体化 */
+            padding: 24px;
+            border-radius: 16px 16px 0 0;
             margin-bottom: 0;
             border: 1px solid var(--border-color);
             border-bottom: none;
             min-height: 200px;
-            line-height: 1.7;
+            line-height: 1.8;
         }
 
-        /* コピーボタンエリア（テキストエリアと結合） */
         .copy-action-area {
             background: var(--input-bg);
             border: 1px solid var(--border-color);
             border-top: none;
             border-radius: 0 0 16px 16px;
-            padding: 10px 20px 20px 20px;
+            padding: 10px 24px 24px 24px;
             margin-bottom: 30px;
         }
 
@@ -333,7 +493,8 @@
             width: 100%;
             padding: 14px;
             font-size: 1rem;
-            background: var(--primary);
+            /* グラデーション背景 */
+            background: var(--primary-gradient);
             color: white;
             border: none;
             border-radius: 12px;
@@ -342,6 +503,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            font-weight: 700;
         }
         .copy-btn-full:active { transform: scale(0.98); }
 
@@ -378,7 +540,7 @@
             font-size: 1.2rem;
             min-width: 24px;
             text-align: center;
-            color: var(--gold); /* アイコンをゴールドに */
+            color: var(--gold);
         }
 
         .photo-chip-desc {
@@ -388,26 +550,26 @@
             line-height: 1.6;
         }
         
-        /* 箇条書き用スタイル追加 */
         .photo-chip-desc ul {
             margin: 8px 0;
             padding-left: 18px;
-            list-style-type: disc; /* 黒丸 */
+            list-style-type: disc;
         }
         .photo-chip-desc li {
             margin-bottom: 4px;
         }
         .photo-chip-point {
-            background: rgba(166, 44, 43, 0.08);
+            background: rgba(166, 44, 43, 0.05); /* より薄く上品に */
             color: var(--primary);
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 0.8rem;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
             font-weight: 700;
             margin-top: 8px;
             display: flex;
             align-items: flex-start;
-            gap: 6px;
+            gap: 8px;
+            border-left: 3px solid var(--primary); /* 左線で強調 */
         }
 
         .action-row {
@@ -424,13 +586,6 @@
             color: var(--text-main);
             border: 1px solid var(--border-color);
             border-radius: 14px;
-        }
-
-        .action-btn.primary {
-            background: var(--primary);
-            color: white;
-            border: none;
-            box-shadow: 0 4px 15px rgba(166, 44, 43, 0.2);
         }
 
         /* --- History --- */
@@ -500,13 +655,13 @@
             background: rgba(0,0,0,0.6);
             z-index: 200;
             display: flex;
-            align-items: flex-end; /* 下寄せ */
-            justify-content: center; /* 中央寄せ */
+            align-items: flex-end;
+            justify-content: center;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s;
-            backdrop-filter: blur(4px);
-            padding-bottom: 20px; /* 下端から少し浮かせる */
+            backdrop-filter: blur(6px); /* ぼかしを強める */
+            padding-bottom: 20px;
         }
 
         .modal-overlay.open {
@@ -515,18 +670,18 @@
         }
 
         .modal-content {
-            width: 92%; /* 画面幅の92%に設定（左右に余白） */
-            max-width: 480px; /* PCなどで広がりすぎないよう最大幅を制限 */
+            width: 92%;
+            max-width: 480px;
             background: var(--modal-bg);
-            border-radius: 24px; /* 全周を角丸に */
+            border-radius: 24px;
             padding: 0;
-            max-height: 85vh; /* 画面高さの85%まで */
+            max-height: 85vh;
             overflow-y: auto;
-            transform: translateY(120%); /* 画面外へ隠す */
+            transform: translateY(120%);
             transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
             display: flex;
             flex-direction: column;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4); /* 浮遊感を出す影 */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); /* 影を深くして浮遊感を強調 */
         }
 
         .modal-overlay.open .modal-content {
@@ -539,6 +694,7 @@
             position: sticky;
             top: 0;
             z-index: 10;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .modal-title {
@@ -562,7 +718,6 @@
             cursor: pointer;
         }
 
-        /* Setting Sections */
         .setting-section {
             padding: 24px;
             border-bottom: 1px solid var(--border-color);
@@ -574,40 +729,6 @@
             font-weight: 700;
             margin-bottom: 16px;
             letter-spacing: 0.05em;
-        }
-
-        /* Simple Menu Links (Replaces Banner) */
-        .menu-link {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px;
-            background: var(--input-bg);
-            border-radius: 12px;
-            text-decoration: none;
-            color: var(--text-main);
-            margin-bottom: 10px;
-            transition: all 0.2s;
-            border: 1px solid var(--border-color);
-        }
-        .menu-link:hover {
-            background: var(--bg-card);
-            border-color: var(--primary);
-        }
-        .menu-link-content {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 500;
-        }
-        .menu-link i {
-            color: var(--primary);
-            width: 20px;
-            text-align: center;
-        }
-        .menu-link-arrow {
-            color: var(--text-sub);
-            font-size: 0.9rem;
         }
 
         /* Footer */
@@ -625,7 +746,8 @@
             bottom: 40px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: rgba(35, 24, 21, 0.95);
+            /* トーストもグラデーション */
+            background: linear-gradient(135deg, #231815 0%, #3a3a3a 100%);
             color: #fff;
             padding: 14px 28px;
             border-radius: 50px;
@@ -645,24 +767,28 @@
             opacity: 1;
         }
 
-        /* Floating Action Button (Help) */
+        /* Floating Action Button (Help) - グラデーションボーダー */
         .help-fab {
             position: fixed;
             bottom: 24px;
             right: 24px;
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
             background: var(--bg-card);
-            border: 1px solid var(--border-color);
+            border: 2px solid transparent;
+            background-image: linear-gradient(var(--bg-card), var(--bg-card)), var(--primary-gradient);
+            background-origin: border-box;
+            background-clip: content-box, border-box;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-sub);
+            color: var(--primary);
             box-shadow: var(--shadow-soft);
             z-index: 90;
             cursor: pointer;
             transition: transform 0.2s;
+            font-size: 1.2rem;
         }
         .help-fab:active { transform: scale(0.9); }
 
@@ -714,15 +840,20 @@
 
     <!-- Header -->
     <header class="glass">
-        <!-- 中央：アプリアイコンとタイトル（クリックでリロード） -->
+        <!-- 左端：ロゴ画像 -->
+        <div class="header-logo-area">
+            <img src="rogo.jpg" alt="MJS Logo" class="header-logo-img" onerror="this.style.display='none'">
+        </div>
+
+        <!-- 中央：アプリタイトル（Post Navi） -->
         <div class="app-brand" onclick="location.reload()">
-            <i class="fa-solid fa-bullseye"></i>
-            <span>MJS Post Navi</span>
+            <!-- ロゴがあるのでアイコンは削除し、テキストのみでシンプルに -->
+            <span>Post Navi</span>
         </div>
         
         <!-- 右端：設定ボタン -->
         <div class="header-actions">
-            <!-- 使い方ボタン追加 -->
+            <!-- 使い方ボタン -->
             <button class="btn" onclick="openHowto()"><i class="fa-solid fa-circle-question"></i></button>
             <button class="btn" onclick="openSettings()"><i class="fa-solid fa-gear"></i></button>
         </div>
@@ -732,129 +863,151 @@
     <!-- Main Content -->
     <main class="container">
         
-        <!-- Tabs -->
-        <nav class="tabs">
-            <button class="tab-btn active" onclick="switchTab('month')">月別</button>
-            <button class="tab-btn" onclick="switchTab('event')">行事</button>
-            <button class="tab-btn" onclick="switchTab('weather')">天候</button>
-        </nav>
+        <div class="main-grid">
+            <!-- Left Column: Inputs -->
+            <div class="left-column">
+                <!-- Tabs -->
+                <nav class="tabs">
+                    <button class="tab-btn active" onclick="switchTab('month')">月別</button>
+                    <button class="tab-btn" onclick="switchTab('event')">行事</button>
+                    <button class="tab-btn" onclick="switchTab('weather')">天候</button>
+                </nav>
 
-        <!-- Input Area -->
-        <section id="input-area" class="card">
-            
-            <!-- Dynamic Tab Content -->
-            <div id="tab-month" class="form-group tab-content">
-                <label class="form-label"><i class="fa-regular fa-calendar"></i> 対象月</label>
-                <select id="input-month" class="input-control">
-                    <option value="" disabled selected>選択してください</option>
-                    <script>
-                        for(let i=1; i<=12; i++) document.write(`<option value="${i}">${i}月</option>`);
-                    </script>
-                </select>
-            </div>
+                <!-- Input Area -->
+                <section id="input-area" class="card">
+                    
+                    <!-- Dynamic Tab Content -->
+                    <div id="tab-month" class="form-group tab-content">
+                        <label class="form-label"><i class="fa-regular fa-calendar"></i> 対象月</label>
+                        <select id="input-month" class="input-control">
+                            <option value="" disabled selected>選択してください</option>
+                            <script>
+                                for(let i=1; i<=12; i++) document.write(`<option value="${i}">${i}月</option>`);
+                            </script>
+                        </select>
+                    </div>
 
-            <div id="tab-event" class="form-group tab-content" style="display:none;">
-                <label class="form-label"><i class="fa-solid fa-champagne-glasses"></i> 行事・イベント</label>
-                <select id="input-event" class="input-control" onchange="checkCustomEvent(this)">
-                    <option value="" disabled selected>選択してください</option>
-                    <option value="ダーツフェア" style="color:#A62C2B; font-weight:bold;">★ダーツフェア</option>
-                    <option value="祝日">祝日・連休</option>
-                    <option value="誕生日">誕生日・記念日</option>
-                    <option value="歓迎会">歓迎会</option>
-                    <option value="送別会">送別会</option>
-                    <option value="忘年会">忘年会</option>
-                    <option value="新年会">新年会</option>
-                    <option value="custom">自由入力...</option>
-                </select>
-                <input type="text" id="input-event-custom" class="input-control" placeholder="例：周年イベント" style="display:none; margin-top:10px;">
-            </div>
+                    <div id="tab-event" class="form-group tab-content" style="display:none;">
+                        <label class="form-label"><i class="fa-solid fa-champagne-glasses"></i> 行事・イベント</label>
+                        <select id="input-event" class="input-control" onchange="checkCustomEvent(this)">
+                            <option value="" disabled selected>選択してください</option>
+                            <option value="ダーツフェア" style="color:#A62C2B; font-weight:bold;">★ダーツフェア</option>
+                            <option value="祝日">祝日・連休</option>
+                            <option value="誕生日">誕生日・記念日</option>
+                            <option value="歓迎会">歓迎会</option>
+                            <option value="送別会">送別会</option>
+                            <option value="忘年会">忘年会</option>
+                            <option value="新年会">新年会</option>
+                            <option value="custom">自由入力...</option>
+                        </select>
+                        <input type="text" id="input-event-custom" class="input-control" placeholder="例：周年イベント" style="display:none; margin-top:10px;">
+                    </div>
 
-            <div id="tab-weather" class="form-group tab-content" style="display:none;">
-                <label class="form-label"><i class="fa-solid fa-cloud-sun"></i> 今日の天気</label>
-                <select id="input-weather" class="input-control">
-                    <option value="" disabled selected>選択してください</option>
-                    <option value="晴れ">晴れ</option>
-                    <option value="雨">雨</option>
-                    <option value="暑い">暑い</option>
-                    <option value="寒い">寒い</option>
-                    <option value="強風">風が強い</option>
-                </select>
-            </div>
+                    <div id="tab-weather" class="form-group tab-content" style="display:none;">
+                        <label class="form-label"><i class="fa-solid fa-cloud-sun"></i> 今日の天気</label>
+                        <select id="input-weather" class="input-control">
+                            <option value="" disabled selected>選択してください</option>
+                            <option value="晴れ">晴れ</option>
+                            <option value="雨">雨</option>
+                            <option value="暑い">暑い</option>
+                            <option value="寒い">寒い</option>
+                            <option value="強風">風が強い</option>
+                        </select>
+                    </div>
 
-            <!-- Common Inputs -->
-            <div class="form-group">
-                <label class="form-label"><i class="fa-solid fa-store"></i> 店舗タイプ</label>
-                <select id="input-store-type" class="input-control">
-                    <option value="bar">バー</option>
-                    <option value="izakaya">居酒屋</option>
-                    <option value="dining">ダイニングバー</option>
-                    <option value="cafe">カフェバー</option>
-                    <option value="other">その他</option>
-                </select>
-            </div>
-
-            <div class="form-group">
+                    <!-- Common Inputs -->
+                    <div class="form-group">
                 <label class="form-label"><i class="fa-solid fa-share-nodes"></i> 投稿先</label>
-                <select id="input-platform" class="input-control">
-                    <option value="instagram">Instagram</option>
-                    <option value="facebook">Facebook</option>
-                    <option value="x">X (Twitter)</option>
-                    <option value="line">LINE公式アカウント</option>
-                    <option value="gmap">Googleマップ</option>
-                </select>
+                <!-- 隠しフィールドで値を保持 -->
+                <input type="hidden" id="input-platform" value="instagram">
+                
+                <!-- アイコン選択ボタン -->
+                <div class="platform-selector">
+                    <button class="platform-btn active" onclick="selectPlatform('instagram')" data-value="instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                        <span>Insta</span>
+                    </button>
+                    <button class="platform-btn" onclick="selectPlatform('facebook')" data-value="facebook">
+                        <i class="fa-brands fa-facebook"></i>
+                        <span>FB</span>
+                    </button>
+                    <!-- 変更箇所：アイコンをやめて文字の「X」を表示 -->
+                    <button class="platform-btn" onclick="selectPlatform('x')" data-value="x">
+                        <span class="x-symbol">X</span>
+                        <span>Twitter</span>
+                    </button>
+                    <button class="platform-btn" onclick="selectPlatform('line')" data-value="line">
+                        <i class="fa-brands fa-line"></i>
+                        <span>LINE</span>
+                    </button>
+                    <button class="platform-btn" onclick="selectPlatform('gmap')" data-value="gmap">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                        <span>Map</span>
+                    </button>
+                </div>
             </div>
 
             <div style="display:flex; gap:12px;">
-                <div class="form-group" style="flex:1;">
-                    <label class="form-label">トーン</label>
-                    <select id="input-tone" class="input-control">
-                        <option value="lively">にぎやか</option>
-                        <option value="gentle">やさしい</option>
-                        <option value="adult">大人</option>
-                        <option value="frank">フランク</option>
-                    </select>
-                </div>
-                <div class="form-group" style="flex:1;">
-                    <label class="form-label">絵文字</label>
-                    <select id="input-emoji" class="input-control">
-                        <option value="high">多め</option>
-                        <option value="medium" selected>ほどほど</option>
-                        <option value="low">少なめ</option>
-                    </select>
-                </div>
-            </div>
+                        <div class="form-group" style="flex:1;">
+                            <label class="form-label">トーン</label>
+                            <select id="input-tone" class="input-control">
+                                <option value="lively">にぎやか</option>
+                                <option value="gentle">やさしい</option>
+                                <option value="adult">大人</option>
+                                <option value="frank">フランク</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="flex:1;">
+                            <label class="form-label">絵文字</label>
+                            <select id="input-emoji" class="input-control">
+                                <option value="high">多め</option>
+                                <option value="medium" selected>ほどほど</option>
+                                <option value="low">少なめ</option>
+                            </select>
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="form-label"><i class="fa-solid fa-bullseye" style="color:var(--primary);"></i> ダーツの出し方</label>
-                <select id="input-darts" class="input-control">
-                    <option value="front">前面に出す（勝負・盛り上がり）</option>
-                    <option value="subtle" selected>さりげなく（会話のきっかけ）</option>
-                    <option value="none">今日は出さない</option>
-                </select>
-            </div>
+                    <div class="form-group">
+                        <label class="form-label"><i class="fa-solid fa-bullseye" style="color:var(--primary);"></i> ダーツの出し方</label>
+                        <select id="input-darts" class="input-control">
+                            <option value="front">前面に出す（勝負・盛り上がり）</option>
+                            <option value="subtle" selected>さりげなく（会話のきっかけ）</option>
+                            <option value="none">今日は出さない</option>
+                        </select>
+                    </div>
 
-            <button class="btn generate-btn" onclick="generatePost()">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> 投稿をつくる
-            </button>
-        </section>
+                    <button class="btn generate-btn" onclick="generatePost()">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> 投稿をつくる
+                    </button>
+                </section>
+            </div><!-- /Left Column -->
 
-        <!-- Output Area -->
-        <section id="output-area" class="card">
-            <h3 style="margin-top:0; font-size:1.1rem; color:var(--primary); border-bottom:1px solid var(--border-color); padding-bottom:12px; margin-bottom:16px;">
-                <i class="fa-solid fa-pen-nib"></i> 生成された投稿
-            </h3>
-            
-            <!-- 投稿文表示エリア -->
-            <div id="output-text" class="result-text" contenteditable="true"></div>
-            
-            <!-- コピーボタン（テキストエリア直下） -->
-            <div class="copy-action-area">
-                <button class="copy-btn-full" onclick="copyToClipboard()">
-                    <i class="fa-regular fa-copy"></i> 投稿文をすべてコピー
-                </button>
-            </div>
+            <!-- Right Column: Output (Sticky) -->
+            <div class="right-column sticky-column">
+                <section id="output-area" class="card" style="min-height: 500px; display: flex; flex-direction: column;">
+                    <h3 style="margin-top:0; font-size:1.1rem; color:var(--primary); border-bottom:1px solid var(--border-color); padding-bottom:12px; margin-bottom:16px;">
+                        <i class="fa-solid fa-pen-nib"></i> 生成された投稿
+                    </h3>
+                    
+                    <!-- プレビュー待機画面 -->
+                    <div id="preview-placeholder" class="preview-placeholder">
+                        <i class="fa-regular fa-file-lines"></i>
+                        <p>左側のフォームから条件を選んで<br>「投稿をつくる」ボタンを押してください</p>
+                    </div>
 
-            <!-- プロ級撮影テクニック（写真/動画タブ切り替え） -->
+                    <!-- 生成後のコンテンツ -->
+                    <div id="generated-content" class="generated-content">
+                        <!-- 投稿文表示エリア -->
+                        <div id="output-text" class="result-text" contenteditable="true"></div>
+                        
+                        <!-- コピーボタン（テキストエリア直下） -->
+                        <div class="copy-action-area">
+                            <button class="copy-btn-full" onclick="copyToClipboard()">
+                                <i class="fa-regular fa-copy"></i> 投稿文をすべてコピー
+                            </button>
+                        </div>
+
+                        <!-- プロ級撮影テクニック（写真/動画タブ切り替え） -->
             <div class="form-label" style="margin-top:10px;">
                 プロ級撮影テクニック <span style="font-weight:normal; font-size:0.75rem; color:var(--primary); border:1px solid var(--primary); padding:2px 6px; border-radius:4px; margin-left:8px;">PREMIUM</span>
             </div>
@@ -891,7 +1044,7 @@
         テスト版（ベータ版） © 2026 SPC
     </footer>
 
-    <!-- Help FAB -->
+    <!-- Help FAB (Updated Style) -->
     <button class="help-fab" onclick="showToast('右上の歯車から設定を行えます')">?</button>
 
     <!-- Howto Modal (New) -->
@@ -950,7 +1103,25 @@
                     </div>
                 </div>
 
-                <!-- Section 2: MJS Link Settings (User Editable) -->
+                <!-- Section 2: Store SNS Accounts (New) -->
+                <div class="setting-section">
+                    <div class="setting-section-title">店舗SNSアカウント設定（投稿末尾に挿入）</div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" style="font-size:0.8rem;"><i class="fa-brands fa-instagram" style="color:var(--primary);"></i> Instagram アカウント</label>
+                        <input type="text" id="setting-sns-insta" class="input-control" placeholder="@your_id" style="padding:10px;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="font-size:0.8rem;"><i class="fa-brands fa-facebook" style="color:var(--primary);"></i> Facebook アカウント名</label>
+                        <input type="text" id="setting-sns-fb" class="input-control" placeholder="IDまたはページ名" style="padding:10px;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="font-size:0.8rem;"><span style="font-weight:900; margin-right:4px; color:var(--primary);">X</span> X (Twitter) アカウント</label>
+                        <input type="text" id="setting-sns-x" class="input-control" placeholder="@your_id" style="padding:10px;">
+                    </div>
+                </div>
+
+                <!-- Section 3: MJS Link Settings (User Editable) -->
                 <div class="setting-section">
                     <div class="setting-section-title">MJSリンク設定（URLを入力）</div>
                     
@@ -972,7 +1143,7 @@
                     </div>
                 </div>
 
-                <!-- Section 3: Data Controls -->
+                <!-- Section 4: Data Controls -->
                 <div class="setting-section" style="border-bottom:none;">
                     <div class="setting-section-title">データ管理</div>
                     <button class="btn" style="width:100%; border:1px solid var(--border-color); color:var(--text-sub); margin-bottom:10px;" onclick="fillDemoData(); closeSettings();">
@@ -1064,27 +1235,48 @@
             customInput.style.display = select.value === 'custom' ? 'block' : 'none';
         }
 
+        // --- Platform Selection Logic ---
+        function selectPlatform(value) {
+            // 値をセット
+            document.getElementById('input-platform').value = value;
+            
+            // ボタンの見た目を更新
+            document.querySelectorAll('.platform-btn').forEach(btn => {
+                if (btn.getAttribute('data-value') === value) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
         // --- Core Logic: Generate Post ---
         function generatePost() {
-            // Get Values
-            const storeType = document.getElementById('input-store-type').value;
-            const platform = document.getElementById('input-platform').value;
-            const tone = document.getElementById('input-tone').value;
-            const emojiDensity = document.getElementById('input-emoji').value;
-            const dartsMode = document.getElementById('input-darts').value;
+            // Helper to safely get value
+            const getVal = (id) => {
+                const el = document.getElementById(id);
+                return el ? el.value : '';
+            };
+
+            // Get Values using safe helper
+            const storeType = getVal('input-store-type');
+            const platform = getVal('input-platform');
+            const tone = getVal('input-tone');
+            const emojiDensity = getVal('input-emoji');
+            const dartsMode = getVal('input-darts');
             
             // Validate specific tab inputs
             let contextText = "";
             let contextType = ""; // for storing context
             
             if (currentTab === 'month') {
-                const month = document.getElementById('input-month').value;
+                const month = getVal('input-month');
                 if (!month) return showError('月を選択してください');
                 contextText = `${month}月ですね。季節の変わり目、いかがお過ごしですか？`;
                 contextType = `${month}月の投稿`;
             } else if (currentTab === 'event') {
-                let evt = document.getElementById('input-event').value;
-                if (evt === 'custom') evt = document.getElementById('input-event-custom').value;
+                let evt = getVal('input-event');
+                if (evt === 'custom') evt = getVal('input-event-custom');
                 if (!evt) return showError('行事を入力してください');
                 
                 if (evt === 'ダーツフェア') {
@@ -1095,7 +1287,7 @@
                     contextType = evt;
                 }
             } else if (currentTab === 'weather') {
-                const weather = document.getElementById('input-weather').value;
+                const weather = getVal('input-weather');
                 if (!weather) return showError('天気を選択してください');
                 contextText = getRandom(phraseBook.weather[weather]) || '今日もお疲れ様です。';
                 contextType = weather;
@@ -1134,17 +1326,35 @@
 
             // Generate Hashtags
             let tags = hashtags[storeType] || '#飲食店';
+            tags += ' #MJS #エム・ジェイ・エス';
             if (dartsMode !== 'none' || contextType === 'ダーツフェア') tags += ' #ダーツ #Darts #ダーツバー';
-            if (currentTab === 'month') tags += ` #${document.getElementById('input-month').value}月`;
+            if (currentTab === 'month') {
+                const m = getVal('input-month');
+                if(m) tags += ` #${m}月`;
+            }
             if (tone === 'adult') tags += ' #隠れ家 #デート';
             if (tone === 'lively') tags += ' #二次会 #パーティ';
 
             // Add tags to full text
             fullText += `\n\n${tags}`;
 
+            // --- Append User SNS Account Signature (if exists) ---
+            const myInsta = getVal('setting-sns-insta');
+            const myX = getVal('setting-sns-x');
+            // Note: Facebook is usually linked by page name, but keeping it simple for now.
+
+            if (platform === 'instagram' && myInsta) {
+                // Remove @ if exists then add
+                const id = myInsta.replace('@', '');
+                fullText += `\n@${id}`;
+            } else if (platform === 'x' && myX) {
+                const id = myX.replace('@', '');
+                fullText += `\n@${id}`;
+            }
+
             // --- MJS Promotion Logic (Dynamic URLs from Settings) ---
-            const mjsSite = document.getElementById('setting-mjs-site').value;
-            const mjsLine = document.getElementById('setting-mjs-line').value;
+            const mjsSite = getVal('setting-mjs-site');
+            const mjsLine = getVal('setting-mjs-line');
             
             // 条件を緩和
             if (dartsMode !== 'none' || contextType === 'ダーツフェア') {
@@ -1302,8 +1512,14 @@
             // Reset Tab to Photo
             switchTipsTab('photo');
 
-            outputArea.style.display = 'block';
-            outputArea.scrollIntoView({behavior: 'smooth', block: 'start'});
+            // 表示切り替え：プレースホルダーを隠し、生成コンテンツを表示
+            document.getElementById('preview-placeholder').style.display = 'none';
+            document.getElementById('generated-content').style.display = 'block';
+
+            // スマホ表示時のみスクロール（PCでは2カラムで見えているため不要だが、念のため）
+            if (window.innerWidth < 900) {
+                document.getElementById('output-area').scrollIntoView({behavior: 'smooth', block: 'start'});
+            }
 
             // Save History
             saveHistoryToStorage({
@@ -1415,12 +1631,28 @@
 
         // --- Storage & History ---
         function saveSettings() {
+            // Helper to get value safely
+            const getVal = (id) => {
+                const el = document.getElementById(id);
+                return el ? el.value : '';
+            };
+            // Helper to get checked safely
+            const getCheck = (id) => {
+                const el = document.getElementById(id);
+                return el ? el.checked : false;
+            };
+
             const settings = {
-                theme: document.getElementById('setting-theme').checked,
-                mjsSite: document.getElementById('setting-mjs-site').value,
-                mjsCase: document.getElementById('setting-mjs-case').value,
-                mjsLine: document.getElementById('setting-mjs-line').value,
-                mjsMap: document.getElementById('setting-mjs-map').value
+                theme: getCheck('setting-theme'),
+                // MJS Links
+                mjsSite: getVal('setting-mjs-site'),
+                mjsCase: getVal('setting-mjs-case'),
+                mjsLine: getVal('setting-mjs-line'),
+                mjsMap: getVal('setting-mjs-map'),
+                // SNS Accounts
+                snsInsta: getVal('setting-sns-insta'),
+                snsFb: getVal('setting-sns-fb'),
+                snsX: getVal('setting-sns-x')
             };
             localStorage.setItem('mjs_settings', JSON.stringify(settings));
         }
@@ -1429,12 +1661,28 @@
             const saved = localStorage.getItem('mjs_settings');
             if (saved) {
                 const s = JSON.parse(saved);
-                document.getElementById('setting-theme').checked = s.theme;
                 
-                document.getElementById('setting-mjs-site').value = s.mjsSite || '';
-                document.getElementById('setting-mjs-case').value = s.mjsCase || '';
-                document.getElementById('setting-mjs-line').value = s.mjsLine || '';
-                document.getElementById('setting-mjs-map').value = s.mjsMap || '';
+                const setCheck = (id, val) => {
+                    const el = document.getElementById(id);
+                    if (el) el.checked = val;
+                };
+                const setVal = (id, val) => {
+                    const el = document.getElementById(id);
+                    if (el) el.value = val || '';
+                };
+
+                setCheck('setting-theme', s.theme);
+                
+                // MJS Links
+                setVal('setting-mjs-site', s.mjsSite);
+                setVal('setting-mjs-case', s.mjsCase);
+                setVal('setting-mjs-line', s.mjsLine);
+                setVal('setting-mjs-map', s.mjsMap);
+                
+                // SNS Accounts
+                setVal('setting-sns-insta', s.snsInsta);
+                setVal('setting-sns-fb', s.snsFb);
+                setVal('setting-sns-x', s.snsX);
 
                 if (s.theme) document.body.setAttribute('data-theme', 'dark');
             }
@@ -1464,8 +1712,17 @@
                     card.className = 'history-card';
                     card.onclick = () => {
                         document.getElementById('output-text').innerText = h.text;
-                        document.getElementById('output-area').style.display = 'block';
-                        document.getElementById('output-area').scrollIntoView({behavior:'smooth'});
+                        
+                        // 履歴クリック時も表示切り替え
+                        document.getElementById('preview-placeholder').style.display = 'none';
+                        document.getElementById('generated-content').style.display = 'block';
+                        
+                        // スマホならスクロール
+                        if (window.innerWidth < 900) {
+                            document.getElementById('output-area').scrollIntoView({behavior:'smooth'});
+                        } else {
+                            // PCなら右カラムを少しハイライトする等の処理も可（今回はシンプルに）
+                        }
                     };
                     card.innerHTML = `
                         <div class="history-content">${h.text}</div>
@@ -1480,25 +1737,51 @@
 
         function fillDemoData() {
             // 店舗情報のデモ
-            document.getElementById('input-store-type').value = 'bar';
-            document.getElementById('input-platform').value = 'instagram';
-            document.getElementById('input-tone').value = 'adult';
-            document.getElementById('input-emoji').value = 'medium';
-            document.getElementById('input-darts').value = 'subtle';
+            const storeType = document.getElementById('input-store-type');
+            if(storeType) storeType.value = 'bar';
             
-            if (currentTab === 'month') document.getElementById('input-month').value = '12';
-            if (currentTab === 'event') {
-                document.getElementById('input-event').value = 'custom';
-                checkCustomEvent(document.getElementById('input-event'));
-                document.getElementById('input-event-custom').value = '3周年記念';
+            // アイコン選択ロジック呼び出しに変更
+            selectPlatform('instagram');
+            
+            const tone = document.getElementById('input-tone');
+            if(tone) tone.value = 'adult';
+            const emoji = document.getElementById('input-emoji');
+            if(emoji) emoji.value = 'medium';
+            const darts = document.getElementById('input-darts');
+            if(darts) darts.value = 'subtle';
+            
+            if (currentTab === 'month') {
+                const m = document.getElementById('input-month');
+                if(m) m.value = '12';
             }
-            if (currentTab === 'weather') document.getElementById('input-weather').value = '雨';
+            if (currentTab === 'event') {
+                const evt = document.getElementById('input-event');
+                if(evt) {
+                    evt.value = 'custom';
+                    checkCustomEvent(evt);
+                }
+                const evtCustom = document.getElementById('input-event-custom');
+                if(evtCustom) evtCustom.value = '3周年記念';
+            }
+            if (currentTab === 'weather') {
+                const w = document.getElementById('input-weather');
+                if(w) w.value = '雨';
+            }
 
-            // MJSリンクのデモデータ
-            document.getElementById('setting-mjs-site').value = 'https://www.mjs-darts.com/';
-            document.getElementById('setting-mjs-case').value = 'https://www.mjs-darts.com/case/';
-            document.getElementById('setting-mjs-line').value = 'https://line.me/R/ti/p/@mjs';
-            document.getElementById('setting-mjs-map').value = 'https://maps.app.goo.gl/dummy';
+            // MJSリンクのデモデータ (Safe Check)
+            const setVal = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.value = val;
+            };
+
+            setVal('setting-mjs-site', 'https://www.mjs-darts.com/');
+            setVal('setting-mjs-case', 'https://www.mjs-darts.com/case/');
+            setVal('setting-mjs-line', 'https://line.me/R/ti/p/@mjs');
+            setVal('setting-mjs-map', 'https://maps.app.goo.gl/dummy');
+            
+            // SNS Demo
+            setVal('setting-sns-insta', '@mjs_darts_sample');
+            setVal('setting-sns-x', '@mjs_sample');
 
             showToast('デモデータを入力しました');
         }

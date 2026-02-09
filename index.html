@@ -18,9 +18,7 @@
             /* Color Palette - Luxury Update */
             --primary: #A62C2B;
             --primary-dark: #7a1f1e;
-            /* よりリッチな深みのあるグラデーション */
             --primary-gradient: linear-gradient(135deg, #A62C2B 0%, #8E201F 100%);
-            /* ロゴ用スペシャルグラデーション（赤→金） */
             --brand-gradient: linear-gradient(135deg, #A62C2B 10%, #D4AF37 90%);
             
             --gold: #D4AF37;
@@ -35,7 +33,7 @@
             --gray-text: #666666;
             
             /* Theme Variables (Light Default) */
-            --bg-body: #F2F2F2; /* 少し明るくしてグラデーションを映えさせる */
+            --bg-body: #F2F2F2;
             --bg-card: #ffffff;
             --text-main: #231815;
             --text-sub: #666666;
@@ -57,7 +55,7 @@
             --glass-bg: rgba(35, 24, 21, 0.85);
             --modal-bg: #231815;
             --shadow-soft: 0 10px 40px -10px rgba(0, 0, 0, 0.6);
-            --brand-gradient: linear-gradient(135deg, #D64D4C 10%, #F3E5AB 90%); /* ダークモード用ロゴ */
+            --brand-gradient: linear-gradient(135deg, #D64D4C 10%, #F3E5AB 90%);
         }
 
         * {
@@ -75,12 +73,10 @@
             transition: background-color 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 0.4s;
             overflow-x: hidden;
             line-height: 1.6;
-            
-            /* 背景グラデーション：上部から淡い光が差し込むような演出 */
             background-image: 
                 radial-gradient(circle at 50% 0%, rgba(166, 44, 43, 0.08) 0%, transparent 60%),
                 linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 100%);
-            background-attachment: fixed; /* スクロールしても背景固定 */
+            background-attachment: fixed;
         }
 
         /* --- UI Utilities --- */
@@ -89,7 +85,7 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03); /* ガラス感を強調する影 */
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
         }
 
         .container {
@@ -98,7 +94,6 @@
             margin: 0 auto;
         }
 
-        /* 2カラムレイアウト用グリッド（PC/タブレット用） */
         .main-grid {
             display: grid;
             gap: 24px;
@@ -150,7 +145,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 80px; /* 変更：70px -> 80px に拡大 */
+            height: 80px;
             z-index: 100;
             display: flex;
             align-items: center;
@@ -163,16 +158,14 @@
         .header-logo-area {
             display: flex;
             align-items: center;
-            z-index: 102; /* タイトルより手前に */
+            z-index: 102;
         }
 
         .header-logo-img {
-            height: 60px; /* 変更：48px -> 60px に拡大 */
+            height: 60px;
             width: auto;
             object-fit: contain;
             display: block;
-            
-            /* 背景透過処理 */
             mix-blend-mode: multiply;
             filter: contrast(1.05) brightness(1.02);
         }
@@ -180,7 +173,7 @@
             mix-blend-mode: normal;
             filter: brightness(0.9);
             border-radius: 4px;
-            background: rgba(255,255,255,0.9); /* ダークモード時は白背景を敷いて視認性確保 */
+            background: rgba(255,255,255,0.9);
             padding: 2px;
         }
 
@@ -194,15 +187,12 @@
             align-items: center;
             gap: 8px;
             font-weight: 800;
-            font-size: 1.4rem; /* サイズ調整 */
-            
-            /* グラデーションテキスト */
+            font-size: 1.4rem;
             background: var(--brand-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             color: transparent;
-            
             white-space: nowrap;
             z-index: 101;
             cursor: pointer;
@@ -225,20 +215,20 @@
 
         .header-actions button {
             background: transparent;
-            color: var(--text-sub); /* 少し落ち着いた色に */
+            color: var(--text-sub);
             font-size: 1.3rem;
             padding: 8px;
             transition: color 0.2s;
         }
         .header-actions button:hover {
-            color: var(--primary); /* ホバー時に色付く */
+            color: var(--primary);
         }
 
         .header-spacer {
-            height: 100px; /* 変更：ヘッダー拡大に合わせて 90px -> 100px */
+            height: 100px;
         }
 
-        /* --- Tab Navigation (Floating Style) --- */
+        /* --- Tab Navigation --- */
         .tabs {
             display: flex;
             background: var(--bg-card);
@@ -264,13 +254,12 @@
         }
 
         .tab-btn.active {
-            /* グラデーション背景に変更 */
             background: var(--primary-gradient);
             color: var(--white);
             box-shadow: 0 4px 15px rgba(166, 44, 43, 0.4);
         }
 
-        /* Sub Tabs for Tips */
+        /* Sub Tabs */
         .sub-tabs {
             display: flex;
             background: var(--input-bg);
@@ -293,7 +282,6 @@
         }
         .sub-tab-btn.active {
             background: var(--white);
-            /* テキストにグラデーション */
             background-image: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -337,7 +325,7 @@
             box-shadow: 0 0 0 3px rgba(166, 44, 43, 0.1);
         }
 
-        /* Platform Selector Icons */
+        /* Platform Selector */
         .platform-selector {
             display: flex;
             gap: 10px;
@@ -365,10 +353,9 @@
             transition: color 0.2s;
         }
         
-        /* 変更：Xアイコン用（テキストで表現）のスタイル */
         .x-symbol {
-            font-size: 1.8rem; /* 他のアイコンより少し大きく */
-            font-weight: 900;  /* 極太にして存在感を出す */
+            font-size: 1.8rem;
+            font-weight: 900;
             font-family: "Arial", sans-serif;
             line-height: 1;
             margin-bottom: 2px;
@@ -378,7 +365,7 @@
         .platform-btn span {
             font-size: 0.65rem;
             font-weight: 700;
-            z-index: 1; /* アイコンより手前に */
+            z-index: 1;
         }
 
         .platform-btn:hover {
@@ -406,7 +393,6 @@
             width: 100%;
             padding: 20px;
             font-size: 1.1rem;
-            /* グラデーション背景 */
             background: var(--primary-gradient);
             color: white;
             box-shadow: 0 10px 30px rgba(166, 44, 43, 0.3);
@@ -456,7 +442,6 @@
             font-size: 3.5rem;
             margin-bottom: 20px;
             color: #d1d1d1;
-            /* アイコンにも微細なグラデーション */
             background: linear-gradient(to bottom, #d1d1d1, #e0e0e0);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -493,7 +478,6 @@
             width: 100%;
             padding: 14px;
             font-size: 1rem;
-            /* グラデーション背景 */
             background: var(--primary-gradient);
             color: white;
             border: none;
@@ -559,7 +543,7 @@
             margin-bottom: 4px;
         }
         .photo-chip-point {
-            background: rgba(166, 44, 43, 0.05); /* より薄く上品に */
+            background: rgba(166, 44, 43, 0.05);
             color: var(--primary);
             padding: 10px 14px;
             border-radius: 10px;
@@ -569,7 +553,7 @@
             display: flex;
             align-items: flex-start;
             gap: 8px;
-            border-left: 3px solid var(--primary); /* 左線で強調 */
+            border-left: 3px solid var(--primary);
         }
 
         .action-row {
@@ -660,7 +644,7 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s;
-            backdrop-filter: blur(6px); /* ぼかしを強める */
+            backdrop-filter: blur(6px);
             padding-bottom: 20px;
         }
 
@@ -681,7 +665,7 @@
             transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
             display: flex;
             flex-direction: column;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); /* 影を深くして浮遊感を強調 */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
         .modal-overlay.open .modal-content {
@@ -746,7 +730,6 @@
             bottom: 40px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            /* トーストもグラデーション */
             background: linear-gradient(135deg, #231815 0%, #3a3a3a 100%);
             color: #fff;
             padding: 14px 28px;
@@ -767,7 +750,7 @@
             opacity: 1;
         }
 
-        /* Floating Action Button (Help) - グラデーションボーダー */
+        /* Floating Action Button (Help) */
         .help-fab {
             position: fixed;
             bottom: 24px;
@@ -968,10 +951,22 @@
                     </div>
 
                     <div class="form-group">
+                        <label class="form-label"><i class="fa-solid fa-store"></i> 店舗タイプ</label>
+                        <select id="input-store-type" class="input-control">
+                            <option value="bar">バー</option>
+                            <option value="izakaya">居酒屋</option>
+                            <option value="dining">ダイニングバー</option>
+                            <option value="cafe">カフェバー</option>
+                            <option value="other">その他</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label class="form-label"><i class="fa-solid fa-bullseye" style="color:var(--primary);"></i> ダーツの出し方</label>
                         <select id="input-darts" class="input-control">
                             <option value="front">前面に出す（勝負・盛り上がり）</option>
-                            <option value="subtle" selected>さりげなく（会話のきっかけ）</option>
+                            <option value="subtle">さりげなく（会話のきっかけ）</option>
+                            <option value="mjs_concept" style="color:#A62C2B; font-weight:bold;">★MJSコンセプト（遊べるバー化）</option>
                             <option value="none">今日は出さない</option>
                         </select>
                     </div>
@@ -986,7 +981,7 @@
             <div class="right-column sticky-column">
                 <section id="output-area" class="card" style="min-height: 500px; display: flex; flex-direction: column;">
                     <h3 style="margin-top:0; font-size:1.1rem; color:var(--primary); border-bottom:1px solid var(--border-color); padding-bottom:12px; margin-bottom:16px;">
-                        <i class="fa-solid fa-pen-nib"></i> 生成された投稿
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> ✨ 素晴らしい投稿が完成しました！
                     </h3>
                     
                     <!-- プレビュー待機画面 -->
@@ -1197,6 +1192,13 @@
                     gentle: 'お話の合間に、1ゲームだけ投げるのも粋な時間。',
                     adult:  '背景にダーツの音。それもまた、バーのBGM。',
                     frank:  'ダーツもあるから、気が向いたら投げてみてね。'
+                },
+                // 追加：MJSコンセプト中心
+                mjs_concept: {
+                    lively: '🎯 お店を「遊べるバー」にアップデート！MJSのダーツ導入で、お客様の笑顔と滞在時間がもっと増える予感✨',
+                    gentle: '🎯 ダーツ導入で、お店に新しい「楽しさ」をプラスしませんか？MJSはマシンだけでなく、居心地の良い空間作りもお手伝いします。',
+                    adult:  '🎯 上質な空間に「大人の遊び心」を。MJSが提供するのは単なるマシンではなく、選ばれるお店になるための『繁盛のノウハウ』です。',
+                    frank:  '🎯 ダーツ置いたらお店がもっと面白くなる！「遊べるお店」ってやっぱり強いよね。MJSならノウハウごと導入できるよ！'
                 }
             }
         };
@@ -1252,31 +1254,25 @@
 
         // --- Core Logic: Generate Post ---
         function generatePost() {
-            // Helper to safely get value
-            const getVal = (id) => {
-                const el = document.getElementById(id);
-                return el ? el.value : '';
-            };
-
-            // Get Values using safe helper
-            const storeType = getVal('input-store-type');
-            const platform = getVal('input-platform');
-            const tone = getVal('input-tone');
-            const emojiDensity = getVal('input-emoji');
-            const dartsMode = getVal('input-darts');
+            // Get Values
+            const storeType = document.getElementById('input-store-type').value;
+            const platform = document.getElementById('input-platform').value;
+            const tone = document.getElementById('input-tone').value;
+            const emojiDensity = document.getElementById('input-emoji').value;
+            const dartsMode = document.getElementById('input-darts').value;
             
             // Validate specific tab inputs
             let contextText = "";
             let contextType = ""; // for storing context
             
             if (currentTab === 'month') {
-                const month = getVal('input-month');
+                const month = document.getElementById('input-month').value;
                 if (!month) return showError('月を選択してください');
                 contextText = `${month}月ですね。季節の変わり目、いかがお過ごしですか？`;
                 contextType = `${month}月の投稿`;
             } else if (currentTab === 'event') {
-                let evt = getVal('input-event');
-                if (evt === 'custom') evt = getVal('input-event-custom');
+                let evt = document.getElementById('input-event').value;
+                if (evt === 'custom') evt = document.getElementById('input-event-custom').value;
                 if (!evt) return showError('行事を入力してください');
                 
                 if (evt === 'ダーツフェア') {
@@ -1287,7 +1283,7 @@
                     contextType = evt;
                 }
             } else if (currentTab === 'weather') {
-                const weather = getVal('input-weather');
+                const weather = document.getElementById('input-weather').value;
                 if (!weather) return showError('天気を選択してください');
                 contextText = getRandom(phraseBook.weather[weather]) || '今日もお疲れ様です。';
                 contextType = weather;
@@ -1328,10 +1324,7 @@
             let tags = hashtags[storeType] || '#飲食店';
             tags += ' #MJS #エム・ジェイ・エス';
             if (dartsMode !== 'none' || contextType === 'ダーツフェア') tags += ' #ダーツ #Darts #ダーツバー';
-            if (currentTab === 'month') {
-                const m = getVal('input-month');
-                if(m) tags += ` #${m}月`;
-            }
+            if (currentTab === 'month') tags += ` #${document.getElementById('input-month').value}月`;
             if (tone === 'adult') tags += ' #隠れ家 #デート';
             if (tone === 'lively') tags += ' #二次会 #パーティ';
 
@@ -1339,8 +1332,8 @@
             fullText += `\n\n${tags}`;
 
             // --- Append User SNS Account Signature (if exists) ---
-            const myInsta = getVal('setting-sns-insta');
-            const myX = getVal('setting-sns-x');
+            const myInsta = document.getElementById('setting-sns-insta').value;
+            const myX = document.getElementById('setting-sns-x').value;
             // Note: Facebook is usually linked by page name, but keeping it simple for now.
 
             if (platform === 'instagram' && myInsta) {
@@ -1353,19 +1346,34 @@
             }
 
             // --- MJS Promotion Logic (Dynamic URLs from Settings) ---
-            const mjsSite = getVal('setting-mjs-site');
-            const mjsLine = getVal('setting-mjs-line');
+            const mjsSite = document.getElementById('setting-mjs-site').value;
+            const mjsLine = document.getElementById('setting-mjs-line').value;
             
-            // 条件を緩和
+            // 条件を緩和（dartsMode !== 'none' で mjs_concept も含まれる）
             if (dartsMode !== 'none' || contextType === 'ダーツフェア') {
                 if (mjsSite || mjsLine) {
-                    fullText += `\n\n----------------\n🎯 ダーツマシン導入について`;
+                    // MJS Philosophy & Catch Copy
+                    const mjsPhilosophy = [
+                        "ダーツ導入でお店を「遊べるバー」に。\nお貸しするのは、マシンではなく『繁盛のノウハウ』。",
+                        "お店に「遊べる」価値をプラス。\nMJSが提供するのは、マシンと『繁盛のノウハウ』です。",
+                        "ただの導入ではありません。\nお店を「遊べるバー」に変える、『繁盛のノウハウ』を提供します。"
+                    ];
+                    
+                    // コンセプト選択時は特定のメッセージを優先、それ以外はランダム
+                    let selectedPhilosophy = "";
+                    if (dartsMode === 'mjs_concept') {
+                         selectedPhilosophy = "【店舗オーナー様へ】\nダーツ導入でお店を「遊べるバー」に進化させませんか？\nMJSがお貸しするのは、マシンではなく『繁盛のノウハウ』そのものです。";
+                    } else {
+                         selectedPhilosophy = mjsPhilosophy[Math.floor(Math.random() * mjsPhilosophy.length)];
+                    }
+
+                    fullText += `\n\n----------------\n🎯 ダーツマシン導入・開業支援\n\n${selectedPhilosophy}`;
                     
                     if (platform === 'instagram') {
-                        fullText += `\n\n気になった方はプロフィールのリンク、\nまたはWEBで「MJS ダーツ」と検索してください🔍`;
+                        fullText += `\n\n導入の詳細はプロフィールのリンク、\nまたはWEBで「MJS ダーツ」と検索してください🔍`;
                     } else {
                         if (mjsSite) fullText += `\n\n🌐 MJS公式サイト\n${mjsSite}`;
-                        if (mjsLine) fullText += `\n\n💬 ご相談はLINEから\n${mjsLine}`;
+                        if (mjsLine) fullText += `\n\n💬 開業・導入のご相談はLINEから\n${mjsLine}`;
                     }
                 }
             }
@@ -1631,28 +1639,16 @@
 
         // --- Storage & History ---
         function saveSettings() {
-            // Helper to get value safely
-            const getVal = (id) => {
-                const el = document.getElementById(id);
-                return el ? el.value : '';
-            };
-            // Helper to get checked safely
-            const getCheck = (id) => {
-                const el = document.getElementById(id);
-                return el ? el.checked : false;
-            };
-
             const settings = {
-                theme: getCheck('setting-theme'),
-                // MJS Links
-                mjsSite: getVal('setting-mjs-site'),
-                mjsCase: getVal('setting-mjs-case'),
-                mjsLine: getVal('setting-mjs-line'),
-                mjsMap: getVal('setting-mjs-map'),
+                theme: document.getElementById('setting-theme').checked,
+                mjsSite: document.getElementById('setting-mjs-site').value,
+                mjsCase: document.getElementById('setting-mjs-case').value,
+                mjsLine: document.getElementById('setting-mjs-line').value,
+                mjsMap: document.getElementById('setting-mjs-map').value,
                 // SNS Accounts
-                snsInsta: getVal('setting-sns-insta'),
-                snsFb: getVal('setting-sns-fb'),
-                snsX: getVal('setting-sns-x')
+                snsInsta: document.getElementById('setting-sns-insta').value,
+                snsFb: document.getElementById('setting-sns-fb').value,
+                snsX: document.getElementById('setting-sns-x').value
             };
             localStorage.setItem('mjs_settings', JSON.stringify(settings));
         }
@@ -1661,28 +1657,17 @@
             const saved = localStorage.getItem('mjs_settings');
             if (saved) {
                 const s = JSON.parse(saved);
+                document.getElementById('setting-theme').checked = s.theme;
                 
-                const setCheck = (id, val) => {
-                    const el = document.getElementById(id);
-                    if (el) el.checked = val;
-                };
-                const setVal = (id, val) => {
-                    const el = document.getElementById(id);
-                    if (el) el.value = val || '';
-                };
-
-                setCheck('setting-theme', s.theme);
+                document.getElementById('setting-mjs-site').value = s.mjsSite || '';
+                document.getElementById('setting-mjs-case').value = s.mjsCase || '';
+                document.getElementById('setting-mjs-line').value = s.mjsLine || '';
+                document.getElementById('setting-mjs-map').value = s.mjsMap || '';
                 
-                // MJS Links
-                setVal('setting-mjs-site', s.mjsSite);
-                setVal('setting-mjs-case', s.mjsCase);
-                setVal('setting-mjs-line', s.mjsLine);
-                setVal('setting-mjs-map', s.mjsMap);
-                
-                // SNS Accounts
-                setVal('setting-sns-insta', s.snsInsta);
-                setVal('setting-sns-fb', s.snsFb);
-                setVal('setting-sns-x', s.snsX);
+                // Load SNS Accounts
+                document.getElementById('setting-sns-insta').value = s.snsInsta || '';
+                document.getElementById('setting-sns-fb').value = s.snsFb || '';
+                document.getElementById('setting-sns-x').value = s.snsX || '';
 
                 if (s.theme) document.body.setAttribute('data-theme', 'dark');
             }
@@ -1768,20 +1753,15 @@
                 if(w) w.value = '雨';
             }
 
-            // MJSリンクのデモデータ (Safe Check)
-            const setVal = (id, val) => {
-                const el = document.getElementById(id);
-                if (el) el.value = val;
-            };
-
-            setVal('setting-mjs-site', 'https://www.mjs-darts.com/');
-            setVal('setting-mjs-case', 'https://www.mjs-darts.com/case/');
-            setVal('setting-mjs-line', 'https://line.me/R/ti/p/@mjs');
-            setVal('setting-mjs-map', 'https://maps.app.goo.gl/dummy');
+            // MJSリンクのデモデータ
+            document.getElementById('setting-mjs-site').value = 'https://www.mjs-darts.com/';
+            document.getElementById('setting-mjs-case').value = 'https://www.mjs-darts.com/case/';
+            document.getElementById('setting-mjs-line').value = 'https://line.me/R/ti/p/@mjs';
+            document.getElementById('setting-mjs-map').value = 'https://maps.app.goo.gl/dummy';
             
             // SNS Demo
-            setVal('setting-sns-insta', '@mjs_darts_sample');
-            setVal('setting-sns-x', '@mjs_sample');
+            document.getElementById('setting-sns-insta').value = '@mjs_darts_sample';
+            document.getElementById('setting-sns-x').value = '@mjs_sample';
 
             showToast('デモデータを入力しました');
         }

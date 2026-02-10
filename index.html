@@ -8,22 +8,24 @@
     <!-- Fonts: Noto Sans JP -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
     
     <!-- Icons: Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            /* Color Palette - Luxury Update */
+            /* Color Palette - Luxury Update (Insta-style Brown Gradient) */
             --primary: #A62C2B;
-            --primary-dark: #7a1f1e;
-            --primary-gradient: linear-gradient(135deg, #A62C2B 0%, #8E201F 100%);
-            --brand-gradient: linear-gradient(135deg, #A62C2B 10%, #D4AF37 90%);
+            --primary-dark: #5e1b1b;
+            
+            /* Instagram風 茶系グラデーション: 深い焦げ茶 -> 赤茶 -> オレンジゴールド */
+            --primary-gradient: linear-gradient(45deg, #4A1915 0%, #A62C2B 50%, #D49037 100%);
+            
+            /* ブランドロゴ用グラデーション */
+            --brand-gradient: linear-gradient(to right, #4A1915 0%, #A62C2B 40%, #D4AF37 100%);
             
             --gold: #D4AF37;
-            --gold-light: #F3E5AB;
-            --gold-gradient: linear-gradient(135deg, #D4AF37 0%, #AA8A26 100%);
             
             /* Base Colors */
             --dark: #231815;
@@ -33,29 +35,29 @@
             --gray-text: #666666;
             
             /* Theme Variables (Light Default) */
-            --bg-body: #F2F2F2;
+            --bg-body: #F8F5F2; /* ほんのり温かみのあるグレー */
             --bg-card: #ffffff;
             --text-main: #231815;
             --text-sub: #666666;
-            --border-color: #e0e0e0;
-            --input-bg: #f9f9f9;
-            --glass-bg: rgba(255, 255, 255, 0.85);
+            --border-color: #e0d8d0;
+            --input-bg: #fcfcfc;
+            --glass-bg: rgba(255, 255, 255, 0.90);
             --modal-bg: #ffffff;
-            --shadow-soft: 0 10px 40px -10px rgba(35, 24, 21, 0.15);
-            --shadow-sharp: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-soft: 0 10px 30px -10px rgba(74, 25, 21, 0.1);
+            --shadow-sharp: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         [data-theme="dark"] {
-            --bg-body: #120c0b;
+            --bg-body: #1a1514;
             --bg-card: #231815;
             --text-main: #ECECEC;
             --text-sub: #aaaaaa;
             --border-color: #3e2b26;
             --input-bg: #2d201d;
-            --glass-bg: rgba(35, 24, 21, 0.85);
+            --glass-bg: rgba(35, 24, 21, 0.95);
             --modal-bg: #231815;
             --shadow-soft: 0 10px 40px -10px rgba(0, 0, 0, 0.6);
-            --brand-gradient: linear-gradient(135deg, #D64D4C 10%, #F3E5AB 90%);
+            --brand-gradient: linear-gradient(to right, #D64D4C 0%, #F3E5AB 100%);
         }
 
         * {
@@ -73,17 +75,13 @@
             transition: background-color 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 0.4s;
             overflow-x: hidden;
             line-height: 1.6;
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(166, 44, 43, 0.08) 0%, transparent 60%),
-                linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 100%);
-            background-attachment: fixed;
         }
 
         /* --- UI Utilities --- */
         .glass {
             background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255,255,255,0.1);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
         }
@@ -94,6 +92,7 @@
             margin: 0 auto;
         }
 
+        /* 2カラムレイアウト */
         .main-grid {
             display: grid;
             gap: 24px;
@@ -106,7 +105,7 @@
             }
             .sticky-column {
                 position: sticky;
-                top: 90px;
+                top: 100px;
             }
         }
 
@@ -154,7 +153,6 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.03);
         }
 
-        /* 左端のロゴ画像エリア */
         .header-logo-area {
             display: flex;
             align-items: center;
@@ -177,7 +175,6 @@
             padding: 2px;
         }
 
-        /* 中央のアプリタイトル */
         .app-brand {
             position: absolute;
             left: 50%;
@@ -188,21 +185,18 @@
             gap: 8px;
             font-weight: 800;
             font-size: 1.4rem;
+            
+            /* 高級感のあるグラデーションテキスト */
             background: var(--brand-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             color: transparent;
+            
             white-space: nowrap;
             z-index: 101;
             cursor: pointer;
             letter-spacing: 0.05em;
-        }
-        
-        .app-brand span {
-            background: inherit;
-            -webkit-background-clip: text;
-            background-clip: text;
         }
 
         .header-actions {
@@ -254,6 +248,7 @@
         }
 
         .tab-btn.active {
+            /* グラデーションボタン */
             background: var(--primary-gradient);
             color: var(--white);
             box-shadow: 0 4px 15px rgba(166, 44, 43, 0.4);
@@ -282,9 +277,7 @@
         }
         .sub-tab-btn.active {
             background: var(--white);
-            background-image: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary);
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
@@ -402,6 +395,7 @@
             position: relative;
             overflow: hidden;
             transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 700;
         }
         
         .generate-btn:hover {
@@ -629,7 +623,7 @@
             font-size: 0.7rem;
         }
 
-        /* --- Modal (Settings & Howto) --- */
+        /* --- Modal --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -730,7 +724,7 @@
             bottom: 40px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: linear-gradient(135deg, #231815 0%, #3a3a3a 100%);
+            background: var(--primary-gradient); /* トーストもグラデーション */
             color: #fff;
             padding: 14px 28px;
             border-radius: 50px;
@@ -750,7 +744,7 @@
             opacity: 1;
         }
 
-        /* Floating Action Button (Help) */
+        /* Floating Action Button (Help) - グラデーションボーダー */
         .help-fab {
             position: fixed;
             bottom: 24px;
@@ -830,7 +824,6 @@
 
         <!-- 中央：アプリタイトル（Post Navi） -->
         <div class="app-brand" onclick="location.reload()">
-            <!-- ロゴがあるのでアイコンは削除し、テキストのみでシンプルに -->
             <span>Post Navi</span>
         </div>
         
@@ -851,9 +844,9 @@
             <div class="left-column">
                 <!-- Tabs -->
                 <nav class="tabs">
-                    <button class="tab-btn active" onclick="switchTab('month')">月別</button>
-                    <button class="tab-btn" onclick="switchTab('event')">行事</button>
-                    <button class="tab-btn" onclick="switchTab('weather')">天候</button>
+                    <button class="tab-btn active" onclick="switchTab('month')">提案時期</button>
+                    <button class="tab-btn" onclick="switchTab('event')">経営課題</button>
+                    <button class="tab-btn" onclick="switchTab('weather')">アプローチ</button>
                 </nav>
 
                 <!-- Input Area -->
@@ -861,7 +854,7 @@
                     
                     <!-- Dynamic Tab Content -->
                     <div id="tab-month" class="form-group tab-content">
-                        <label class="form-label"><i class="fa-regular fa-calendar"></i> 対象月</label>
+                        <label class="form-label"><i class="fa-regular fa-calendar"></i> 提案時期（月）</label>
                         <select id="input-month" class="input-control">
                             <option value="" disabled selected>選択してください</option>
                             <script>
@@ -871,40 +864,34 @@
                     </div>
 
                     <div id="tab-event" class="form-group tab-content" style="display:none;">
-                        <label class="form-label"><i class="fa-solid fa-champagne-glasses"></i> 行事・イベント</label>
+                        <label class="form-label"><i class="fa-solid fa-champagne-glasses"></i> 解決したい課題</label>
                         <select id="input-event" class="input-control" onchange="checkCustomEvent(this)">
                             <option value="" disabled selected>選択してください</option>
-                            <option value="ダーツフェア" style="color:#A62C2B; font-weight:bold;">★ダーツフェア</option>
-                            <option value="祝日">祝日・連休</option>
-                            <option value="誕生日">誕生日・記念日</option>
-                            <option value="歓迎会">歓迎会</option>
-                            <option value="送別会">送別会</option>
-                            <option value="忘年会">忘年会</option>
-                            <option value="新年会">新年会</option>
+                            <option value="客単価">客単価アップ</option>
+                            <option value="新規集客">新規集客・話題作り</option>
+                            <option value="滞在時間">滞在時間延長</option>
+                            <option value="二次会">二次会・団体需要</option>
+                            <option value="開業">開業・リニューアル</option>
                             <option value="custom">自由入力...</option>
                         </select>
-                        <input type="text" id="input-event-custom" class="input-control" placeholder="例：周年イベント" style="display:none; margin-top:10px;">
+                        <input type="text" id="input-event-custom" class="input-control" placeholder="例：デッドスペース活用" style="display:none; margin-top:10px;">
                     </div>
 
                     <div id="tab-weather" class="form-group tab-content" style="display:none;">
-                        <label class="form-label"><i class="fa-solid fa-cloud-sun"></i> 今日の天気</label>
+                        <label class="form-label"><i class="fa-solid fa-cloud-sun"></i> アプローチの状況</label>
                         <select id="input-weather" class="input-control">
                             <option value="" disabled selected>選択してください</option>
-                            <option value="晴れ">晴れ</option>
-                            <option value="雨">雨</option>
-                            <option value="暑い">暑い</option>
-                            <option value="寒い">寒い</option>
-                            <option value="強風">風が強い</option>
+                            <option value="晴れ">晴れ（外出日和）</option>
+                            <option value="雨">雨（足元悪い）</option>
+                            <option value="閑散期">閑散期・アイドルタイム</option>
+                            <option value="週末">週末・繁忙日</option>
                         </select>
                     </div>
 
-                    <!-- Common Inputs -->
+                    <!-- Common Inputs (Refined for BtoB) -->
                     <div class="form-group">
-                <label class="form-label"><i class="fa-solid fa-share-nodes"></i> 投稿先</label>
-                <!-- 隠しフィールドで値を保持 -->
+                <label class="form-label"><i class="fa-solid fa-share-nodes"></i> 投稿先SNS</label>
                 <input type="hidden" id="input-platform" value="instagram">
-                
-                <!-- アイコン選択ボタン -->
                 <div class="platform-selector">
                     <button class="platform-btn active" onclick="selectPlatform('instagram')" data-value="instagram">
                         <i class="fa-brands fa-instagram"></i>
@@ -914,7 +901,6 @@
                         <i class="fa-brands fa-facebook"></i>
                         <span>FB</span>
                     </button>
-                    <!-- 変更箇所：アイコンをやめて文字の「X」を表示 -->
                     <button class="platform-btn" onclick="selectPlatform('x')" data-value="x">
                         <span class="x-symbol">X</span>
                         <span>Twitter</span>
@@ -932,42 +918,33 @@
 
             <div style="display:flex; gap:12px;">
                         <div class="form-group" style="flex:1;">
-                            <label class="form-label">トーン</label>
-                            <select id="input-tone" class="input-control">
-                                <option value="lively">にぎやか</option>
-                                <option value="gentle">やさしい</option>
-                                <option value="adult">大人</option>
-                                <option value="frank">フランク</option>
+                            <label class="form-label">ターゲット業態</label>
+                            <select id="input-store-type" class="input-control">
+                                <option value="bar">バー・パブ</option>
+                                <option value="izakaya">居酒屋・ダイニング</option>
+                                <option value="cafe">カフェ・漫画喫茶</option>
+                                <option value="amusement">アミューズメント</option>
+                                <option value="hotel">ホテル・旅館</option>
                             </select>
                         </div>
                         <div class="form-group" style="flex:1;">
-                            <label class="form-label">絵文字</label>
-                            <select id="input-emoji" class="input-control">
-                                <option value="high">多め</option>
-                                <option value="medium" selected>ほどほど</option>
-                                <option value="low">少なめ</option>
+                            <label class="form-label">トーン</label>
+                            <select id="input-tone" class="input-control">
+                                <option value="reliable">信頼・実績</option>
+                                <option value="passionate">情熱・熱血</option>
+                                <option value="logical">論理的・メリット</option>
+                                <option value="friendly">親しみ・パートナー</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label"><i class="fa-solid fa-store"></i> 店舗タイプ</label>
-                        <select id="input-store-type" class="input-control">
-                            <option value="bar">バー</option>
-                            <option value="izakaya">居酒屋</option>
-                            <option value="dining">ダイニングバー</option>
-                            <option value="cafe">カフェバー</option>
-                            <option value="other">その他</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label"><i class="fa-solid fa-bullseye" style="color:var(--primary);"></i> ダーツの出し方</label>
+                        <label class="form-label"><i class="fa-solid fa-bullseye" style="color:var(--primary);"></i> 訴求ポイント</label>
                         <select id="input-darts" class="input-control">
-                            <option value="front">前面に出す（勝負・盛り上がり）</option>
-                            <option value="subtle">さりげなく（会話のきっかけ）</option>
-                            <option value="mjs_concept" style="color:#A62C2B; font-weight:bold;">★MJSコンセプト（遊べるバー化）</option>
-                            <option value="none">今日は出さない</option>
+                            <option value="sales">売上・収益性</option>
+                            <option value="attract">集客・話題性</option>
+                            <option value="repeat">リピート・コミュニティ</option>
+                            <option value="startup">低リスク開業</option>
                         </select>
                     </div>
 
@@ -995,31 +972,33 @@
                         <!-- 投稿文表示エリア -->
                         <div id="output-text" class="result-text" contenteditable="true"></div>
                         
-                        <!-- コピーボタン（テキストエリア直下） -->
+                        <!-- コピーボタン -->
                         <div class="copy-action-area">
                             <button class="copy-btn-full" onclick="copyToClipboard()">
                                 <i class="fa-regular fa-copy"></i> 投稿文をすべてコピー
                             </button>
                         </div>
 
-                        <!-- プロ級撮影テクニック（写真/動画タブ切り替え） -->
-            <div class="form-label" style="margin-top:10px;">
-                プロ級撮影テクニック <span style="font-weight:normal; font-size:0.75rem; color:var(--primary); border:1px solid var(--primary); padding:2px 6px; border-radius:4px; margin-left:8px;">PREMIUM</span>
-            </div>
+                        <!-- BtoB用 Tips -->
+                        <div class="form-label" style="margin-top:10px;">
+                            BtoB向け撮影・活用ノウハウ <span style="font-weight:normal; font-size:0.75rem; color:var(--primary); border:1px solid var(--primary); padding:2px 6px; border-radius:4px; margin-left:8px;">Tips</span>
+                        </div>
 
-            <div class="sub-tabs">
-                <button class="sub-tab-btn active" onclick="switchTipsTab('photo')"><i class="fa-solid fa-camera"></i> 写真</button>
-                <button class="sub-tab-btn" onclick="switchTipsTab('video')"><i class="fa-solid fa-video"></i> 動画</button>
-            </div>
+                        <div class="sub-tabs">
+                            <button class="sub-tab-btn active" onclick="switchTipsTab('photo')"><i class="fa-solid fa-camera"></i> 写真</button>
+                            <button class="sub-tab-btn" onclick="switchTipsTab('video')"><i class="fa-solid fa-video"></i> 動画</button>
+                        </div>
 
-            <div id="tips-content-photo" class="photo-suggestions">
-                <!-- JS inserted (Photo) -->
-            </div>
-            <div id="tips-content-video" class="photo-suggestions" style="display:none;">
-                <!-- JS inserted (Video) -->
-            </div>
-
-        </section>
+                        <div id="tips-content-photo" class="photo-suggestions">
+                            <!-- JS inserted (Photo) -->
+                        </div>
+                        <div id="tips-content-video" class="photo-suggestions" style="display:none;">
+                            <!-- JS inserted (Video) -->
+                        </div>
+                    </div>
+                </section>
+            </div><!-- /Right Column -->
+        </div><!-- /Main Grid -->
 
         <!-- History Area -->
         <section class="history-section">
@@ -1039,7 +1018,7 @@
         テスト版（ベータ版） © 2026 SPC
     </footer>
 
-    <!-- Help FAB (Updated Style) -->
+    <!-- Help FAB -->
     <button class="help-fab" onclick="showToast('右上の歯車から設定を行えます')">?</button>
 
     <!-- Howto Modal (New) -->
@@ -1052,22 +1031,17 @@
             <div style="padding: 24px; overflow-y: auto;">
                 <div class="setting-section-title">このアプリの目的</div>
                 <ul style="padding-left: 20px; color: var(--text-main); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.8;">
-                    <li>SNS投稿で「何を書こう…」と迷う時間を減らすためのナビです</li>
-                    <li>月・行事・天候から、今日に合う投稿をすぐ作れます</li>
-                    <li>売り込みすぎない、自然なダーツ投稿をサポートします</li>
+                    <li>MJSから飲食店オーナー様へ向けたSNS投稿作成ツールです</li>
+                    <li>ダーツ導入による「売上」「集客」「繁盛」のメリットを伝えます</li>
+                    <li>ターゲット業態や季節に合わせた最適な提案文を自動生成します</li>
                 </ul>
 
                 <div class="setting-section-title">投稿までの流れ</div>
                 <ol style="padding-left: 20px; color: var(--text-main); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.8;">
-                    <li>月別・行事・天候から、今日の切り口を選ぶ</li>
-                    <li>お店の雰囲気や投稿先を選ぶ</li>
-                    <li>ダーツの出し方を決めて「投稿をつくる」を押す</li>
+                    <li>提案時期・課題・状況から、提案の切り口を選ぶ</li>
+                    <li>ターゲット業態と投稿先SNSを選ぶ</li>
+                    <li>最も伝えたいメリット（訴求ポイント）を決めて生成ボタンを押す</li>
                 </ol>
-
-                <div style="font-size: 0.8rem; color: var(--text-sub); background: var(--input-bg); padding: 12px; border-radius: 8px;">
-                    <div>※ 文章は生成後に自由に書き換えできます</div>
-                    <div style="margin-top: 4px;">※ 写真・動画の撮り方ヒントも下に表示されます</div>
-                </div>
                 
                 <div style="margin-top: 24px;">
                     <button class="btn generate-btn" onclick="closeHowto()">閉じる</button>
@@ -1100,19 +1074,15 @@
 
                 <!-- Section 2: Store SNS Accounts (New) -->
                 <div class="setting-section">
-                    <div class="setting-section-title">店舗SNSアカウント設定（投稿末尾に挿入）</div>
+                    <div class="setting-section-title">MJS公式SNS設定（投稿末尾に挿入）</div>
                     
                     <div class="form-group">
                         <label class="form-label" style="font-size:0.8rem;"><i class="fa-brands fa-instagram" style="color:var(--primary);"></i> Instagram アカウント</label>
-                        <input type="text" id="setting-sns-insta" class="input-control" placeholder="@your_id" style="padding:10px;">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" style="font-size:0.8rem;"><i class="fa-brands fa-facebook" style="color:var(--primary);"></i> Facebook アカウント名</label>
-                        <input type="text" id="setting-sns-fb" class="input-control" placeholder="IDまたはページ名" style="padding:10px;">
+                        <input type="text" id="setting-sns-insta" class="input-control" placeholder="@mjs_darts" style="padding:10px;">
                     </div>
                     <div class="form-group">
                         <label class="form-label" style="font-size:0.8rem;"><span style="font-weight:900; margin-right:4px; color:var(--primary);">X</span> X (Twitter) アカウント</label>
-                        <input type="text" id="setting-sns-x" class="input-control" placeholder="@your_id" style="padding:10px;">
+                        <input type="text" id="setting-sns-x" class="input-control" placeholder="@mjs_darts" style="padding:10px;">
                     </div>
                 </div>
 
@@ -1125,16 +1095,12 @@
                         <input type="url" id="setting-mjs-site" class="input-control" placeholder="https://..." style="padding:10px;">
                     </div>
                     <div class="form-group">
-                        <label class="form-label" style="font-size:0.8rem;">見てほしいサイト（導入事例など）</label>
+                        <label class="form-label" style="font-size:0.8rem;">導入事例ページURL</label>
                         <input type="url" id="setting-mjs-case" class="input-control" placeholder="https://..." style="padding:10px;">
                     </div>
                     <div class="form-group">
                         <label class="form-label" style="font-size:0.8rem;">公式LINEアカウント</label>
                         <input type="url" id="setting-mjs-line" class="input-control" placeholder="https://..." style="padding:10px;">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" style="font-size:0.8rem;">Googleマップ共有URL</label>
-                        <input type="url" id="setting-mjs-map" class="input-control" placeholder="https://..." style="padding:10px;">
                     </div>
                 </div>
 
@@ -1165,50 +1131,55 @@
         let currentTab = 'month';
         let historyData = [];
 
-        // Data Dictionaries
+        // --- BtoB Marketing Data Dictionaries ---
         const phraseBook = {
             weather: {
-                '晴れ': ['気持ちのいい晴れ模様ですね！☀', '今日は絶好の飲み日和。', '星が綺麗な夜になりそうです。'],
-                '雨': ['あいにくの雨ですが、店内は快適です。☔', '雨音を聞きながらしっぽりと。', '足元の悪い中ですが、雨宿りにどうぞ。'],
-                '暑い': ['今日も暑いですね！キンキンに冷えてます。🍺', '熱帯夜には冷たい一杯を。', '暑さを吹き飛ばす一杯、用意してます。'],
-                '寒い': ['冷え込む夜は、暖かくしてお待ちしてます。☃️', '寒さで肩が縮こまっていませんか？', '心も体も温まる場所、ここにあります。'],
-                '強風': ['風が強いので、気をつけてお越しくださいね。', '外は強風ですが、中は穏やかな時間流れてます。']
+                '晴れ': ['外出日和の今日は、新規客獲得のチャンスです。', '天気が良い週末は、グループ客の動向に注目。', '街に人が溢れる日こそ、他店との差別化が光ります。'],
+                '雨': ['雨の日は「雨宿り＋ワンゲーム」で滞在時間を価値に変える好機です。', '足元が悪い日こそ、店内エンタメで顧客満足度を高めましょう。', '「外に出たくない」お客様を、お店のファンにする仕掛けを。'],
+                '閑散期': ['客足が落ち着く時期こそ、常連様との絆を深めるダーツイベントを。', 'アイドリングタイムを収益化する、MJSのマシン活用術。', '「暇な時間」を「遊べる時間」に変えるのが、繁盛店の鉄則です。'],
+                '週末': ['週末のピークタイム、回転率と客単価のバランスは取れていますか？', '二次会難民を逃さない。「遊べるお店」は週末に最強です。', '満席の賑わいの中でも、マシンのインカムが収益を底上げします。']
             },
-            vibe: {
-                lively: ['今夜はパッと盛り上がりましょう！', 'ワイワイ楽しむなら当店へ！', 'エナジーチャージできる空間です。'],
-                gentle: ['ほっと一息、つきませんか？', '疲れを癒やす優しい時間。', 'あなたの居場所をご用意しています。'],
-                adult:  ['大人の隠れ家で、上質な時間を。', 'グラスを傾ける、贅沢なひととき。', '静かに流れる夜を楽しむなら。'],
-                frank:  ['気軽に一杯、寄ってって！', 'スタッフ一同、元気にお待ちしてます！', 'サクッと飲みたい時にもおすすめ。']
+            vibe: { 
+                reliable: ['数字で見る経営改善のご提案。', '実績に基づいた、確かな店舗改革を。', '経営の安定化に寄与する、収益モデルの構築。'],
+                passionate: ['お店の熱気を最高潮に！', 'オーナー様の想いを、形にするお手伝いをさせてください！', '「楽しい！」が生まれる瞬間を、一緒に作りましょう！'],
+                logical: ['初期投資を抑え、客単価アップを実現する合理的な選択。', 'リピート率向上の方程式＝「居心地」×「遊び」。', '空きスペースを収益化する、最も効率的なメソッド。'],
+                friendly: ['お店のお悩み、一緒に解決しませんか？', '「ちょっといいかも」と思ったら、それが始めどきです。', '常連さんが喜ぶ顔、想像してみてください。']
             },
-            darts: {
-                front: {
-                    lively: '🎯 今日はダーツでガッツリ勝負！負けた人が一杯おごり？盛り上がること間違いなし！',
-                    gentle: '🎯 ダーツで軽く体を動かして、リフレッシュしませんか？初心者の方も大歓迎です。',
-                    adult:  '🎯 グラス片手にダーツを一投。大人の遊び心が、夜を彩ります。',
-                    frank:  '🎯 ダーツあるよ！みんなでワイワイ投げようぜ！'
+            appeal: { 
+                sales: {
+                    reliable: 'マシンインカムだけでなく、プレイ中のドリンクオーダー増が全体の客単価を押し上げます。',
+                    passionate: '「もう一杯！」が自然と生まれる！ダーツが生み出す熱狂が、そのまま売上に直結します！',
+                    logical: '滞在時間の延長は、客単価アップと正の相関関係にあります。ダーツはそのための最適なツールです。',
+                    friendly: '遊びながらだと、お酒も進んじゃいますよね。自然と売上が上がる仕組み、作りましょう。'
                 },
-                subtle: {
-                    lively: '会話が弾んだら、ちょっとダーツもいいかも。',
-                    gentle: 'お話の合間に、1ゲームだけ投げるのも粋な時間。',
-                    adult:  '背景にダーツの音。それもまた、バーのBGM。',
-                    frank:  'ダーツもあるから、気が向いたら投げてみてね。'
+                attract: {
+                    reliable: '「ダーツがある」というだけで検索する層が確実に存在します。新規集客の強力なフックとなります。',
+                    passionate: '「遊べるお店」は強い！二次会、パーティ、合コン...あらゆるシーンで選ばれるお店へ！',
+                    logical: '食事だけの店より、体験型の店が選ばれる時代。ダーツ導入で来店動機を一つ増やせます。',
+                    friendly: '「あそこでダーツしようよ！」って会話、街中で聞こえてきそうですね。新しいお客様を呼び込みましょう。'
                 },
-                // 追加：MJSコンセプト中心
-                mjs_concept: {
-                    lively: '🎯 お店を「遊べるバー」にアップデート！MJSのダーツ導入で、お客様の笑顔と滞在時間がもっと増える予感✨',
-                    gentle: '🎯 ダーツ導入で、お店に新しい「楽しさ」をプラスしませんか？MJSはマシンだけでなく、居心地の良い空間作りもお手伝いします。',
-                    adult:  '🎯 上質な空間に「大人の遊び心」を。MJSが提供するのは単なるマシンではなく、選ばれるお店になるための『繁盛のノウハウ』です。',
-                    frank:  '🎯 ダーツ置いたらお店がもっと面白くなる！「遊べるお店」ってやっぱり強いよね。MJSならノウハウごと導入できるよ！'
+                repeat: {
+                    reliable: '共通の趣味はコミュニティを生みます。ダーツを通じた顧客同士の繋がりが、強固なリピート基盤を作ります。',
+                    passionate: 'お店全体がチームになる！ダーツイベントで一体感を生み出し、熱狂的なファンを作りましょう！',
+                    logical: '顧客のLTV（生涯顧客価値）を高めるには、スタッフとの会話や顧客間の交流が不可欠。ダーツはその潤滑油です。',
+                    friendly: '常連さんが新しいお客様を連れてくる。そんな素敵なサイクルが、ダーツから始まります。'
+                },
+                startup: {
+                    reliable: '初期費用を抑えた導入プランで、開業時のリスクを最小限に。MJSが安定経営をサポートします。',
+                    passionate: 'オープン初日からロケットスタート！話題性抜群の最新マシンで、地域一番店を目指しましょう！',
+                    logical: '居抜き物件や小規模店舗でも導入可能。限られたスペースで最大の収益を生む設計をご提案します。',
+                    friendly: '初めての開業でも安心してください。マシンのこと、集客のこと、なんでも相談に乗りますよ。'
                 }
             }
         };
 
         const hashtags = {
-            bar: '#バー #Bar #カクテル',
-            izakaya: '#居酒屋 #飲み会 #おつまみ',
-            dining: '#ダイニングバー #ディナー #女子会',
-            cafe: '#カフェバー #夜カフェ #二次会',
-            other: '#飲食店 #グルメ #夜ご飯'
+            bar: '#バー経営 #Bar開業 #飲食店経営 #ショットバー #バーテンダー',
+            izakaya: '#居酒屋経営 #飲食店集客 #ダイニングバー #二次会需要 #飲み会',
+            cafe: '#カフェ経営 #夜カフェ #店舗運営 #漫画喫茶 #複合カフェ',
+            amusement: '#アミューズメントバー #ゲームバー #店舗開業 #エンタメ #ダーツバー',
+            hotel: '#ホテル経営 #宿泊施設 #ラウンジ #インバウンド #娯楽施設',
+            other: '#飲食店オーナー #店舗集客 #売上アップ #独立開業 #脱サラ'
         };
 
         // Initialize
@@ -1218,7 +1189,8 @@
             
             // Set default month
             const today = new Date();
-            document.getElementById('input-month').value = today.getMonth() + 1;
+            const monthEl = document.getElementById('input-month');
+            if(monthEl) monthEl.value = today.getMonth() + 1;
         });
 
         // Tab Switching
@@ -1239,10 +1211,7 @@
 
         // --- Platform Selection Logic ---
         function selectPlatform(value) {
-            // 値をセット
             document.getElementById('input-platform').value = value;
-            
-            // ボタンの見た目を更新
             document.querySelectorAll('.platform-btn').forEach(btn => {
                 if (btn.getAttribute('data-value') === value) {
                     btn.classList.add('active');
@@ -1252,248 +1221,138 @@
             });
         }
 
-        // --- Core Logic: Generate Post ---
+        // --- Core Logic: Generate Post (BtoB Optimized) ---
         function generatePost() {
-            // Get Values
-            const storeType = document.getElementById('input-store-type').value;
-            const platform = document.getElementById('input-platform').value;
-            const tone = document.getElementById('input-tone').value;
-            const emojiDensity = document.getElementById('input-emoji').value;
-            const dartsMode = document.getElementById('input-darts').value;
+            // Helper to safely get value
+            const getVal = (id) => {
+                const el = document.getElementById(id);
+                return el ? el.value : '';
+            };
+
+            const storeType = getVal('input-store-type');
+            const platform = getVal('input-platform');
+            const tone = getVal('input-tone');
+            const appealPoint = getVal('input-darts');
             
-            // Validate specific tab inputs
+            // Validate
             let contextText = "";
-            let contextType = ""; // for storing context
+            let contextType = "";
             
             if (currentTab === 'month') {
-                const month = document.getElementById('input-month').value;
+                const month = getVal('input-month');
                 if (!month) return showError('月を選択してください');
-                contextText = `${month}月ですね。季節の変わり目、いかがお過ごしですか？`;
-                contextType = `${month}月の投稿`;
+                contextText = `【${month}月の店舗運営】\n季節の変わり目、客足の変動に備える準備はできていますか？`;
+                contextType = `${month}月の提案`;
             } else if (currentTab === 'event') {
-                let evt = document.getElementById('input-event').value;
-                if (evt === 'custom') evt = document.getElementById('input-event-custom').value;
-                if (!evt) return showError('行事を入力してください');
+                let evt = getVal('input-event');
+                if (evt === 'custom') evt = getVal('input-event-custom');
+                if (!evt) return showError('課題を選択してください');
                 
-                if (evt === 'ダーツフェア') {
-                    contextText = `🎯 ダーツフェア開催中！\n今なら特別な体験が待っています。\n初心者の方も、腕に自信がある方も大歓迎！`;
-                    contextType = 'ダーツフェア';
-                } else {
-                    contextText = `${evt}のシーズン到来！予定はもう決まりましたか？`;
-                    contextType = evt;
-                }
+                contextText = `【経営課題：${evt}】\n多くのオーナー様が悩まれるポイントですが、実は「空間作り」で解決できることがあります。`;
+                contextType = evt;
             } else if (currentTab === 'weather') {
-                const weather = document.getElementById('input-weather').value;
-                if (!weather) return showError('天気を選択してください');
-                contextText = getRandom(phraseBook.weather[weather]) || '今日もお疲れ様です。';
+                const weather = getVal('input-weather');
+                if (!weather) return showError('状況を選択してください');
+                contextText = getRandom(phraseBook.weather[weather]) || '店舗運営、お疲れ様です。';
                 contextType = weather;
             }
 
             // Build Parts
             const vibeText = getRandom(phraseBook.vibe[tone]);
             
-            let dartsText = "";
-            if (dartsMode !== 'none') {
-                dartsText = phraseBook.darts[dartsMode][tone] || "";
+            let appealText = "";
+            if (phraseBook.appeal[appealPoint] && phraseBook.appeal[appealPoint][tone]) {
+                appealText = phraseBook.appeal[appealPoint][tone];
+            } else {
+                appealText = "ダーツ導入で、お店の可能性が広がります。";
             }
-            
-            // Darts Fair Special Override
-            if (contextType === 'ダーツフェア') {
-                dartsText = "投げ放題プランや、ハイスコアチャレンジも実施中！みんなで盛り上がりましょう！";
-            }
+
+            // MJS Philosophy (Strong BtoB Message)
+            const mjsPhilosophy = [
+                "お店を「遊べるバー」に進化させる。\nMJSがお貸しするのは、マシンではなく『繁盛のノウハウ』です。",
+                "ただマシンを置くだけではありません。\n「人が集まる空間」をプロデュースする。それがMJSのレンタルサービスです。",
+                "初期投資リスクを抑え、確実に収益を上げる。\n飲食店経営の強い味方、MJSにご相談ください。"
+            ];
+            const selectedPhilosophy = mjsPhilosophy[Math.floor(Math.random() * mjsPhilosophy.length)];
 
             // Assemble Text
             let fullText = "";
             
-            // Adjust format by platform
             if (platform === 'instagram') {
-                fullText = `${contextText}\n\n${vibeText}\n\n${dartsText ? dartsText + '\n\n' : ''}おいしいお酒と空間をご用意して、\nお待ちしております✨\n\n`;
-            } else if (platform === 'line') {
-                fullText = `${contextText}\n${vibeText}\n${dartsText}\n\nお待ちしてます！`;
-            } else if (platform === 'gmap') {
-                fullText = `${contextText} ${vibeText}\n\n${dartsText ? dartsText + '\n' : ''}近くにお越しの際はぜひお立ち寄りください。`;
+                fullText = `${contextText}\n\n${vibeText}\n\n${appealText}\n\n${selectedPhilosophy}\n\n`;
             } else {
-                // Facebook/Default
-                fullText = `${contextText}\n${vibeText}\n\n${dartsText ? dartsText + '\n' : ''}皆様のご来店をお待ちしております。`;
+                fullText = `${contextText}\n\n${vibeText}\n${appealText}\n\n${selectedPhilosophy}\n`;
             }
-
-            // Apply Emoji Density
-            fullText = applyEmoji(fullText, emojiDensity, tone);
 
             // Generate Hashtags
-            let tags = hashtags[storeType] || '#飲食店';
-            tags += ' #MJS #エム・ジェイ・エス';
-            if (dartsMode !== 'none' || contextType === 'ダーツフェア') tags += ' #ダーツ #Darts #ダーツバー';
-            if (currentTab === 'month') tags += ` #${document.getElementById('input-month').value}月`;
-            if (tone === 'adult') tags += ' #隠れ家 #デート';
-            if (tone === 'lively') tags += ' #二次会 #パーティ';
+            let tags = hashtags[storeType] || '#飲食店経営';
+            tags += ' #MJS #エムジェイエス #ダーツ導入 #店舗集客 #売上アップ #開業支援';
 
-            // Add tags to full text
-            fullText += `\n\n${tags}`;
+            fullText += `\n${tags}`;
 
-            // --- Append User SNS Account Signature (if exists) ---
-            const myInsta = document.getElementById('setting-sns-insta').value;
-            const myX = document.getElementById('setting-sns-x').value;
-            // Note: Facebook is usually linked by page name, but keeping it simple for now.
-
+            // User Signature
+            const myInsta = getVal('setting-sns-insta');
+            const myX = getVal('setting-sns-x');
             if (platform === 'instagram' && myInsta) {
-                // Remove @ if exists then add
                 const id = myInsta.replace('@', '');
-                fullText += `\n@${id}`;
+                fullText += `\n\n@${id}`;
             } else if (platform === 'x' && myX) {
                 const id = myX.replace('@', '');
-                fullText += `\n@${id}`;
+                fullText += `\n\n@${id}`;
             }
 
-            // --- MJS Promotion Logic (Dynamic URLs from Settings) ---
-            const mjsSite = document.getElementById('setting-mjs-site').value;
-            const mjsLine = document.getElementById('setting-mjs-line').value;
+            // MJS Promotion Links
+            const mjsSite = getVal('setting-mjs-site');
+            const mjsLine = getVal('setting-mjs-line');
+            const mjsCase = getVal('setting-mjs-case');
+
+            fullText += `\n\n----------------\n🎯 導入・開業のご相談`;
             
-            // 条件を緩和（dartsMode !== 'none' で mjs_concept も含まれる）
-            if (dartsMode !== 'none' || contextType === 'ダーツフェア') {
-                if (mjsSite || mjsLine) {
-                    // MJS Philosophy & Catch Copy
-                    const mjsPhilosophy = [
-                        "ダーツ導入でお店を「遊べるバー」に。\nお貸しするのは、マシンではなく『繁盛のノウハウ』。",
-                        "お店に「遊べる」価値をプラス。\nMJSが提供するのは、マシンと『繁盛のノウハウ』です。",
-                        "ただの導入ではありません。\nお店を「遊べるバー」に変える、『繁盛のノウハウ』を提供します。"
-                    ];
-                    
-                    // コンセプト選択時は特定のメッセージを優先、それ以外はランダム
-                    let selectedPhilosophy = "";
-                    if (dartsMode === 'mjs_concept') {
-                         selectedPhilosophy = "【店舗オーナー様へ】\nダーツ導入でお店を「遊べるバー」に進化させませんか？\nMJSがお貸しするのは、マシンではなく『繁盛のノウハウ』そのものです。";
-                    } else {
-                         selectedPhilosophy = mjsPhilosophy[Math.floor(Math.random() * mjsPhilosophy.length)];
-                    }
+            if (platform === 'instagram') {
+                fullText += `\n\n導入事例や詳細はプロフィールのリンク、\nまたはWEBで「MJS ダーツ」と検索してください🔍`;
+            } else {
+                if (mjsSite) fullText += `\n\n🌐 MJS公式サイト\n${mjsSite}`;
+                if (mjsCase) fullText += `\n📊 導入成功事例\n${mjsCase}`;
+                if (mjsLine) fullText += `\n💬 LINEで気軽に相談\n${mjsLine}`;
+            }
 
-                    fullText += `\n\n----------------\n🎯 ダーツマシン導入・開業支援\n\n${selectedPhilosophy}`;
-                    
-                    if (platform === 'instagram') {
-                        fullText += `\n\n導入の詳細はプロフィールのリンク、\nまたはWEBで「MJS ダーツ」と検索してください🔍`;
-                    } else {
-                        if (mjsSite) fullText += `\n\n🌐 MJS公式サイト\n${mjsSite}`;
-                        if (mjsLine) fullText += `\n\n💬 開業・導入のご相談はLINEから\n${mjsLine}`;
-                    }
+            // Tips Data (BtoB Optimized)
+            const photoIdeas = [
+                {
+                    icon: 'fa-camera',
+                    title: '設置イメージの撮影',
+                    desc: '「もし自分のお店に置いたら？」とオーナー様に想像させるため、マシンの全体像だけでなく、カウンターやテーブルとの距離感がわかる引きの写真を使いましょう。'
+                },
+                {
+                    icon: 'fa-users',
+                    title: '賑わいの可視化',
+                    desc: 'マシン単体ではなく、実際に楽しんでいるお客様の後ろ姿や、盛り上がっている店内の空気感が伝わる写真を。「遊べるお店」という価値を伝えます。'
+                },
+                {
+                    icon: 'fa-chart-line',
+                    title: 'インカム実績の提示',
+                    desc: '（可能であれば）実際のインカム画面や、導入前後の売上推移グラフなど、数字でメリットが伝わる画像を添付すると信頼性が高まります。'
                 }
-            }
+            ];
 
-            // --- Photo Suggestions (Premium Tips) ---
-            const photoIdeas = [];
-
-            // 1. Inverse Smartphone
-            photoIdeas.push({
-                icon: 'fa-mobile-screen-button',
-                title: '裏技：「逆さスマホ」で迫力を出す',
-                desc: `
-                    <ul>
-                        <li>スマホを逆さまに持ち替える</li>
-                        <li>カメラレンズをテーブル面スレスレに配置</li>
-                        <li>少し上向き（アオリ）でシャッターを切る</li>
-                    </ul>
-                    <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> 天井が高く映り、ドリンクや料理が塔のように立派に見えます！</div>`
-            });
-
-            // 2. Zoom 2x
-            photoIdeas.push({
-                icon: 'fa-magnifying-glass-plus',
-                title: '基本：「2倍ズーム」で形を整える',
-                desc: `
-                    <ul>
-                        <li>スマホの標準（1x）ではなく「2x」か「3x」にする</li>
-                        <li>その分、被写体から少し離れて撮影する</li>
-                    </ul>
-                    <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> グラスや皿の歪みがなくなり、プロが一眼レフで撮ったような端正な形になります。</div>`
-            });
-
-            // 3. Context specific (Photo)
-            if (dartsMode !== 'none' || contextType === 'ダーツフェア') {
-                photoIdeas.push({
-                    icon: 'fa-bullseye',
-                    title: '構図：「前ボケ」で賑わいを演出',
-                    desc: `
-                        <ul>
-                            <li>手前に「誰かの肩」や「グラス」を少し見切れさせる</li>
-                            <li>奥のダーツ盤にピントを固定（画面長押し）する</li>
-                            <li>あえて手前をボカして撮影</li>
-                        </ul>
-                        <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> 「盗み撮り」のような自然なアングルになり、その場の臨場感が伝わります。</div>`
-                });
-            } else {
-                photoIdeas.push({
-                    icon: 'fa-utensils',
-                    title: '照明：「斜め逆光」でシズル感を',
-                    desc: `
-                        <ul>
-                            <li>店内の照明が、料理の「斜め後ろ」に来る席を選ぶ</li>
-                            <li>または、友人のスマホライトを斜め後ろから当ててもらう</li>
-                            <li>露出（明るさ）を少し下げて撮影</li>
-                        </ul>
-                        <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> 表面のテカリや湯気が強調され、圧倒的に美味しそうに撮れます。</div>`
-                });
-            }
-
-            // --- Video Suggestions (Premium Tips) ---
-            const videoIdeas = [];
-
-            // 1. Pan (Space)
-            videoIdeas.push({
-                icon: 'fa-video',
-                title: '動画：「ゆっくりパン」で空間紹介',
-                desc: `
-                    <ul>
-                        <li>脇を締めてスマホを両手で持つ</li>
-                        <li>体ごとゆっくり横に回転する（足は動かさない）</li>
-                        <li>「遅すぎるかな？」と思うくらいのスピードで</li>
-                    </ul>
-                    <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> 店内の広がりや雰囲気が伝わります。手ブレ補正は必ずONに！</div>`
-            });
-
-            // 2. Sizzle (Food/Drink)
-            videoIdeas.push({
-                icon: 'fa-glass-water',
-                title: '動画：「シズル感」一点突破',
-                desc: `
-                    <ul>
-                        <li>炭酸が弾ける様子や、湯気が立つ様子をアップで撮る</li>
-                        <li>スマホを固定し、絶対に動かさない（フィックス撮影）</li>
-                        <li>3秒〜5秒程度の短尺でOK</li>
-                    </ul>
-                    <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> 「美味しそう！」と直感的に伝わるのは、実は動かない固定動画です。</div>`
-            });
-
-            // 3. Action (Darts/Cheers)
-            if (dartsMode !== 'none' || contextType === 'ダーツフェア') {
-                videoIdeas.push({
-                    icon: 'fa-bullseye',
-                    title: '動画：ダーツが刺さる「音」を撮る',
-                    desc: `
-                        <ul>
-                            <li>ボードの近くから、刺さる瞬間を狙う</li>
-                            <li>「トンッ」という心地よい音を収録する</li>
-                            <li>投げた人の歓声まで入れる</li>
-                        </ul>
-                        <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> 音は映像以上に現場の熱量を伝えます。リール動画に最適です。</div>`
-                });
-            } else {
-                videoIdeas.push({
-                    icon: 'fa-mug-hot',
-                    title: '動画：「湯気/注ぎ」の瞬間',
-                    desc: `
-                        <ul>
-                            <li>ドリンクを注ぐ、ソースをかける瞬間を撮る</li>
-                            <li>スローモーション機能を使ってみる</li>
-                        </ul>
-                        <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> 動きのある映像は、タイムラインで指を止めさせる効果絶大です。</div>`
-                });
-            }
-
+            const videoIdeas = [
+                {
+                    icon: 'fa-video',
+                    title: 'ルームツアー動画',
+                    desc: '入口から入ってマシンが見えるまでの動線を動画に。「デッドスペースが収益源に変わる」様子を視覚的に伝えます。'
+                },
+                {
+                    icon: 'fa-comment-dots',
+                    title: 'オーナーインタビュー',
+                    desc: '実際に導入されたオーナー様の「生の声」をショート動画で。「導入してよかったこと」を語ってもらうのが最強のPRです。'
+                }
+            ];
 
             // Render
             const outputArea = document.getElementById('output-area');
             document.getElementById('output-text').innerText = fullText;
             
-            // Render Photo Tips
+            // Render Tips
             const photoContainer = document.getElementById('tips-content-photo');
             photoContainer.innerHTML = photoIdeas.map(idea => `
                 <div class="photo-chip">
@@ -1505,7 +1364,6 @@
                 </div>
             `).join('');
 
-            // Render Video Tips
             const videoContainer = document.getElementById('tips-content-video');
             videoContainer.innerHTML = videoIdeas.map(idea => `
                 <div class="photo-chip">
@@ -1517,19 +1375,15 @@
                 </div>
             `).join('');
 
-            // Reset Tab to Photo
             switchTipsTab('photo');
 
-            // 表示切り替え：プレースホルダーを隠し、生成コンテンツを表示
             document.getElementById('preview-placeholder').style.display = 'none';
             document.getElementById('generated-content').style.display = 'block';
 
-            // スマホ表示時のみスクロール（PCでは2カラムで見えているため不要だが、念のため）
             if (window.innerWidth < 900) {
                 document.getElementById('output-area').scrollIntoView({behavior: 'smooth', block: 'start'});
             }
 
-            // Save History
             saveHistoryToStorage({
                 type: contextType,
                 text: fullText,
@@ -1563,33 +1417,15 @@
         }
 
         function applyEmoji(text, density, tone) {
-            if (density === 'low') return text; // Minimal emojis already in text
-            
-            const emojis = ['✨', '🍸', '🍻', '🍽', '🌙', '🎵', '🙌'];
-            if (tone === 'adult') {
-                 // Adult tone: fewer, classy emojis
-                 if (density === 'high') text = text.replace(/\n/g, ' ✨\n');
-            } else {
-                // Lively/Gentle
-                if (density === 'high') {
-                    text = text.replace(/。/g, '！✨');
-                    text = text.replace(/\n/g, ' 😊\n');
-                } else {
-                    // Medium
-                    text += ' 🥂';
-                }
-            }
-            return text;
+            return text; 
         }
 
         // --- Clipboard ---
         function copyToClipboard() {
             let text = document.getElementById('output-text').innerText;
-
-            // Use document.execCommand('copy') for better compatibility in iframes
             const ta = document.createElement('textarea');
             ta.value = text;
-            ta.style.position = 'fixed'; // Avoid scrolling to bottom
+            ta.style.position = 'fixed';
             ta.style.opacity = '0';
             document.body.appendChild(ta);
             ta.select();
@@ -1623,7 +1459,6 @@
             document.getElementById('settings-modal').classList.remove('open');
         }
 
-        // New Howto functions
         function openHowto() {
             document.getElementById('howto-modal').classList.add('open');
         }
@@ -1639,16 +1474,24 @@
 
         // --- Storage & History ---
         function saveSettings() {
+            const getVal = (id) => {
+                const el = document.getElementById(id);
+                return el ? el.value : '';
+            };
+            const getCheck = (id) => {
+                const el = document.getElementById(id);
+                return el ? el.checked : false;
+            };
+
             const settings = {
-                theme: document.getElementById('setting-theme').checked,
-                mjsSite: document.getElementById('setting-mjs-site').value,
-                mjsCase: document.getElementById('setting-mjs-case').value,
-                mjsLine: document.getElementById('setting-mjs-line').value,
-                mjsMap: document.getElementById('setting-mjs-map').value,
-                // SNS Accounts
-                snsInsta: document.getElementById('setting-sns-insta').value,
-                snsFb: document.getElementById('setting-sns-fb').value,
-                snsX: document.getElementById('setting-sns-x').value
+                theme: getCheck('setting-theme'),
+                mjsSite: getVal('setting-mjs-site'),
+                mjsCase: getVal('setting-mjs-case'),
+                mjsLine: getVal('setting-mjs-line'),
+                mjsMap: getVal('setting-mjs-map'),
+                snsInsta: getVal('setting-sns-insta'),
+                snsFb: getVal('setting-sns-fb'),
+                snsX: getVal('setting-sns-x')
             };
             localStorage.setItem('mjs_settings', JSON.stringify(settings));
         }
@@ -1657,17 +1500,24 @@
             const saved = localStorage.getItem('mjs_settings');
             if (saved) {
                 const s = JSON.parse(saved);
-                document.getElementById('setting-theme').checked = s.theme;
                 
-                document.getElementById('setting-mjs-site').value = s.mjsSite || '';
-                document.getElementById('setting-mjs-case').value = s.mjsCase || '';
-                document.getElementById('setting-mjs-line').value = s.mjsLine || '';
-                document.getElementById('setting-mjs-map').value = s.mjsMap || '';
-                
-                // Load SNS Accounts
-                document.getElementById('setting-sns-insta').value = s.snsInsta || '';
-                document.getElementById('setting-sns-fb').value = s.snsFb || '';
-                document.getElementById('setting-sns-x').value = s.snsX || '';
+                const setCheck = (id, val) => {
+                    const el = document.getElementById(id);
+                    if (el) el.checked = val;
+                };
+                const setVal = (id, val) => {
+                    const el = document.getElementById(id);
+                    if (el) el.value = val || '';
+                };
+
+                setCheck('setting-theme', s.theme);
+                setVal('setting-mjs-site', s.mjsSite);
+                setVal('setting-mjs-case', s.mjsCase);
+                setVal('setting-mjs-line', s.mjsLine);
+                setVal('setting-mjs-map', s.mjsMap);
+                setVal('setting-sns-insta', s.snsInsta);
+                setVal('setting-sns-fb', s.snsFb);
+                setVal('setting-sns-x', s.snsX);
 
                 if (s.theme) document.body.setAttribute('data-theme', 'dark');
             }
@@ -1677,7 +1527,7 @@
             historyData.unshift(item);
             if (historyData.length > 3) historyData.pop();
             localStorage.setItem('mjs_history', JSON.stringify(historyData));
-            loadHistory(); // Re-render
+            loadHistory();
         }
 
         function loadHistory() {
@@ -1697,16 +1547,11 @@
                     card.className = 'history-card';
                     card.onclick = () => {
                         document.getElementById('output-text').innerText = h.text;
-                        
-                        // 履歴クリック時も表示切り替え
                         document.getElementById('preview-placeholder').style.display = 'none';
                         document.getElementById('generated-content').style.display = 'block';
                         
-                        // スマホならスクロール
                         if (window.innerWidth < 900) {
                             document.getElementById('output-area').scrollIntoView({behavior:'smooth'});
-                        } else {
-                            // PCなら右カラムを少しハイライトする等の処理も可（今回はシンプルに）
                         }
                     };
                     card.innerHTML = `
@@ -1721,47 +1566,23 @@
         }
 
         function fillDemoData() {
-            // 店舗情報のデモ
-            const storeType = document.getElementById('input-store-type');
-            if(storeType) storeType.value = 'bar';
-            
-            // アイコン選択ロジック呼び出しに変更
-            selectPlatform('instagram');
-            
-            const tone = document.getElementById('input-tone');
-            if(tone) tone.value = 'adult';
-            const emoji = document.getElementById('input-emoji');
-            if(emoji) emoji.value = 'medium';
-            const darts = document.getElementById('input-darts');
-            if(darts) darts.value = 'subtle';
-            
-            if (currentTab === 'month') {
-                const m = document.getElementById('input-month');
-                if(m) m.value = '12';
-            }
-            if (currentTab === 'event') {
-                const evt = document.getElementById('input-event');
-                if(evt) {
-                    evt.value = 'custom';
-                    checkCustomEvent(evt);
-                }
-                const evtCustom = document.getElementById('input-event-custom');
-                if(evtCustom) evtCustom.value = '3周年記念';
-            }
-            if (currentTab === 'weather') {
-                const w = document.getElementById('input-weather');
-                if(w) w.value = '雨';
-            }
+            const setVal = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.value = val;
+            };
 
-            // MJSリンクのデモデータ
-            document.getElementById('setting-mjs-site').value = 'https://www.mjs-darts.com/';
-            document.getElementById('setting-mjs-case').value = 'https://www.mjs-darts.com/case/';
-            document.getElementById('setting-mjs-line').value = 'https://line.me/R/ti/p/@mjs';
-            document.getElementById('setting-mjs-map').value = 'https://maps.app.goo.gl/dummy';
+            setVal('input-store-type', 'bar');
+            selectPlatform('instagram');
+            setVal('input-tone', 'logical');
+            setVal('input-darts', 'sales');
             
-            // SNS Demo
-            document.getElementById('setting-sns-insta').value = '@mjs_darts_sample';
-            document.getElementById('setting-sns-x').value = '@mjs_sample';
+            const monthEl = document.getElementById('input-month');
+            if(monthEl) monthEl.value = '12';
+
+            setVal('setting-mjs-site', 'https://www.mjs-darts.com/');
+            setVal('setting-mjs-case', 'https://www.mjs-darts.com/case/');
+            setVal('setting-mjs-line', 'https://line.me/R/ti/p/@mjs');
+            setVal('setting-sns-insta', '@mjs_darts_official');
 
             showToast('デモデータを入力しました');
         }

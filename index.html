@@ -1166,49 +1166,87 @@
         let currentTab = 'month';
         let historyData = [];
 
-        // Data Dictionaries
+        // Data Dictionaries (Highly Optimized for MJS BtoB Marketing)
         const phraseBook = {
             weather: {
-                '晴れ': ['気持ちのいい晴れ模様ですね！☀', '今日は絶好の飲み日和。', '星が綺麗な夜になりそうです。'],
-                '雨': ['あいにくの雨ですが、店内は快適です。☔', '雨音を聞きながらしっぽりと。', '足元の悪い中ですが、雨宿りにどうぞ。'],
-                '暑い': ['今日も暑いですね！キンキンに冷えてます。🍺', '熱帯夜には冷たい一杯を。', '暑さを吹き飛ばす一杯、用意してます。'],
-                '寒い': ['冷え込む夜は、暖かくしてお待ちしてます。☃️', '寒さで肩が縮こまっていませんか？', '心も体も温まる場所、ここにあります。'],
-                '強風': ['風が強いので、気をつけてお越しくださいね。', '外は強風ですが、中は穏やかな時間流れてます。']
+                '晴れ': [
+                    '街に人が溢れる晴れの日。新規のお客様にお店を見つけてもらうための「フック」は用意できていますか？',
+                    '外出日和の週末。「どこに行こうか？」と迷っているグループ客を、確実に呼び込む武器がダーツです。',
+                    '天気が良い日は競合店も賑わいます。他店との差別化、明確な「選ばれる理由」を作りませんか？'
+                ],
+                '雨': [
+                    '雨音でお客様の足が遠のく日...そんな時こそ、店内滞在型エンタメが真価を発揮します。',
+                    '「雨だし、移動せずにここで遊ぼうか」。ダーツ導入店では、悪天候が逆に滞在時間延長のチャンスに変わります。',
+                    '外に出たくない心理を逆手に取る。店内で完結する「遊び」があるだけで、雨の日の売上は安定します。'
+                ],
+                '閑散期': [
+                    '平日や閑散期のアイドリングタイム。空いているスペースと時間を、収益源に変える準備はできていますか？',
+                    '客数が少ない時間こそ、スタッフとお客様がダーツで交流し、濃いファンを作る絶好の機会です。',
+                    '「暇な時間」を「遊べる時間」に変える。MJSの導入店様が、閑散期でも強い理由はここにあります。'
+                ],
+                '週末': [
+                    '週末のピークタイム後、二次会難民のお客様を逃していませんか？「遊べるお店」は深夜帯に最強です。',
+                    '満席の賑わいの中で、さらに客単価を上乗せする。ドリンクオーダーを加速させる装置として、ダーツは機能します。',
+                    '「もう一軒行こう」ではなく「この店でもう少し遊ぼう」。週末の機会損失をゼロにするご提案です。'
+                ]
             },
-            vibe: {
-                lively: ['今夜はパッと盛り上がりましょう！', 'ワイワイ楽しむなら当店へ！', 'エナジーチャージできる空間です。'],
-                gentle: ['ほっと一息、つきませんか？', '疲れを癒やす優しい時間。', 'あなたの居場所をご用意しています。'],
-                adult:  ['大人の隠れ家で、上質な時間を。', 'グラスを傾ける、贅沢なひととき。', '静かに流れる夜を楽しむなら。'],
-                frank:  ['気軽に一杯、寄ってって！', 'スタッフ一同、元気にお待ちしてます！', 'サクッと飲みたい時にもおすすめ。']
+            vibe: { 
+                reliable: [
+                    '感覚だけでなく、数字で経営を考えるオーナー様へ。坪効率を最大化するご提案です。',
+                    '一過性のブームではなく、長く愛される店舗作りを。実績豊富なMJSが、安定収益の基盤を作ります。',
+                    '導入はゴールではありません。設置後のインカム向上まで伴走するのが、私たちMJSのスタイルです。'
+                ],
+                passionate: [
+                    'お店にもっと熱気を！お客様が自然と笑顔になり、ハイタッチが生まれる瞬間を作りましょう！',
+                    '「この店に来ると元気になれる」。そんな体験価値を提供できるお店こそが、これからの時代を勝ち抜きます！',
+                    'オーナー様の「理想のお店」作り、全力でサポートします！遊び心というスパイスで、お店はもっと面白くなる！'
+                ],
+                logical: [
+                    '「滞在時間×客単価＝売上」。この公式を最も効率よく伸ばすツールが、アミューズメント機器です。',
+                    'デッドスペースにマシンを置くだけで、家賃負担を変えずに新たなキャッシュポイントが生まれます。',
+                    '初期投資を抑え、ランニングコストをインカムで相殺する。リスクを最小化した導入プランをご用意しています。'
+                ],
+                friendly: [
+                    '「ウチの店には合わないかも...」そう思っていませんか？実はどんな業態にも馴染む導入事例があるんです。',
+                    '常連さんが「ダーツあるなら友達連れてくるよ」と言ってくれる。そんな嬉しい変化、体験してみませんか？',
+                    '難しく考える必要はありません。まずは「お店に遊び場があったら楽しそう」という直感から始めてみましょう。'
+                ]
             },
-            darts: {
-                front: {
-                    lively: '🎯 今日はダーツでガッツリ勝負！負けた人が一杯おごり？盛り上がること間違いなし！',
-                    gentle: '🎯 ダーツで軽く体を動かして、リフレッシュしませんか？初心者の方も大歓迎です。',
-                    adult:  '🎯 グラス片手にダーツを一投。大人の遊び心が、夜を彩ります。',
-                    frank:  '🎯 ダーツあるよ！みんなでワイワイ投げようぜ！'
+            appeal: { 
+                sales: {
+                    reliable: 'プレイ中のドリンク消費スピードは、通常時の約1.5倍とも言われます。マシン売上＋飲食売上の相乗効果をご期待ください。',
+                    passionate: '勝負に勝って乾杯！負けて悔しくて乾杯！ダーツが生む熱狂は、そのままドリンクのオーダー数に直結します！',
+                    logical: '「あと1ゲーム」が「あと一杯」を生みます。滞在時間を30分延ばすだけで、客単価は確実に向上します。',
+                    friendly: '遊びながらだと、不思議とお酒が進んじゃいますよね。無理なアップセルをしなくても、自然と単価が上がるんです。'
                 },
-                subtle: {
-                    lively: '会話が弾んだら、ちょっとダーツもいいかも。',
-                    gentle: 'お話の合間に、1ゲームだけ投げるのも粋な時間。',
-                    adult:  '背景にダーツの音。それもまた、バーのBGM。',
-                    frank:  'ダーツもあるから、気が向いたら投げてみてね。'
+                attract: {
+                    reliable: '「エリア名＋ダーツ」での検索ボリュームは安定しています。導入するだけで、WEB検索からの新規流入が見込めます。',
+                    passionate: '二次会、合コン、パーティ...「遊べる場所」を探している幹事様に、貴店が第一候補として選ばれるようになります！',
+                    logical: '食事だけの店は競合多数ですが、「食事ができて遊べる店」は希少です。明確な差別化要因（USP）となります。',
+                    friendly: '「あそこでダーツしようよ！」が来店に繋がる。美味しいお酒と料理に「遊び」が加われば、鬼に金棒です。'
                 },
-                mjs_concept: {
-                    lively: '🎯 お店を「遊べるバー」にアップデート！MJSのダーツ導入で、お客様の笑顔と滞在時間がもっと増える予感✨',
-                    gentle: '🎯 ダーツ導入で、お店に新しい「楽しさ」をプラスしませんか？MJSはマシンだけでなく、居心地の良い空間作りもお手伝いします。',
-                    adult:  '🎯 上質な空間に「大人の遊び心」を。MJSが提供するのは単なるマシンではなく、選ばれるお店になるための『繁盛のノウハウ』です。',
-                    frank:  '🎯 ダーツ置いたらお店がもっと面白くなる！「遊べるお店」ってやっぱり強いよね。MJSならノウハウごと導入できるよ！'
+                repeat: {
+                    reliable: '共通の趣味は強力なコミュニティを形成します。ダーツを目当てに来店する「目的来店型」の常連客が増加します。',
+                    passionate: 'お店全体がチームになる！ハウス・トーナメントで一体感を生み出し、お客様を熱狂的なファンに変えましょう！',
+                    logical: 'スタッフとお客様、あるいはお客様同士の接点を増やすこと。これがリピート率向上の鍵であり、ダーツはその最適な触媒です。',
+                    friendly: '一人で来ても、スタッフとダーツができれば寂しくない。そんな「居場所」を提供できるお店は、愛され続けます。'
+                },
+                startup: {
+                    reliable: '開業時の資金繰りは重要です。MJSのレンタルプランなら、まとまった購入資金なしで最新マシンを導入可能です。',
+                    passionate: 'オープン初日からロケットスタートを！話題性抜群の最新マシンで、地域一番の「遊べるスポット」を目指しましょう！',
+                    logical: '居抜き物件のレイアウトにお悩みではありませんか？わずかなスペースで収益を生む、効率的な配置をご提案します。',
+                    friendly: '初めての開業、不安も多いですよね。MJSはマシンのことだけでなく、集客やイベント企画まで親身に相談に乗ります。'
                 }
             }
         };
 
         const hashtags = {
-            bar: '#バー #Bar #カクテル',
-            izakaya: '#居酒屋 #飲み会 #おつまみ',
-            dining: '#ダイニングバー #ディナー #女子会',
-            cafe: '#カフェバー #夜カフェ #二次会',
-            other: '#飲食店 #グルメ #夜ご飯'
+            bar: '#バー経営 #Bar開業 #飲食店経営 #ショットバー #バーテンダー #店舗運営',
+            izakaya: '#居酒屋経営 #飲食店集客 #ダイニングバー #二次会需要 #飲み会 #宴会プラン',
+            cafe: '#カフェ経営 #夜カフェ #店舗運営 #漫画喫茶 #複合カフェ #空間デザイン',
+            amusement: '#アミューズメントバー #ゲームバー #店舗開業 #エンタメ #ダーツバー #遊び場',
+            hotel: '#ホテル経営 #宿泊施設 #ラウンジ #インバウンド #娯楽施設 #空きスペース活用',
+            other: '#飲食店オーナー #店舗集客 #売上アップ #独立開業 #脱サラ #フランチャイズ'
         };
 
         // Initialize
@@ -1240,10 +1278,7 @@
 
         // --- Platform Selection Logic ---
         function selectPlatform(value) {
-            // 値をセット
             document.getElementById('input-platform').value = value;
-            
-            // ボタンの見た目を更新
             document.querySelectorAll('.platform-btn').forEach(btn => {
                 if (btn.getAttribute('data-value') === value) {
                     btn.classList.add('active');
@@ -1253,7 +1288,7 @@
             });
         }
 
-        // --- Core Logic: Generate Post ---
+        // --- Core Logic: Generate Post (BtoB Optimized) ---
         function generatePost() {
             // Helper to safely get value
             const getVal = (id) => {
@@ -1261,249 +1296,138 @@
                 return el ? el.value : '';
             };
 
-            // Get Values using safe helper
             const storeType = getVal('input-store-type');
             const platform = getVal('input-platform');
             const tone = getVal('input-tone');
-            const emojiDensity = getVal('input-emoji');
-            const dartsMode = getVal('input-darts');
+            const appealPoint = getVal('input-darts');
             
-            // Validate specific tab inputs
+            // Validate
             let contextText = "";
-            let contextType = ""; // for storing context
+            let contextType = "";
             
             if (currentTab === 'month') {
                 const month = getVal('input-month');
                 if (!month) return showError('月を選択してください');
-                contextText = `${month}月ですね。季節の変わり目、いかがお過ごしですか？`;
-                contextType = `${month}月の投稿`;
+                contextText = `【${month}月の店舗運営】\n季節の変わり目、客足の変動に備える準備はできていますか？`;
+                contextType = `${month}月の提案`;
             } else if (currentTab === 'event') {
                 let evt = getVal('input-event');
                 if (evt === 'custom') evt = getVal('input-event-custom');
-                if (!evt) return showError('行事を入力してください');
+                if (!evt) return showError('課題を選択してください');
                 
-                if (evt === 'ダーツフェア') {
-                    contextText = `🎯 ダーツフェア開催中！\n今なら特別な体験が待っています。\n初心者の方も、腕に自信がある方も大歓迎！`;
-                    contextType = 'ダーツフェア';
-                } else {
-                    contextText = `${evt}のシーズン到来！予定はもう決まりましたか？`;
-                    contextType = evt;
-                }
+                contextText = `【経営課題：${evt}】\n多くのオーナー様が悩まれるポイントですが、実は「空間作り」で解決できることがあります。`;
+                contextType = evt;
             } else if (currentTab === 'weather') {
                 const weather = getVal('input-weather');
-                if (!weather) return showError('天気を選択してください');
-                contextText = getRandom(phraseBook.weather[weather]) || '今日もお疲れ様です。';
+                if (!weather) return showError('状況を選択してください');
+                contextText = getRandom(phraseBook.weather[weather]) || '店舗運営、お疲れ様です。';
                 contextType = weather;
             }
 
             // Build Parts
             const vibeText = getRandom(phraseBook.vibe[tone]);
             
-            let dartsText = "";
-            if (dartsMode !== 'none') {
-                dartsText = phraseBook.darts[dartsMode][tone] || "";
+            let appealText = "";
+            if (phraseBook.appeal[appealPoint] && phraseBook.appeal[appealPoint][tone]) {
+                appealText = phraseBook.appeal[appealPoint][tone];
+            } else {
+                appealText = "ダーツ導入で、お店の可能性が広がります。";
             }
+
+            // MJS Philosophy (Strong BtoB Message)
+            const mjsPhilosophy = [
+                "「ダーツを置く」ではなく「遊べるバーにする」。\nMJSがお貸しするのは、マシンと『繁盛のノウハウ』です。",
+                "ただの機械導入ではありません。\nお店に「人が集まる理由」を作る。それがMJSの提供価値です。",
+                "初期投資リスクを抑え、確実に収益を上げる。\n飲食店経営の強い味方、MJSにご相談ください。",
+                "お店のデッドスペースが、一番の稼ぎ頭になるかもしれません。\n空間収益化のプロ、MJSにお任せください。"
+            ];
             
-            // Darts Fair Special Override
-            if (contextType === 'ダーツフェア') {
-                dartsText = "投げ放題プランや、ハイスコアチャレンジも実施中！みんなで盛り上がりましょう！";
-            }
+            // Appeal specific philosophy override
+            let selectedPhilosophy = "";
+             if (appealPoint === 'mjs_concept') {
+                 selectedPhilosophy = "【店舗オーナー様へ】\nダーツ導入でお店を「遊べるバー」に進化させませんか？\nMJSがお貸しするのは、マシンではなく『繁盛のノウハウ』そのものです。";
+             } else {
+                 selectedPhilosophy = mjsPhilosophy[Math.floor(Math.random() * mjsPhilosophy.length)];
+             }
 
             // Assemble Text
             let fullText = "";
             
-            // Adjust format by platform
             if (platform === 'instagram') {
-                fullText = `${contextText}\n\n${vibeText}\n\n${dartsText ? dartsText + '\n\n' : ''}おいしいお酒と空間をご用意して、\nお待ちしております✨\n\n`;
-            } else if (platform === 'line') {
-                fullText = `${contextText}\n${vibeText}\n${dartsText}\n\nお待ちしてます！`;
-            } else if (platform === 'gmap') {
-                fullText = `${contextText} ${vibeText}\n\n${dartsText ? dartsText + '\n' : ''}近くにお越しの際はぜひお立ち寄りください。`;
+                fullText = `${contextText}\n\n${vibeText}\n\n${appealText}\n\n${selectedPhilosophy}\n\n`;
             } else {
-                // Facebook/Default
-                fullText = `${contextText}\n${vibeText}\n\n${dartsText ? dartsText + '\n' : ''}皆様のご来店をお待ちしております。`;
+                fullText = `${contextText}\n\n${vibeText}\n${appealText}\n\n${selectedPhilosophy}\n`;
             }
-
-            // Apply Emoji Density
-            fullText = applyEmoji(fullText, emojiDensity, tone);
 
             // Generate Hashtags
-            let tags = hashtags[storeType] || '#飲食店';
-            tags += ' #MJS #エム・ジェイ・エス';
-            if (dartsMode !== 'none' || contextType === 'ダーツフェア') tags += ' #ダーツ #Darts #ダーツバー';
-            if (currentTab === 'month') {
-                const m = getVal('input-month');
-                if(m) tags += ` #${m}月`;
-            }
-            if (tone === 'adult') tags += ' #隠れ家 #デート';
-            if (tone === 'lively') tags += ' #二次会 #パーティ';
+            let tags = hashtags[storeType] || '#飲食店経営';
+            tags += ' #MJS #エムジェイエス #ダーツ導入 #店舗集客 #売上アップ #開業支援 #空間デザイン';
 
-            // Add tags to full text
-            fullText += `\n\n${tags}`;
+            fullText += `\n${tags}`;
 
-            // --- Append User SNS Account Signature (if exists) ---
+            // User Signature
             const myInsta = getVal('setting-sns-insta');
             const myX = getVal('setting-sns-x');
-            // Note: Facebook is usually linked by page name, but keeping it simple for now.
-
             if (platform === 'instagram' && myInsta) {
-                // Remove @ if exists then add
                 const id = myInsta.replace('@', '');
-                fullText += `\n@${id}`;
+                fullText += `\n\n@${id}`;
             } else if (platform === 'x' && myX) {
                 const id = myX.replace('@', '');
-                fullText += `\n@${id}`;
+                fullText += `\n\n@${id}`;
             }
 
-            // --- MJS Promotion Logic (Dynamic URLs from Settings) ---
+            // MJS Promotion Links
             const mjsSite = getVal('setting-mjs-site');
             const mjsLine = getVal('setting-mjs-line');
+            const mjsCase = getVal('setting-mjs-case');
+
+            fullText += `\n\n----------------\n🎯 導入・開業のご相談`;
             
-            // 条件を緩和（dartsMode !== 'none' で mjs_concept も含まれる）
-            if (dartsMode !== 'none' || contextType === 'ダーツフェア') {
-                if (mjsSite || mjsLine) {
-                    // MJS Philosophy & Catch Copy
-                    const mjsPhilosophy = [
-                        "ダーツ導入でお店を「遊べるバー」に。\nお貸しするのは、マシンではなく『繁盛のノウハウ』。",
-                        "お店に「遊べる」価値をプラス。\nMJSが提供するのは、マシンと『繁盛のノウハウ』です。",
-                        "ただの導入ではありません。\nお店を「遊べるバー」に変える、『繁盛のノウハウ』を提供します。"
-                    ];
-                    
-                    // コンセプト選択時は特定のメッセージを優先、それ以外はランダム
-                    let selectedPhilosophy = "";
-                    if (dartsMode === 'mjs_concept') {
-                         selectedPhilosophy = "【店舗オーナー様へ】\nダーツ導入でお店を「遊べるバー」に進化させませんか？\nMJSがお貸しするのは、マシンではなく『繁盛のノウハウ』そのものです。";
-                    } else {
-                         selectedPhilosophy = mjsPhilosophy[Math.floor(Math.random() * mjsPhilosophy.length)];
-                    }
+            if (platform === 'instagram') {
+                fullText += `\n\n導入事例や詳細はプロフィールのリンク、\nまたはWEBで「MJS ダーツ」と検索してください🔍`;
+            } else {
+                if (mjsSite) fullText += `\n\n🌐 MJS公式サイト\n${mjsSite}`;
+                if (mjsCase) fullText += `\n📊 導入成功事例\n${mjsCase}`;
+                if (mjsLine) fullText += `\n💬 LINEで気軽に相談\n${mjsLine}`;
+            }
 
-                    fullText += `\n\n----------------\n🎯 ダーツマシン導入・開業支援\n\n${selectedPhilosophy}`;
-                    
-                    if (platform === 'instagram') {
-                        fullText += `\n\n導入の詳細はプロフィールのリンク、\nまたはWEBで「MJS ダーツ」と検索してください🔍`;
-                    } else {
-                        if (mjsSite) fullText += `\n\n🌐 MJS公式サイト\n${mjsSite}`;
-                        if (mjsLine) fullText += `\n\n💬 開業・導入のご相談はLINEから\n${mjsLine}`;
-                    }
+            // Tips Data (BtoB Optimized)
+            const photoIdeas = [
+                {
+                    icon: 'fa-camera',
+                    title: '「距離感」を見せる',
+                    desc: 'マシン単体ではなく、カウンター席やテーブル席を含めた引きの画角で撮影しましょう。オーナー様が「自店に置いた時の動線」をイメージしやすくなります。'
+                },
+                {
+                    icon: 'fa-users',
+                    title: '「楽しさ」の証拠写真',
+                    desc: 'ダーツに興じるお客様の笑顔や、それを見守るスタッフの様子。プライバシーに配慮しつつ、「この店なら楽しめそう」という空気感を切り取ります。'
+                },
+                {
+                    icon: 'fa-chart-pie',
+                    title: '数字で語る',
+                    desc: '可能であれば、導入後の「ドリンク出数」や「滞在時間」の変化をグラフ化した画像を作成し、添付しましょう。経営者には数字が最も響きます。'
                 }
-            }
+            ];
 
-            // --- Photo Suggestions (Premium Tips) ---
-            const photoIdeas = [];
-
-            // 1. Inverse Smartphone
-            photoIdeas.push({
-                icon: 'fa-mobile-screen-button',
-                title: '裏技：「逆さスマホ」で迫力を出す',
-                desc: `
-                    <ul>
-                        <li>スマホを逆さまに持ち替える</li>
-                        <li>カメラレンズをテーブル面スレスレに配置</li>
-                        <li>少し上向き（アオリ）でシャッターを切る</li>
-                    </ul>
-                    <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> 天井が高く映り、ドリンクや料理が塔のように立派に見えます！</div>`
-            });
-
-            // 2. Zoom 2x
-            photoIdeas.push({
-                icon: 'fa-magnifying-glass-plus',
-                title: '基本：「2倍ズーム」で形を整える',
-                desc: `
-                    <ul>
-                        <li>スマホの標準（1x）ではなく「2x」か「3x」にする</li>
-                        <li>その分、被写体から少し離れて撮影する</li>
-                    </ul>
-                    <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> グラスや皿の歪みがなくなり、プロが一眼レフで撮ったような端正な形になります。</div>`
-            });
-
-            // 3. Context specific (Photo)
-            if (dartsMode !== 'none' || contextType === 'ダーツフェア') {
-                photoIdeas.push({
-                    icon: 'fa-bullseye',
-                    title: '構図：「前ボケ」で賑わいを演出',
-                    desc: `
-                        <ul>
-                            <li>手前に「誰かの肩」や「グラス」を少し見切れさせる</li>
-                            <li>奥のダーツ盤にピントを固定（画面長押し）する</li>
-                            <li>あえて手前をボカして撮影</li>
-                        </ul>
-                        <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> 「盗み撮り」のような自然なアングルになり、その場の臨場感が伝わります。</div>`
-                });
-            } else {
-                photoIdeas.push({
-                    icon: 'fa-utensils',
-                    title: '照明：「斜め逆光」でシズル感を',
-                    desc: `
-                        <ul>
-                            <li>店内の照明が、料理の「斜め後ろ」に来る席を選ぶ</li>
-                            <li>または、友人のスマホライトを斜め後ろから当ててもらう</li>
-                            <li>露出（明るさ）を少し下げて撮影</li>
-                        </ul>
-                        <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> 表面のテカリや湯気が強調され、圧倒的に美味しそうに撮れます。</div>`
-                });
-            }
-
-            // --- Video Suggestions (Premium Tips) ---
-            const videoIdeas = [];
-
-            // 1. Pan (Space)
-            videoIdeas.push({
-                icon: 'fa-video',
-                title: '動画：「ゆっくりパン」で空間紹介',
-                desc: `
-                    <ul>
-                        <li>脇を締めてスマホを両手で持つ</li>
-                        <li>体ごとゆっくり横に回転する（足は動かさない）</li>
-                        <li>「遅すぎるかな？」と思うくらいのスピードで</li>
-                    </ul>
-                    <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> 店内の広がりや雰囲気が伝わります。手ブレ補正は必ずONに！</div>`
-            });
-
-            // 2. Sizzle (Food/Drink)
-            videoIdeas.push({
-                icon: 'fa-glass-water',
-                title: '動画：「シズル感」一点突破',
-                desc: `
-                    <ul>
-                        <li>炭酸が弾ける様子や、湯気が立つ様子をアップで撮る</li>
-                        <li>スマホを固定し、絶対に動かさない（フィックス撮影）</li>
-                        <li>3秒〜5秒程度の短尺でOK</li>
-                    </ul>
-                    <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> 「美味しそう！」と直感的に伝わるのは、実は動かない固定動画です。</div>`
-            });
-
-            // 3. Action (Darts/Cheers)
-            if (dartsMode !== 'none' || contextType === 'ダーツフェア') {
-                videoIdeas.push({
-                    icon: 'fa-bullseye',
-                    title: '動画：ダーツが刺さる「音」を撮る',
-                    desc: `
-                        <ul>
-                            <li>ボードの近くから、刺さる瞬間を狙う</li>
-                            <li>「トンッ」という心地よい音を収録する</li>
-                            <li>投げた人の歓声まで入れる</li>
-                        </ul>
-                        <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> 音は映像以上に現場の熱量を伝えます。リール動画に最適です。</div>`
-                });
-            } else {
-                videoIdeas.push({
-                    icon: 'fa-mug-hot',
-                    title: '動画：「湯気/注ぎ」の瞬間',
-                    desc: `
-                        <ul>
-                            <li>ドリンクを注ぐ、ソースをかける瞬間を撮る</li>
-                            <li>スローモーション機能を使ってみる</li>
-                        </ul>
-                        <div class="photo-chip-point"><i class="fa-regular fa-lightbulb"></i> 動きのある映像は、タイムラインで指を止めさせる効果絶大です。</div>`
-                });
-            }
-
+            const videoIdeas = [
+                {
+                    icon: 'fa-video',
+                    title: 'デッドスペース変身動画',
+                    desc: '「Before（空きスペース）→ After（ダーツ設置）」のビフォーアフター動画。わずかなスペースが収益を生む場所に変わる様子を伝えます。'
+                },
+                {
+                    icon: 'fa-handshake',
+                    title: 'オーナーインタビュー',
+                    desc: '導入店のオーナー様に「なぜMJSを選んだか？」「導入してどう変わったか？」を語っていただくショート動画。第三者の推奨は最強の説得材料です。'
+                }
+            ];
 
             // Render
             const outputArea = document.getElementById('output-area');
             document.getElementById('output-text').innerText = fullText;
             
-            // Render Photo Tips
+            // Render Tips
             const photoContainer = document.getElementById('tips-content-photo');
             photoContainer.innerHTML = photoIdeas.map(idea => `
                 <div class="photo-chip">
@@ -1515,7 +1439,6 @@
                 </div>
             `).join('');
 
-            // Render Video Tips
             const videoContainer = document.getElementById('tips-content-video');
             videoContainer.innerHTML = videoIdeas.map(idea => `
                 <div class="photo-chip">
@@ -1527,19 +1450,15 @@
                 </div>
             `).join('');
 
-            // Reset Tab to Photo
             switchTipsTab('photo');
 
-            // 表示切り替え：プレースホルダーを隠し、生成コンテンツを表示
             document.getElementById('preview-placeholder').style.display = 'none';
             document.getElementById('generated-content').style.display = 'block';
 
-            // スマホ表示時のみスクロール（PCでは2カラムで見えているため不要だが、念のため）
             if (window.innerWidth < 900) {
                 document.getElementById('output-area').scrollIntoView({behavior: 'smooth', block: 'start'});
             }
 
-            // Save History
             saveHistoryToStorage({
                 type: contextType,
                 text: fullText,
@@ -1573,33 +1492,15 @@
         }
 
         function applyEmoji(text, density, tone) {
-            if (density === 'low') return text; // Minimal emojis already in text
-            
-            const emojis = ['✨', '🍸', '🍻', '🍽', '🌙', '🎵', '🙌'];
-            if (tone === 'adult') {
-                 // Adult tone: fewer, classy emojis
-                 if (density === 'high') text = text.replace(/\n/g, ' ✨\n');
-            } else {
-                // Lively/Gentle
-                if (density === 'high') {
-                    text = text.replace(/。/g, '！✨');
-                    text = text.replace(/\n/g, ' 😊\n');
-                } else {
-                    // Medium
-                    text += ' 🥂';
-                }
-            }
-            return text;
+            return text; 
         }
 
         // --- Clipboard ---
         function copyToClipboard() {
             let text = document.getElementById('output-text').innerText;
-
-            // Use document.execCommand('copy') for better compatibility in iframes
             const ta = document.createElement('textarea');
             ta.value = text;
-            ta.style.position = 'fixed'; // Avoid scrolling to bottom
+            ta.style.position = 'fixed';
             ta.style.opacity = '0';
             document.body.appendChild(ta);
             ta.select();
@@ -1633,7 +1534,6 @@
             document.getElementById('settings-modal').classList.remove('open');
         }
 
-        // New Howto functions
         function openHowto() {
             document.getElementById('howto-modal').classList.add('open');
         }
@@ -1662,12 +1562,10 @@
 
             const settings = {
                 theme: getCheck('setting-theme'),
-                // MJS Links
                 mjsSite: getVal('setting-mjs-site'),
                 mjsCase: getVal('setting-mjs-case'),
                 mjsLine: getVal('setting-mjs-line'),
                 mjsMap: getVal('setting-mjs-map'),
-                // SNS Accounts
                 snsInsta: getVal('setting-sns-insta'),
                 snsFb: getVal('setting-sns-fb'),
                 snsX: getVal('setting-sns-x')
@@ -1691,13 +1589,10 @@
 
                 setCheck('setting-theme', s.theme);
                 
-                // MJS Links
                 setVal('setting-mjs-site', s.mjsSite);
                 setVal('setting-mjs-case', s.mjsCase);
                 setVal('setting-mjs-line', s.mjsLine);
                 setVal('setting-mjs-map', s.mjsMap);
-                
-                // SNS Accounts
                 setVal('setting-sns-insta', s.snsInsta);
                 setVal('setting-sns-fb', s.snsFb);
                 setVal('setting-sns-x', s.snsX);
@@ -1710,7 +1605,7 @@
             historyData.unshift(item);
             if (historyData.length > 3) historyData.pop();
             localStorage.setItem('mjs_history', JSON.stringify(historyData));
-            loadHistory(); // Re-render
+            loadHistory();
         }
 
         function loadHistory() {
@@ -1730,16 +1625,11 @@
                     card.className = 'history-card';
                     card.onclick = () => {
                         document.getElementById('output-text').innerText = h.text;
-                        
-                        // 履歴クリック時も表示切り替え
                         document.getElementById('preview-placeholder').style.display = 'none';
                         document.getElementById('generated-content').style.display = 'block';
                         
-                        // スマホならスクロール
                         if (window.innerWidth < 900) {
                             document.getElementById('output-area').scrollIntoView({behavior:'smooth'});
-                        } else {
-                            // PCなら右カラムを少しハイライトする等の処理も可（今回はシンプルに）
                         }
                     };
                     card.innerHTML = `
@@ -1754,52 +1644,23 @@
         }
 
         function fillDemoData() {
-            // 店舗情報のデモ
-            const storeType = document.getElementById('input-store-type');
-            if(storeType) storeType.value = 'bar';
-            
-            // アイコン選択ロジック呼び出しに変更
-            selectPlatform('instagram');
-            
-            const tone = document.getElementById('input-tone');
-            if(tone) tone.value = 'adult';
-            const emoji = document.getElementById('input-emoji');
-            if(emoji) emoji.value = 'medium';
-            const darts = document.getElementById('input-darts');
-            if(darts) darts.value = 'subtle';
-            
-            if (currentTab === 'month') {
-                const m = document.getElementById('input-month');
-                if(m) m.value = '12';
-            }
-            if (currentTab === 'event') {
-                const evt = document.getElementById('input-event');
-                if(evt) {
-                    evt.value = 'custom';
-                    checkCustomEvent(evt);
-                }
-                const evtCustom = document.getElementById('input-event-custom');
-                if(evtCustom) evtCustom.value = '3周年記念';
-            }
-            if (currentTab === 'weather') {
-                const w = document.getElementById('input-weather');
-                if(w) w.value = '雨';
-            }
-
-            // MJSリンクのデモデータ (Safe Check)
             const setVal = (id, val) => {
                 const el = document.getElementById(id);
                 if (el) el.value = val;
             };
 
+            setVal('input-store-type', 'bar');
+            selectPlatform('instagram');
+            setVal('input-tone', 'logical');
+            setVal('input-darts', 'sales');
+            
+            const monthEl = document.getElementById('input-month');
+            if(monthEl) monthEl.value = '12';
+
             setVal('setting-mjs-site', 'https://www.mjs-darts.com/');
             setVal('setting-mjs-case', 'https://www.mjs-darts.com/case/');
             setVal('setting-mjs-line', 'https://line.me/R/ti/p/@mjs');
-            setVal('setting-mjs-map', 'https://maps.app.goo.gl/dummy');
-            
-            // SNS Demo
-            setVal('setting-sns-insta', '@mjs_darts_sample');
-            setVal('setting-sns-x', '@mjs_sample');
+            setVal('setting-sns-insta', '@mjs_darts_official');
 
             showToast('デモデータを入力しました');
         }

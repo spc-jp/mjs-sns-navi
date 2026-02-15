@@ -75,6 +75,12 @@
             transition: background-color 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 0.4s;
             overflow-x: hidden;
             line-height: 1.6;
+            
+            /* 背景グラデーション：上部から淡い光が差し込むような演出 */
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(166, 44, 43, 0.08) 0%, transparent 60%),
+                linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 100%);
+            background-attachment: fixed; /* スクロールしても背景固定 */
         }
 
         /* --- UI Utilities --- */
@@ -144,7 +150,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 90px; /* 変更：80px -> 90px に拡大 */
+            height: 90px;
             z-index: 100;
             display: flex;
             align-items: center;
@@ -161,7 +167,7 @@
         }
 
         .header-logo-img {
-            height: 75px; /* 変更：60px -> 75px に拡大 */
+            height: 75px;
             width: auto;
             object-fit: contain;
             display: block;
@@ -229,7 +235,7 @@
         }
 
         .header-spacer {
-            height: 110px; /* 変更：100px -> 110px に拡大 */
+            height: 110px;
         }
 
         /* --- Tab Navigation (Floating Style) --- */
@@ -848,7 +854,7 @@
         
         <!-- 右端：設定ボタン -->
         <div class="header-actions">
-            <!-- 使い方ボタン追加 -->
+            <!-- 使い方ボタン -->
             <button class="btn" onclick="openHowto()"><i class="fa-solid fa-circle-question"></i></button>
             <button class="btn" onclick="openSettings()"><i class="fa-solid fa-gear"></i></button>
         </div>
@@ -863,9 +869,9 @@
             <div class="left-column">
                 <!-- Tabs -->
                 <nav class="tabs">
-                    <button class="tab-btn active" onclick="switchTab('month')">月別</button>
-                    <button class="tab-btn" onclick="switchTab('event')">行事</button>
-                    <button class="tab-btn" onclick="switchTab('weather')">天候</button>
+                    <button class="tab-btn active" onclick="switchTab('month')">提案時期</button>
+                    <button class="tab-btn" onclick="switchTab('event')">経営課題</button>
+                    <button class="tab-btn" onclick="switchTab('weather')">アプローチ</button>
                 </nav>
 
                 <!-- Input Area -->
@@ -873,7 +879,7 @@
                     
                     <!-- Dynamic Tab Content -->
                     <div id="tab-month" class="form-group tab-content">
-                        <label class="form-label"><i class="fa-regular fa-calendar"></i> 対象月</label>
+                        <label class="form-label"><i class="fa-regular fa-calendar"></i> 提案時期（月）</label>
                         <select id="input-month" class="input-control">
                             <option value="" disabled selected>選択してください</option>
                             <script>
@@ -883,36 +889,33 @@
                     </div>
 
                     <div id="tab-event" class="form-group tab-content" style="display:none;">
-                        <label class="form-label"><i class="fa-solid fa-champagne-glasses"></i> 行事・イベント</label>
+                        <label class="form-label"><i class="fa-solid fa-champagne-glasses"></i> 解決したい課題</label>
                         <select id="input-event" class="input-control" onchange="checkCustomEvent(this)">
                             <option value="" disabled selected>選択してください</option>
-                            <option value="ダーツフェア" style="color:#A62C2B; font-weight:bold;">★ダーツフェア</option>
-                            <option value="祝日">祝日・連休</option>
-                            <option value="誕生日">誕生日・記念日</option>
-                            <option value="歓迎会">歓迎会</option>
-                            <option value="送別会">送別会</option>
-                            <option value="忘年会">忘年会</option>
-                            <option value="新年会">新年会</option>
+                            <option value="客単価">客単価アップ</option>
+                            <option value="新規集客">新規集客・話題作り</option>
+                            <option value="滞在時間">滞在時間延長</option>
+                            <option value="二次会">二次会・団体需要</option>
+                            <option value="開業">開業・リニューアル</option>
                             <option value="custom">自由入力...</option>
                         </select>
-                        <input type="text" id="input-event-custom" class="input-control" placeholder="例：周年イベント" style="display:none; margin-top:10px;">
+                        <input type="text" id="input-event-custom" class="input-control" placeholder="例：デッドスペース活用" style="display:none; margin-top:10px;">
                     </div>
 
                     <div id="tab-weather" class="form-group tab-content" style="display:none;">
-                        <label class="form-label"><i class="fa-solid fa-cloud-sun"></i> 今日の天気</label>
+                        <label class="form-label"><i class="fa-solid fa-cloud-sun"></i> アプローチの状況</label>
                         <select id="input-weather" class="input-control">
                             <option value="" disabled selected>選択してください</option>
-                            <option value="晴れ">晴れ</option>
-                            <option value="雨">雨</option>
-                            <option value="暑い">暑い</option>
-                            <option value="寒い">寒い</option>
-                            <option value="強風">風が強い</option>
+                            <option value="晴れ">晴れ（外出日和）</option>
+                            <option value="雨">雨（足元悪い）</option>
+                            <option value="閑散期">閑散期・アイドルタイム</option>
+                            <option value="週末">週末・繁忙日</option>
                         </select>
                     </div>
 
-                    <!-- Common Inputs -->
+                    <!-- Common Inputs (Refined for BtoB) -->
                     <div class="form-group">
-                <label class="form-label"><i class="fa-solid fa-share-nodes"></i> 投稿先</label>
+                <label class="form-label"><i class="fa-solid fa-share-nodes"></i> 投稿先SNS</label>
                 <!-- 隠しフィールドで値を保持 -->
                 <input type="hidden" id="input-platform" value="instagram">
                 
@@ -944,31 +947,33 @@
 
             <div style="display:flex; gap:12px;">
                         <div class="form-group" style="flex:1;">
-                            <label class="form-label">トーン</label>
-                            <select id="input-tone" class="input-control">
-                                <option value="lively">にぎやか</option>
-                                <option value="gentle">やさしい</option>
-                                <option value="adult">大人</option>
-                                <option value="frank">フランク</option>
+                            <label class="form-label">ターゲット業態</label>
+                            <select id="input-store-type" class="input-control">
+                                <option value="bar">バー・パブ</option>
+                                <option value="izakaya">居酒屋・ダイニング</option>
+                                <option value="cafe">カフェ・漫画喫茶</option>
+                                <option value="amusement">アミューズメント施設</option>
+                                <option value="hotel">ホテル・旅館</option>
                             </select>
                         </div>
                         <div class="form-group" style="flex:1;">
-                            <label class="form-label">絵文字</label>
-                            <select id="input-emoji" class="input-control">
-                                <option value="high">多め</option>
-                                <option value="medium" selected>ほどほど</option>
-                                <option value="low">少なめ</option>
+                            <label class="form-label">投稿トーン</label>
+                            <select id="input-tone" class="input-control">
+                                <option value="reliable">信頼・実績重視</option>
+                                <option value="passionate">情熱・熱血</option>
+                                <option value="logical">論理的・メリット</option>
+                                <option value="friendly">親しみ・パートナー</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label"><i class="fa-solid fa-bullseye" style="color:var(--primary);"></i> ダーツの出し方</label>
+                        <label class="form-label"><i class="fa-solid fa-bullseye" style="color:var(--primary);"></i> 訴求ポイント</label>
                         <select id="input-darts" class="input-control">
-                            <option value="front">前面に出す（勝負・盛り上がり）</option>
-                            <option value="subtle" selected>さりげなく（会話のきっかけ）</option>
-                            <option value="none">今日は出さない</option>
-                            <option value="mjs_concept" style="color:#A62C2B; font-weight:bold;">★MJSコンセプト（遊べるバー化）</option>
+                            <option value="sales">売上・客単価アップ</option>
+                            <option value="attract">集客・話題性</option>
+                            <option value="repeat">リピート・ファン化</option>
+                            <option value="startup">低リスク開業</option>
                         </select>
                     </div>
 
@@ -1005,7 +1010,7 @@
 
                         <!-- プロ級撮影テクニック（写真/動画タブ切り替え） -->
             <div class="form-label" style="margin-top:10px;">
-                プロ級撮影テクニック <span style="font-weight:normal; font-size:0.75rem; color:var(--primary); border:1px solid var(--primary); padding:2px 6px; border-radius:4px; margin-left:8px;">PREMIUM</span>
+                効果的なメディア活用術 <span style="font-weight:normal; font-size:0.75rem; color:var(--primary); border:1px solid var(--primary); padding:2px 6px; border-radius:4px; margin-left:8px;">Tips</span>
             </div>
 
             <div class="sub-tabs">
@@ -1051,24 +1056,19 @@
                 <button class="close-btn" onclick="closeHowto()"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div style="padding: 24px; overflow-y: auto;">
-                <div class="setting-section-title">🔰 このアプリの目的</div>
-                <ul style="padding-left: 0; color: var(--text-main); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.8; list-style: none;">
-                    <li>🤝 MJSから飲食店オーナー様へ向けた<b>SNS投稿作成ツール</b>です</li>
-                    <li>📈 ダーツ導入による<b>「売上」「集客」「繁盛」</b>のメリットを伝えます</li>
-                    <li>✨ ターゲット業態や季節に合わせた<b>最適な提案文</b>を自動生成します</li>
+                <div class="setting-section-title">このアプリの目的</div>
+                <ul style="padding-left: 20px; color: var(--text-main); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.8;">
+                    <li>MJSから飲食店オーナー様へ向けたSNS投稿作成ツールです</li>
+                    <li>ダーツ導入による「売上」「集客」「繁盛」のメリットを伝えます</li>
+                    <li>ターゲット業態や季節に合わせた最適な提案文を自動生成します</li>
                 </ul>
 
-                <div class="setting-section-title">🚀 投稿までの流れ</div>
-                <ul style="padding-left: 0; color: var(--text-main); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.8; list-style: none;">
-                    <li>1️⃣ <b>提案時期・課題・状況</b>から、提案の切り口を選ぶ</li>
-                    <li>2️⃣ <b>ターゲット業態</b>と<b>投稿先SNS</b>を選ぶ</li>
-                    <li>3️⃣ 最も伝えたいメリット（訴求ポイント）を決めて<b>「投稿をつくる」</b>を押す</li>
-                </ul>
-                
-                <div style="font-size: 0.85rem; color: var(--text-sub); background: var(--input-bg); padding: 16px; border-radius: 12px; border: 1px solid var(--border-color);">
-                    <div style="margin-bottom: 8px;"><i class="fa-regular fa-pen-to-square" style="color:var(--primary);"></i> 生成された文章は自由に書き換えできます</div>
-                    <div><i class="fa-solid fa-camera" style="color:var(--primary);"></i> 写真・動画の撮り方ヒントも下に表示されます</div>
-                </div>
+                <div class="setting-section-title">投稿までの流れ</div>
+                <ol style="padding-left: 20px; color: var(--text-main); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.8;">
+                    <li>提案時期・課題・状況から、提案の切り口を選ぶ</li>
+                    <li>ターゲット業態と投稿先SNSを選ぶ</li>
+                    <li>最も伝えたいメリット（訴求ポイント）を決めて生成ボタンを押す</li>
+                </ol>
                 
                 <div style="margin-top: 24px;">
                     <button class="btn generate-btn" onclick="closeHowto()">閉じる</button>
@@ -1099,21 +1099,39 @@
                     </div>
                 </div>
 
+                <!-- Section: Basic Info (New) -->
+                <div class="setting-section">
+                    <div class="setting-section-title">基本情報（MJS）</div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" style="font-size:0.8rem;">社名</label>
+                        <input type="text" id="setting-company-name" class="input-control" placeholder="会社名" style="padding:10px;" value="MJS（株式会社エム・ジェイ・エス）">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="font-size:0.8rem;">連絡先（電話番号）</label>
+                        <input type="tel" id="setting-company-phone" class="input-control" placeholder="03-xxxx-xxxx" style="padding:10px;" value="045-328-3741">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="font-size:0.8rem;">メールアドレス</label>
+                        <input type="email" id="setting-company-email" class="input-control" placeholder="担当者メールアドレス" style="padding:10px;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" style="font-size:0.8rem;">WebサイトURL</label>
+                        <input type="url" id="setting-company-web" class="input-control" placeholder="https://..." style="padding:10px;" value="https://mjs-co.net/">
+                    </div>
+                </div>
+
                 <!-- Section 2: Store SNS Accounts (New) -->
                 <div class="setting-section">
-                    <div class="setting-section-title">店舗SNSアカウント設定（投稿末尾に挿入）</div>
+                    <div class="setting-section-title">MJS公式SNS設定（投稿末尾に挿入）</div>
                     
                     <div class="form-group">
                         <label class="form-label" style="font-size:0.8rem;"><i class="fa-brands fa-instagram" style="color:var(--primary);"></i> Instagram アカウント</label>
-                        <input type="text" id="setting-sns-insta" class="input-control" placeholder="@your_id" style="padding:10px;">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" style="font-size:0.8rem;"><i class="fa-brands fa-facebook" style="color:var(--primary);"></i> Facebook アカウント名</label>
-                        <input type="text" id="setting-sns-fb" class="input-control" placeholder="IDまたはページ名" style="padding:10px;">
+                        <input type="text" id="setting-sns-insta" class="input-control" placeholder="@mjs_darts" style="padding:10px;">
                     </div>
                     <div class="form-group">
                         <label class="form-label" style="font-size:0.8rem;"><span style="font-weight:900; margin-right:4px; color:var(--primary);">X</span> X (Twitter) アカウント</label>
-                        <input type="text" id="setting-sns-x" class="input-control" placeholder="@your_id" style="padding:10px;">
+                        <input type="text" id="setting-sns-x" class="input-control" placeholder="@mjs_darts" style="padding:10px;">
                     </div>
                 </div>
 
@@ -1126,16 +1144,12 @@
                         <input type="url" id="setting-mjs-site" class="input-control" placeholder="https://..." style="padding:10px;">
                     </div>
                     <div class="form-group">
-                        <label class="form-label" style="font-size:0.8rem;">見てほしいサイト（導入事例など）</label>
+                        <label class="form-label" style="font-size:0.8rem;">導入事例ページURL</label>
                         <input type="url" id="setting-mjs-case" class="input-control" placeholder="https://..." style="padding:10px;">
                     </div>
                     <div class="form-group">
                         <label class="form-label" style="font-size:0.8rem;">公式LINEアカウント</label>
                         <input type="url" id="setting-mjs-line" class="input-control" placeholder="https://..." style="padding:10px;">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" style="font-size:0.8rem;">Googleマップ共有URL</label>
-                        <input type="url" id="setting-mjs-map" class="input-control" placeholder="https://..." style="padding:10px;">
                     </div>
                 </div>
 
@@ -1214,28 +1228,28 @@
             },
             appeal: { 
                 sales: {
-                    reliable: 'プレイ中のドリンク消費スピードは、通常時の約1.5倍とも言われます。マシン売上＋飲食売上の相乗効果をご期待ください。',
-                    passionate: '勝負に勝って乾杯！負けて悔しくて乾杯！ダーツが生む熱狂は、そのままドリンクのオーダー数に直結します！',
-                    logical: '「あと1ゲーム」が「あと一杯」を生みます。滞在時間を30分延ばすだけで、客単価は確実に向上します。',
+                    reliable: 'マシンインカムだけでなく、プレイ中のドリンクオーダー増が全体の客単価を押し上げます。',
+                    passionate: '「もう一杯！」が自然と生まれる！ダーツが生み出す熱狂が、そのまま売上に直結します！',
+                    logical: '滞在時間の延長は、客単価アップと正の相関関係にあります。ダーツはそのための最適なツールです。',
                     friendly: '遊びながらだと、不思議とお酒が進んじゃいますよね。無理なアップセルをしなくても、自然と単価が上がるんです。'
                 },
                 attract: {
                     reliable: '「エリア名＋ダーツ」での検索ボリュームは安定しています。導入するだけで、WEB検索からの新規流入が見込めます。',
                     passionate: '二次会、合コン、パーティ...「遊べる場所」を探している幹事様に、貴店が第一候補として選ばれるようになります！',
                     logical: '食事だけの店は競合多数ですが、「食事ができて遊べる店」は希少です。明確な差別化要因（USP）となります。',
-                    friendly: '「あそこでダーツしようよ！」が来店に繋がる。美味しいお酒と料理に「遊び」が加われば、鬼に金棒です。'
+                    friendly: '「あそこでダーツしようよ！」って会話、街中で聞こえてきそうですね。新しいお客様を呼び込みましょう。'
                 },
                 repeat: {
-                    reliable: '共通の趣味は強力なコミュニティを形成します。ダーツを目当てに来店する「目的来店型」の常連客が増加します。',
-                    passionate: 'お店全体がチームになる！ハウス・トーナメントで一体感を生み出し、お客様を熱狂的なファンに変えましょう！',
-                    logical: 'スタッフとお客様、あるいはお客様同士の接点を増やすこと。これがリピート率向上の鍵であり、ダーツはその最適な触媒です。',
-                    friendly: '一人で来ても、スタッフとダーツができれば寂しくない。そんな「居場所」を提供できるお店は、愛され続けます。'
+                    reliable: '共通の趣味はコミュニティを生みます。ダーツを通じた顧客同士の繋がりが、強固なリピート基盤を作ります。',
+                    passionate: 'お店全体がチームになる！ダーツイベントで一体感を生み出し、熱狂的なファンを作りましょう！',
+                    logical: '顧客のLTV（生涯顧客価値）を高めるには、スタッフとの会話や顧客間の交流が不可欠。ダーツはその潤滑油です。',
+                    friendly: '常連さんが新しいお客様を連れてくる。そんな素敵なサイクルが、ダーツから始まります。'
                 },
                 startup: {
-                    reliable: '開業時の資金繰りは重要です。MJSのレンタルプランなら、まとまった購入資金なしで最新マシンを導入可能です。',
-                    passionate: 'オープン初日からロケットスタートを！話題性抜群の最新マシンで、地域一番の「遊べるスポット」を目指しましょう！',
-                    logical: '居抜き物件のレイアウトにお悩みではありませんか？わずかなスペースで収益を生む、効率的な配置をご提案します。',
-                    friendly: '初めての開業、不安も多いですよね。MJSはマシンのことだけでなく、集客やイベント企画まで親身に相談に乗ります。'
+                    reliable: '初期費用を抑えた導入プランで、開業時のリスクを最小限に。MJSが安定経営をサポートします。',
+                    passionate: 'オープン初日からロケットスタート！話題性抜群の最新マシンで、地域一番店を目指しましょう！',
+                    logical: '居抜き物件や小規模店舗でも導入可能。限られたスペースで最大の収益を生む設計をご提案します。',
+                    friendly: '初めての開業でも安心してください。マシンのこと、集客のこと、なんでも相談に乗りますよ。'
                 }
             }
         };
@@ -1336,19 +1350,12 @@
 
             // MJS Philosophy (Strong BtoB Message)
             const mjsPhilosophy = [
-                "「ダーツを置く」ではなく「遊べるバーにする」。\nMJSがお貸しするのは、マシンと『繁盛のノウハウ』です。",
-                "ただの機械導入ではありません。\nお店に「人が集まる理由」を作る。それがMJSの提供価値です。",
+                "お店を「遊べるバー」に進化させる。\nMJSがお貸しするのは、マシンと『繁盛のノウハウ』です。",
+                "ただマシンを置くだけではありません。\nお店に「人が集まる理由」を作る。それがMJSの提供価値です。",
                 "初期投資リスクを抑え、確実に収益を上げる。\n飲食店経営の強い味方、MJSにご相談ください。",
                 "お店のデッドスペースが、一番の稼ぎ頭になるかもしれません。\n空間収益化のプロ、MJSにお任せください。"
             ];
-            
-            // Appeal specific philosophy override
-            let selectedPhilosophy = "";
-             if (appealPoint === 'mjs_concept') {
-                 selectedPhilosophy = "【店舗オーナー様へ】\nダーツ導入でお店を「遊べるバー」に進化させませんか？\nMJSがお貸しするのは、マシンではなく『繁盛のノウハウ』そのものです。";
-             } else {
-                 selectedPhilosophy = mjsPhilosophy[Math.floor(Math.random() * mjsPhilosophy.length)];
-             }
+            const selectedPhilosophy = mjsPhilosophy[Math.floor(Math.random() * mjsPhilosophy.length)];
 
             // Assemble Text
             let fullText = "";
@@ -1488,6 +1495,7 @@
         // --- Helper Functions ---
         
         function getRandom(arr) {
+            if (!arr || !arr.length) return '';
             return arr[Math.floor(Math.random() * arr.length)];
         }
 
@@ -1562,10 +1570,17 @@
 
             const settings = {
                 theme: getCheck('setting-theme'),
+                // Basic Info
+                companyName: getVal('setting-company-name'),
+                companyPhone: getVal('setting-company-phone'),
+                companyEmail: getVal('setting-company-email'),
+                companyWeb: getVal('setting-company-web'),
+                // MJS Links
                 mjsSite: getVal('setting-mjs-site'),
                 mjsCase: getVal('setting-mjs-case'),
                 mjsLine: getVal('setting-mjs-line'),
                 mjsMap: getVal('setting-mjs-map'),
+                // SNS Accounts
                 snsInsta: getVal('setting-sns-insta'),
                 snsFb: getVal('setting-sns-fb'),
                 snsX: getVal('setting-sns-x')
@@ -1589,10 +1604,19 @@
 
                 setCheck('setting-theme', s.theme);
                 
+                // Basic Info
+                setVal('setting-company-name', s.companyName || 'MJS（株式会社エム・ジェイ・エス）');
+                setVal('setting-company-phone', s.companyPhone || '045-328-3741');
+                setVal('setting-company-email', s.companyEmail);
+                setVal('setting-company-web', s.companyWeb || 'https://mjs-co.net/');
+
+                // MJS Links
                 setVal('setting-mjs-site', s.mjsSite);
                 setVal('setting-mjs-case', s.mjsCase);
                 setVal('setting-mjs-line', s.mjsLine);
                 setVal('setting-mjs-map', s.mjsMap);
+                
+                // SNS Accounts
                 setVal('setting-sns-insta', s.snsInsta);
                 setVal('setting-sns-fb', s.snsFb);
                 setVal('setting-sns-x', s.snsX);
@@ -1656,6 +1680,12 @@
             
             const monthEl = document.getElementById('input-month');
             if(monthEl) monthEl.value = '12';
+
+            // Basic Info Demo
+            setVal('setting-company-name', 'MJS（株式会社エム・ジェイ・エス）');
+            setVal('setting-company-phone', '045-328-3741');
+            setVal('setting-company-email', '');
+            setVal('setting-company-web', 'https://mjs-co.net/');
 
             setVal('setting-mjs-site', 'https://www.mjs-darts.com/');
             setVal('setting-mjs-case', 'https://www.mjs-darts.com/case/');
